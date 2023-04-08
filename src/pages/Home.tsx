@@ -5,20 +5,21 @@ import "./Home.css";
 // const nav = useNavigate();
 
 const stackStyles: IStackTokens = {
-  childrenGap: 20,
+	childrenGap: 20,
 };
 
 export default function Home() {
-  return (
-    <div>
-      <h1 className="Header">Welcome to the Golf Tracker!</h1>
-      {/* <Stack horizontal styles={stackStyles} */}
-      <Stack horizontal tokens={stackStyles}>
-        <DefaultButton primary={true} href={`/`}>
-          Back
-        </DefaultButton>
-        <DefaultButton>Schedule</DefaultButton>
-      </Stack>
-    </div>
-  );
+	return (
+		<div>
+			<h1 className="Header">Welcome to the Golf Tracker!</h1>
+			{/* <Stack horizontal styles={stackStyles} */}
+			<Stack horizontal tokens={stackStyles}>
+				<DefaultButton primary={true} href={`/`}>
+					Back
+				</DefaultButton>
+				<DefaultButton href={`/login`}>Login</DefaultButton>
+				<DefaultButton>Schedule</DefaultButton>
+			</Stack>
+		</div>
+	);
 }
