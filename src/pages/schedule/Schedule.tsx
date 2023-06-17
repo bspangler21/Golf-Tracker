@@ -10,6 +10,7 @@ import React from "react";
 
 export interface IGolferListState {
   items: IGolfer[];
+  columns: IColumn[];
 }
 // import { MongoClient, ServerApiVersion } from "mongodb";
 
@@ -51,16 +52,18 @@ export interface IGolferListState {
 //   }
 // }
 
-export default class Schedule extends React.Component<{}, IGolferListState> {
+export default class Golfers extends React.Component<{}, IGolferListState> {
   private _allItems: IGolfer[];
-  private _columns: IColumn[];
+  // private _columns: IColumn[];
   // const { MongoClient, ServerApiVersion } = require("mongodb");
   // run().then(client.connect);
   constructor(props: {}) {
     super(props);
 
-    this._allItems = mockGolfers;
-    this._columns = [
+    this._allItems = mockGolfers.sort((a, b) =>
+      a.handicap > b.handicap ? 1 : -1
+    );
+    const columns: IColumn[] = [
       {
         key: "column1",
         name: "First Name",
@@ -68,6 +71,7 @@ export default class Schedule extends React.Component<{}, IGolferListState> {
         minWidth: 100,
         maxWidth: 200,
         isResizable: true,
+        onColumnClick: this._onColumnClick,
       },
       {
         key: "column2",
@@ -76,6 +80,7 @@ export default class Schedule extends React.Component<{}, IGolferListState> {
         minWidth: 100,
         maxWidth: 200,
         isResizable: true,
+        onColumnClick: this._onColumnClick,
       },
       {
         key: "column3",
@@ -84,20 +89,62 @@ export default class Schedule extends React.Component<{}, IGolferListState> {
         minWidth: 100,
         maxWidth: 200,
         isResizable: true,
+        onColumnClick: this._onColumnClick,
       },
     ];
 
     this.state = {
       items: this._allItems,
+      columns,
     };
   }
 
-  public render(): JSX.Element {
-    const { items } = this.state;
+  private _onColumnClick = (
+    ev: React.MouseEvent<HTMLElement>,
+    column: IColumn
+  ): void => {
+    const { columns, items } = this.state;
+    const newColumns: IColumn[] = columns.slice();
+    const currColumn: IColumn = newColumns.filter(
+      (currCol) => column.key === currCol.key
+    )[0];
+
+    newColumns.forEach((newCol: IColumn) => {
+      if (newCol === currColumn) {
+        currColumn.isSortedDescending = !currColumn.isSortedDescending;
+        currColumn.isSorted = true;
+        const newItems = _copyAndSort(
+          items,
+          currColumn.fieldName!,
+          currColumn.isSortedDescending
+        );
+        this.setState({
+          columns: newColumns,
+          items: newItems,
+        });
+      }
+    });
+
+    function _copyAndSort<IGolfer>(
+      items: IGolfer[],
+      columnKey: string,
+      isSortedDescending?: boolean
+    ): IGolfer[] {
+      const key = columnKey as keyof IGolfer;
+      return items
+        .slice(0)
+        .sort((a, b) =>
+          (isSortedDescending ? a[key] < b[key] : a[key] > b[key]) ? 1 : -1
+        );
+    }
+  };
+
+  public render() {
+    const { items, columns } = this.state;
 
     return (
       <div>
-        <DetailsList items={items} columns={this._columns} />{" "}
+        <DetailsList items={items} columns={columns} />
       </div>
     );
   }
