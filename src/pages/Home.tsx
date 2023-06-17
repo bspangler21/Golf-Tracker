@@ -18,7 +18,7 @@ export default function Home() {
 					Back
 				</DefaultButton>
 				<DefaultButton href={`/login`}>Login</DefaultButton>
-				<DefaultButton>Schedule</DefaultButton>
+				<DefaultButton href={`/schedule`}>Schedule</DefaultButton>
 			</Stack>
 		</div>
 	);
