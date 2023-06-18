@@ -1,4 +1,10 @@
-import { DefaultButton, IStackTokens, Stack } from "@fluentui/react";
+import {
+  DefaultButton,
+  IStackTokens,
+  Stack,
+  StackItem,
+  Text,
+} from "@fluentui/react";
 import "./Home.css";
 // import { useNavigate } from "react-router-dom";
 
@@ -10,16 +16,24 @@ const stackStyles: IStackTokens = {
 
 export default function Home() {
   return (
-    <div>
-      <h1 className="Header">Welcome to the Golf Tracker!</h1>
-      {/* <Stack horizontal styles={stackStyles} */}
-      <Stack horizontal tokens={stackStyles}>
-        <DefaultButton primary={true} href={`/`}>
-          Back
-        </DefaultButton>
-        <DefaultButton href={`/login`}>Login</DefaultButton>
-        <DefaultButton href={`/golfers`}>View Golfers</DefaultButton>
-      </Stack>
+    <div className="container">
+      <div className="column">
+        <h1 className="Header">Welcome to the Golf Tracker!</h1>
+        {/* <Stack horizontal styles={stackStyles} */}
+        <Stack horizontal tokens={stackStyles}>
+          <Stack.Item>
+            <DefaultButton primary={true} href={`/`}>
+              Back
+            </DefaultButton>
+          </Stack.Item>
+          <Stack.Item>
+            <DefaultButton href={`/login`}>Login</DefaultButton>
+          </Stack.Item>
+          <Stack.Item>
+            <DefaultButton href={`/golfers`}>View Golfers</DefaultButton>
+          </Stack.Item>
+        </Stack>
+      </div>
     </div>
   );
 }
