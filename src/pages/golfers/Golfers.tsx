@@ -128,7 +128,7 @@ export default class Golfers extends React.Component<{}, IGolferListState> {
       onSelectionChanged: () => {
         this.setState({
           selectionDetails: this._getSelectionDetails(),
-          selected: !selected,
+          // selected: !selected,
         });
       },
       getKey: this._getKey,
