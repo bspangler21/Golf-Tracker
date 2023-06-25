@@ -1,4 +1,4 @@
-import { Label } from "@fluentui/react";
+import { Label, TextField, mergeStyleSets } from "@fluentui/react";
 import {
   DetailsList,
   DetailsListLayoutMode,
@@ -7,6 +7,40 @@ import {
 } from "@fluentui/react/lib/DetailsList";
 import { IGolfer, mockGolfers } from "../../mockData/mockGolfers";
 import React from "react";
+
+const classNames = mergeStyleSets({
+  wrapper: {
+    height: "100vh",
+  },
+  headerWrapper: {
+    display: "flex",
+    flexDirection: "row",
+    // flexWrap: "nowrap",
+  },
+  headerSearchWrapper: {
+    width: "500px",
+    border: "none",
+    flexFlow: "0",
+  },
+  bodyWrapper: {
+    // background: "#FFFFFF",
+    // overflow: "scroll",
+    // width: "700px",
+    flexGrow: "1",
+    flexDirection: "row",
+  },
+  contentWrapper: {
+    padding: "32px 0px 100px 0px",
+    // paddingLeft: "50%",
+    paddingLeft: "Calc(Calc(0.18 * Calc(100vw - 700px)) + 7vw)",
+    paddingRight: "Calc(Calc(0.18 * Calc(100vw - 700px)) + 7vw)",
+    display: "flex",
+    flexDirection: "column",
+    flexWrap: "nowrap",
+    flexGrow: "1",
+    // verticalAlign: "middle"
+  },
+});
 
 export interface IGolferListState {
   items: IGolfer[];
@@ -54,6 +88,21 @@ export interface IGolferListState {
 
 export default class Golfers extends React.Component<{}, IGolferListState> {
   private _allItems: IGolfer[];
+  private _onChangeText = (
+    ev: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>,
+    text: string
+  ): void => {
+    this.setState({
+      items: text
+        ? this._allItems.filter(
+            (i) =>
+              i.firstName.toLowerCase().indexOf(text) > -1 ||
+              i.lastName.toLowerCase().indexOf(text) > -1 ||
+              i.handicap.toString().indexOf(text) > -1
+          )
+        : this._allItems,
+    });
+  };
   // private _columns: IColumn[];
   // const { MongoClient, ServerApiVersion } = require("mongodb");
   // run().then(client.connect);
@@ -143,8 +192,13 @@ export default class Golfers extends React.Component<{}, IGolferListState> {
     const { items, columns } = this.state;
 
     return (
-      <div>
-        <DetailsList items={items} columns={columns} />
+      <div className={classNames.wrapper}>
+        <div className={classNames.bodyWrapper}>
+          <div className={classNames.contentWrapper}>
+            <TextField label="Search:" onChange={this._onChangeText} />
+            <DetailsList items={items} columns={columns} />
+          </div>
+        </div>
       </div>
     );
   }
