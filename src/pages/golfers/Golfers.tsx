@@ -4,6 +4,7 @@ import {
   DetailsListLayoutMode,
   Selection,
   IColumn,
+  SelectionMode,
 } from "@fluentui/react/lib/DetailsList";
 import { IGolfer, mockGolfers } from "../../mockData/mockGolfers";
 import React from "react";
@@ -45,6 +46,8 @@ const classNames = mergeStyleSets({
 export interface IGolferListState {
   items: IGolfer[];
   columns: IColumn[];
+  selectionDetails: string;
+  // isModalSelection: boolean;
 }
 // import { MongoClient, ServerApiVersion } from "mongodb";
 
@@ -88,9 +91,13 @@ export interface IGolferListState {
 
 export default class Golfers extends React.Component<{}, IGolferListState> {
   private _allItems: IGolfer[];
+  private _selection: Selection;
+  private _getKey(item: any, index?: number): string {
+    return item.key;
+  }
   private _onChangeText = (
     ev: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>,
-    text: string
+    text?: string
   ): void => {
     this.setState({
       items: text
@@ -103,6 +110,10 @@ export default class Golfers extends React.Component<{}, IGolferListState> {
         : this._allItems,
     });
   };
+  private _getSelectionDetails(): string {
+    const selectionCount = "1 item selected";
+    return selectionCount;
+  }
   // private _columns: IColumn[];
   // const { MongoClient, ServerApiVersion } = require("mongodb");
   // run().then(client.connect);
@@ -112,6 +123,16 @@ export default class Golfers extends React.Component<{}, IGolferListState> {
     this._allItems = mockGolfers.sort((a, b) =>
       a.handicap > b.handicap ? 1 : -1
     );
+
+    this._selection = new Selection({
+      onSelectionChanged: () => {
+        this.setState({
+          selectionDetails: this._getSelectionDetails(),
+          selected: !selected,
+        });
+      },
+      getKey: this._getKey,
+    });
     const columns: IColumn[] = [
       {
         key: "column1",
@@ -145,6 +166,8 @@ export default class Golfers extends React.Component<{}, IGolferListState> {
     this.state = {
       items: this._allItems,
       columns,
+      selectionDetails: this._getSelectionDetails(),
+      // isModalSelection: false,
     };
   }
 
@@ -170,6 +193,7 @@ export default class Golfers extends React.Component<{}, IGolferListState> {
         this.setState({
           columns: newColumns,
           items: newItems,
+          selectionDetails: "",
         });
       }
     });
@@ -189,14 +213,20 @@ export default class Golfers extends React.Component<{}, IGolferListState> {
   };
 
   public render() {
-    const { items, columns } = this.state;
+    const { items, columns, selectionDetails } = this.state;
 
     return (
       <div className={classNames.wrapper}>
         <div className={classNames.bodyWrapper}>
           <div className={classNames.contentWrapper}>
             <TextField label="Search:" onChange={this._onChangeText} />
-            <DetailsList items={items} columns={columns} />
+            <DetailsList
+              items={items}
+              columns={columns}
+              selectionMode={SelectionMode.multiple}
+              // getKey={this._getKey}
+              setKey="multiple"
+            />
           </div>
         </div>
       </div>
