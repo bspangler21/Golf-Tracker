@@ -11,6 +11,16 @@ import "./Home.css";
 
 // const nav = useNavigate();
 const classNames = mergeStyleSets({
+  container: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "row",
+    height: "100vh",
+    paddingLeft: "60%",
+    width: "100%",
+    color: "black",
+  },
   buttonContainer: {
     display: "flex",
     flexGrow: "1",
@@ -18,6 +28,8 @@ const classNames = mergeStyleSets({
   },
   button: {
     width: "200px",
+    backgroundColor: "black",
+    color: "white",
   },
 });
 
@@ -27,17 +39,12 @@ const stackStyles: IStackTokens = {
 
 export default function Home() {
   return (
-    <div className="container">
+    <div className={classNames.container}>
       <div className="column">
         <h1 className="Header">Welcome to the Golf Tracker!</h1>
         {/* <Stack horizontal styles={stackStyles} */}
         <div className={classNames.buttonContainer}>
           <Stack tokens={stackStyles}>
-            <Stack.Item>
-              <DefaultButton primary={true} href={`/`}>
-                Back
-              </DefaultButton>
-            </Stack.Item>
             <Stack.Item>
               <DefaultButton href={`/login`} className={classNames.button}>
                 Login
