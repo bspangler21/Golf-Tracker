@@ -4,25 +4,34 @@ import App from "./App";
 import "./index.css";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Home from "./pages/Home";
+import Login from "./pages/login/Login";
+import Schedule from "./pages/golfers/Golfers";
+import Golfers from "./pages/golfers/Golfers";
+import GolfersAlt from "./pages/golfers/GolfersAlt";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    // element: <div>Hello world!</div>,
-    element: <App />,
+
+    element: <Home />,
   },
-  // {
-  //   path: "/details",
-  //   element: <Details />,
-  // },
+
   {
     path: "/home",
     element: <Home />,
   },
-  // {
-  //   path: "/enter-rates",
-  //   element: <EnterRates />,
-  // },
+  {
+    path: "/login",
+    element: <Login />,
+  },
+  {
+    path: "/golfers",
+    element: <Golfers />,
+  },
+  {
+    path: "/golfers-alt",
+    element: <GolfersAlt />,
+  },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(

@@ -1,0 +1,33 @@
+export interface IGolfer {
+  firstName: string;
+  lastName: string;
+  handicap: number;
+}
+
+export interface IGolfers {
+  golfers: IGolfer[];
+}
+
+export const mockGolfers: IGolfer[] = [
+  {
+    firstName: "Brett",
+    lastName: "Spangler",
+    handicap: 6,
+  },
+  {
+    firstName: "Paul",
+    lastName: "Spangler",
+    handicap: 12,
+  },
+  {
+    firstName: "Byron",
+    lastName: "Walleser",
+    handicap: 8,
+  },
+];
+
+export const mockGolfersString = [
+  "Brett Spangler - Handicap: 6",
+  "Byron Walleser - Handicap: 7",
+  "Paul Spangler - Handicap: 12",
+];
