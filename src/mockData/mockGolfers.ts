@@ -25,3 +25,9 @@ export const mockGolfers: IGolfer[] = [
     handicap: 8,
   },
 ];
+
+export const mockGolfersString = [
+  "Brett Spangler - Handicap: 6",
+  "Byron Walleser - Handicap: 7",
+  "Paul Spangler - Handicap: 12",
+];

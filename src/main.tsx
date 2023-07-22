@@ -7,6 +7,7 @@ import Home from "./pages/Home";
 import Login from "./pages/login/Login";
 import Schedule from "./pages/golfers/Golfers";
 import Golfers from "./pages/golfers/Golfers";
+import GolfersAlt from "./pages/golfers/GolfersAlt";
 
 const router = createBrowserRouter([
   {
@@ -26,6 +27,10 @@ const router = createBrowserRouter([
   {
     path: "/golfers",
     element: <Golfers />,
+  },
+  {
+    path: "/golfers-alt",
+    element: <GolfersAlt />,
   },
 ]);
 
