@@ -22,13 +22,24 @@ const classNames = mergeStyleSets({
 		width: "100vw",
 	},
 	fieldContainer: {
-		paddingLeft: "25%",
+		// paddingLeft: "25%",
 		// flexDirection: "row",
 		display: "flex",
 		flexGrow: "1",
 	},
 	textBox: {
 		width: "250px",
+		// display: "flex",
+		// flexGrow: "1",
+		justifyContent: "center",
+		alignItems: "center",
+	},
+	label: {
+		justifyContent: "center",
+		alignItems: "center",
+		// width: "250px",
+		display: "flex",
+		flexGrow: "1",
 	},
 });
 
@@ -79,7 +90,7 @@ export default function Login() {
 						>
 							Login
 						</DefaultButton>
-						<Link to={`/`} className={classNames.textBox}>
+						<Link to={`/`} className={classNames.label}>
 							<Label>Forgot your username or password?</Label>
 						</Link>
 					</Stack>
