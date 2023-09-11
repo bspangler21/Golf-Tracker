@@ -8,6 +8,7 @@ import Login from "./pages/login/Login";
 import Schedule from "./pages/golfers/Golfers";
 import Golfers from "./pages/golfers/Golfers";
 import GolfersAlt from "./pages/golfers/GolfersAlt";
+import ScheduleList from "./pages/schedule/ScheduleList";
 
 const router = createBrowserRouter([
   {
@@ -31,6 +32,10 @@ const router = createBrowserRouter([
   {
     path: "/golfers-alt",
     element: <GolfersAlt />,
+  },
+  {
+    path: "/schedule-list",
+    element: <ScheduleList />,
   },
 ]);
 
