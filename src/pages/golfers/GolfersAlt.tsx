@@ -66,21 +66,29 @@ const GolfersAlt = () => {
 			bordered
 			hover
 			responsive
-			className="table"
+			// className="table"
 			striped="columns"
 			variant="dark"
 			size="lg"
 		>
 			<thead>
 				<tr>
-					<th>#</th>
-					<th>First Name</th>
+					<th colSpan={2}>Handicap</th>
+					<th colSpan={5}>First Name</th>
 					<th>Last Name</th>
-					<th>Username</th>
 				</tr>
 			</thead>
-			<tbody>
-				<tr>
+			<tbody className="tableBody">
+				{golfersArray.map((g) => (
+					<>
+						<tr>
+							<td colSpan={2}>{g.handicap}</td>
+							<td colSpan={5}>{g.firstName}</td>
+							<td>{g.lastName}</td>
+						</tr>
+					</>
+				))}
+				{/* <tr>
 					<td>1</td>
 					<td>Mark</td>
 					<td>Otto</td>
@@ -96,7 +104,7 @@ const GolfersAlt = () => {
 					<td>3</td>
 					<td colSpan={2}>Larry the Bird</td>
 					<td>@twitter</td>
-				</tr>
+				</tr> */}
 			</tbody>
 		</Table>
 	);
