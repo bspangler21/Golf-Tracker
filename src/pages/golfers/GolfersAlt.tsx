@@ -9,7 +9,7 @@ import axios from "axios";
 import Table from "react-bootstrap/Table";
 import "./GolfersAlt.css";
 
-// const golfers = mockGolfersString; // as ReactNode;
+const golfers = mockGolfers; // as ReactNode;
 
 // export default function GolfersAlt() {
 //   const golfersList = golfers ? (
@@ -59,7 +59,7 @@ function getMockJsonData() {
 console.log("golfersArray", getMockJsonData());
 
 const GolfersAlt = () => {
-	const [golfers, setGolfers] = useState(golfersArray);
+	// const [golfers, setGolfers] = useState(golfersArray);
 
 	return (
 		<Table
@@ -79,7 +79,7 @@ const GolfersAlt = () => {
 				</tr>
 			</thead>
 			<tbody className="tableBody">
-				{golfersArray.map((g) => (
+				{golfers.map((g) => (
 					<>
 						<tr>
 							<td colSpan={2}>{g.handicap}</td>
