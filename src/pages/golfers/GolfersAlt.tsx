@@ -1,8 +1,8 @@
 import { ReactNode, useState } from "react";
 import {
-	IGolfer,
-	mockGolfers,
-	mockGolfersString,
+  IGolfer,
+  mockGolfers,
+  mockGolfersString,
 } from "../../mockData/mockGolfers";
 import GolferRow from "./GolferRow";
 import axios from "axios";
@@ -29,66 +29,70 @@ let golfersArray: IGolfer[] = [];
 // 	id: number;
 // }
 
-function getMockJsonData() {
-	axios
-		.get("https://jsonplaceholder.typicode.com/users")
-		.then((response) => {
-			console.log("axios response", response.data);
+// function getMockJsonData() {
+// 	axios
+// 		.get("https://jsonplaceholder.typicode.com/users")
+// 		.then((response) => {
+// 			console.log("axios response", response.data);
 
-			response.data.forEach((r) => {
-				golfersArray.push({
-					firstName: r.name,
-					lastName: r.username,
-					handicap: r.id,
-				});
-				console.log("golfer added", r.name);
-			});
-			// golfersArray.push({
-			// 	firstName: response.name,
-			// 	lastName: response.username,
-			// 	handicap: response.id,
-			// });
-		})
-		.catch((error) => {
-			console.error(error);
-		});
+// 			response.data.forEach((r) => {
+// 				golfersArray.push({
+// 					firstName: r.name,
+// 					lastName: r.username,
+// 					handicap: r.id,
+// 				});
+// 				console.log("golfer added", r.name);
+// 			});
+// 			// golfersArray.push({
+// 			// 	firstName: response.name,
+// 			// 	lastName: response.username,
+// 			// 	handicap: response.id,
+// 			// });
+// 		})
+// 		.catch((error) => {
+// 			console.error(error);
+// 		});
 
-	return golfersArray;
-}
+// 	return golfersArray;
+// }
 
-console.log("golfersArray", getMockJsonData());
+// console.log("golfersArray", getMockJsonData());
 
 const GolfersAlt = () => {
-	// const [golfers, setGolfers] = useState(golfersArray);
+  // const [golfers, setGolfers] = useState(golfersArray);
 
-	return (
-		<Table
-			bordered
-			hover
-			responsive
-			// className="table"
-			striped="columns"
-			variant="dark"
-			size="lg"
-		>
-			<thead>
-				<tr>
-					<th colSpan={2}>Handicap</th>
-					<th colSpan={5}>First Name</th>
-					<th>Last Name</th>
-				</tr>
-			</thead>
-			<tbody className="tableBody">
-				{golfers.map((g) => (
-					<>
-						<tr>
-							<td colSpan={2}>{g.handicap}</td>
-							<td colSpan={5}>{g.firstName}</td>
-							<td>{g.lastName}</td>
-						</tr>
-					</>
-				))}
-				{/* <tr>
+  return (
+    <Table
+      bordered
+      hover
+      responsive
+      // className="table"
+      striped="columns"
+      variant="dark"
+      size="lg"
+    >
+      <thead>
+        <tr>
+          <th colSpan={2} className="tableHeader">
+            <a className="tableHeader" href={`/`}>
+              Handicap
+            </a>
+          </th>
+          <th colSpan={5}>First Name</th>
+          <th>Last Name</th>
+        </tr>
+      </thead>
+      <tbody className="tableBody">
+        {golfers.map((g) => (
+          <>
+            <tr>
+              <td colSpan={2}>{g.handicap}</td>
+              <td colSpan={5}>{g.firstName}</td>
+              <td>{g.lastName}</td>
+            </tr>
+          </>
+        ))}
+        {/* <tr>
 					<td>1</td>
 					<td>Mark</td>
 					<td>Otto</td>
@@ -105,42 +109,42 @@ const GolfersAlt = () => {
 					<td colSpan={2}>Larry the Bird</td>
 					<td>@twitter</td>
 				</tr> */}
-			</tbody>
-		</Table>
-	);
+      </tbody>
+    </Table>
+  );
 
-	// 	const addGolfer = () => {
-	// 		setGolfers([
-	// 			...golfers,
-	// 			{
-	// 				firstName: "Mick",
-	// 				lastName: "Siech",
-	// 				handicap: 11,
-	// 			},
-	// 		]);
-	// 	};
+  // 	const addGolfer = () => {
+  // 		setGolfers([
+  // 			...golfers,
+  // 			{
+  // 				firstName: "Mick",
+  // 				lastName: "Siech",
+  // 				handicap: 11,
+  // 			},
+  // 		]);
+  // 	};
 
-	// 	const
-	// 	return (
-	// 		<>
-	// 			<table>
-	// 				<thead>
-	// 					<tr>
-	// 						<th>First Name</th>
-	// 						<th>Last Name</th>
-	// 						<th>Handicap</th>
-	// 					</tr>
-	// 				</thead>
-	// 				<tbody>
-	// 					{golfers.map((g) => (
-	// 						<><tr key={g.firstName + g.lastName} /><td>{g.firstName}</td><td>{g.lastName}</td><td>{g.handicap}</td></>
-	// 						</tr>
-	// 					))}
-	// 				</tbody>
-	// 			</table>
+  // 	const
+  // 	return (
+  // 		<>
+  // 			<table>
+  // 				<thead>
+  // 					<tr>
+  // 						<th>First Name</th>
+  // 						<th>Last Name</th>
+  // 						<th>Handicap</th>
+  // 					</tr>
+  // 				</thead>
+  // 				<tbody>
+  // 					{golfers.map((g) => (
+  // 						<><tr key={g.firstName + g.lastName} /><td>{g.firstName}</td><td>{g.lastName}</td><td>{g.handicap}</td></>
+  // 						</tr>
+  // 					))}
+  // 				</tbody>
+  // 			</table>
 
-	// 		</>
-	// 	);
+  // 		</>
+  // 	);
 };
 
 export default GolfersAlt;
