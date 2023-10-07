@@ -85,7 +85,7 @@ const GolfersAlt = () => {
               Handicap
             </a>
           </th>
-          <th colSpan={5} className="tableHeader">
+          <th colSpan={4} className="tableHeader">
             First Name
           </th>
           <th className="tableHeader">Last Name</th>
@@ -100,7 +100,7 @@ const GolfersAlt = () => {
                   {g.handicap}
                 </button>
               </td>
-              <td colSpan={5}>{g.firstName}</td>
+              <td colSpan={4}>{g.firstName}</td>
               <td>{g.lastName}</td>
             </tr>
           </>
