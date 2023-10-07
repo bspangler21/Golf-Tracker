@@ -5,10 +5,11 @@ import "./index.css";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Home from "./pages/Home";
 import Login from "./pages/login/Login";
-import Schedule from "./pages/golfers/Golfers";
-import Golfers from "./pages/golfers/Golfers";
+// import Schedule from "./pages/golfers/Golfers";
+// import Golfers from "./pages/golfers/Golfers";
 import GolfersAlt from "./pages/golfers/GolfersAlt";
 import ScheduleList from "./pages/schedule/ScheduleList";
+import GolferDetail from "./pages/golferDetail/GolferDetail";
 
 const router = createBrowserRouter([
   {
@@ -25,10 +26,10 @@ const router = createBrowserRouter([
     path: "/login",
     element: <Login />,
   },
-  {
-    path: "/golfers",
-    element: <Golfers />,
-  },
+  // {
+  //   path: "/golfers",
+  //   element: <Golfers />,
+  // },
   {
     path: "/golfers-alt",
     element: <GolfersAlt />,
@@ -36,6 +37,10 @@ const router = createBrowserRouter([
   {
     path: "/schedule-list",
     element: <ScheduleList />,
+  },
+  {
+    path: "/golfer-detail",
+    element: <GolferDetail />,
   },
 ]);
 

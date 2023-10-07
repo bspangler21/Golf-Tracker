@@ -53,14 +53,14 @@ const classNames = mergeStyleSets({
 // fetch("https://jsonplaceholder.typicode.com/users")
 // 	.then((response) => response.json())
 // 	.then((json) => console.log(json));
-axios
-  .get("https://jsonplaceholder.typicode.com/users")
-  .then((response) => {
-    console.log("axios response", response.data);
-  })
-  .catch((error) => {
-    console.error(error);
-  });
+// axios
+//   .get("https://jsonplaceholder.typicode.com/users")
+//   .then((response) => {
+//     console.log("axios response", response.data);
+//   })
+//   .catch((error) => {
+//     console.error(error);
+//   });
 
 export interface IGolferListState {
   items: IGolfer[];
@@ -109,51 +109,51 @@ export interface IGolferListState {
 //   }
 // }
 
-export default class Golfers extends React.Component<{}, IGolferListState> {
-  private _allItems: IGolfer[];
-  private _selection: Selection;
-  private _getKey(item: any, index?: number): string {
-    return item.key;
-  }
-  private _onChangeText = (
-    ev: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>,
-    text?: string
-  ): void => {
-    this.setState({
-      items: text
-        ? this._allItems.filter(
-            (i) =>
-              i.firstName.toLowerCase().indexOf(text) > -1 ||
-              i.lastName.toLowerCase().indexOf(text) > -1 ||
-              i.handicap.toString().indexOf(text) > -1
-          )
-        : this._allItems,
-    });
-  };
-  private _getSelectionDetails(): string {
-    return "View " + this._selection.getSelection()[0];
-  }
+const Golfers = () => {
+  // private _allItems: IGolfer[];
+  // private _selection: Selection;
+  // private _getKey(item: any, index?: number): string {
+  //   return item.key;
+  // }
+  // private _onChangeText = (
+  //   ev: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>,
+  //   text?: string
+  // ): void => {
+  //   this.setState({
+  //     items: text
+  //       ? this._allItems.filter(
+  //           (i) =>
+  //             i.firstName.toLowerCase().indexOf(text) > -1 ||
+  //             i.lastName.toLowerCase().indexOf(text) > -1 ||
+  //             i.handicap.toString().indexOf(text) > -1
+  //         )
+  //       : this._allItems,
+  //   });
+  // };
+  // private _getSelectionDetails(): string {
+  //   return "View " + this._selection.getSelection()[0];
+  // }
 
   // private _columns: IColumn[];
   // const { MongoClient, ServerApiVersion } = require("mongodb");
   // run().then(client.connect);
-  constructor(props: {}) {
-    super(props);
+  // constructor(props: {}) {
+  //   super(props);
 
-    this._allItems = mockGolfers.sort((a, b) =>
-      a.handicap > b.handicap ? 1 : -1
-    );
+    // this._allItems = mockGolfers.sort((a, b) =>
+    //   a.handicap > b.handicap ? 1 : -1
+    // );
 
-    this._selection = new Selection({
-      onSelectionChanged: () => {
-        this.setState({
-          selectionDetails: this._getSelectionDetails(),
-          // selected: !selected,
-        });
-        console.log("selectionDetails", this._getSelectionDetails());
-      },
-      getKey: this._getKey,
-    });
+    // this._selection = new Selection({
+    //   onSelectionChanged: () => {
+    //     this.setState({
+    //       selectionDetails: this._getSelectionDetails(),
+    //       // selected: !selected,
+    //     });
+    //     console.log("selectionDetails", this._getSelectionDetails());
+    //   },
+    //   getKey: this._getKey,
+    // });
     const columns: IColumn[] = [
       {
         key: "column1",

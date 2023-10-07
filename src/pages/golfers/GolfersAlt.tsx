@@ -12,8 +12,6 @@ import { useNavigate } from "react-router-dom";
 
 const golfers = mockGolfers; // as ReactNode;
 
-const nav = useNavigate();
-
 // export default function GolfersAlt() {
 //   const golfersList = golfers ? (
 //     golfers.map((golfer) => <li>{golfer}</li>)
@@ -62,6 +60,8 @@ let golfersArray: IGolfer[] = [];
 // console.log("golfersArray", getMockJsonData());
 
 const GolfersAlt = () => {
+  const nav = useNavigate();
+
   function handleItemClick(event: React.MouseEvent<HTMLElement>): void {
     nav(`/`);
   }
