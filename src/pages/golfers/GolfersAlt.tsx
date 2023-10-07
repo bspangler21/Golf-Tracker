@@ -8,8 +8,11 @@ import GolferRow from "./GolferRow";
 import axios from "axios";
 import Table from "react-bootstrap/Table";
 import "./GolfersAlt.css";
+import { useNavigate } from "react-router-dom";
 
 const golfers = mockGolfers; // as ReactNode;
+
+const nav = useNavigate();
 
 // export default function GolfersAlt() {
 //   const golfersList = golfers ? (
@@ -59,6 +62,10 @@ let golfersArray: IGolfer[] = [];
 // console.log("golfersArray", getMockJsonData());
 
 const GolfersAlt = () => {
+  function handleItemClick(event: React.MouseEvent<HTMLElement>): void {
+    nav(`/`);
+  }
+
   // const [golfers, setGolfers] = useState(golfersArray);
 
   return (
@@ -78,15 +85,21 @@ const GolfersAlt = () => {
               Handicap
             </a>
           </th>
-          <th colSpan={5}>First Name</th>
-          <th>Last Name</th>
+          <th colSpan={5} className="tableHeader">
+            First Name
+          </th>
+          <th className="tableHeader">Last Name</th>
         </tr>
       </thead>
       <tbody className="tableBody">
         {golfers.map((g) => (
           <>
             <tr>
-              <td colSpan={2}>{g.handicap}</td>
+              <td colSpan={2}>
+                <button className="button" onClick={handleItemClick}>
+                  {g.handicap}
+                </button>
+              </td>
               <td colSpan={5}>{g.firstName}</td>
               <td>{g.lastName}</td>
             </tr>

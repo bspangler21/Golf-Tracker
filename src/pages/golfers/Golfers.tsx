@@ -220,7 +220,7 @@ export default class Golfers extends React.Component<{}, IGolferListState> {
         this.setState({
           columns: newColumns,
           items: newItems,
-          selectionDetails: "",
+          // selectionDetails: "",
         });
       }
     });
@@ -250,6 +250,14 @@ export default class Golfers extends React.Component<{}, IGolferListState> {
     //   // Use history to navigate to the "/" path
     //   nav("/");
     // };
+    // const _handleItemInvoked = () => {
+    //   const key = columnKey as keyof IGolfer;
+    //   return items
+    //     .slice(0)
+    //     .sort((a, b) =>
+    //       (isSortedDescending ? a[key] < b[key] : a[key] > b[key]) ? 1 : -1
+    //     );
+    // }
 
     return (
       <div className={classNames.wrapper}>
