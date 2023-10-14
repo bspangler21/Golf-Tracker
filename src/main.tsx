@@ -10,6 +10,7 @@ import Login from "./pages/login/Login";
 import GolfersAlt from "./pages/golfers/GolfersAlt";
 import ScheduleList from "./pages/schedule/ScheduleList";
 import GolferDetail from "./pages/golferDetail/GolferDetail";
+import AddGolfer from "./pages/addGolfer/AddGolfer";
 
 const router = createBrowserRouter([
   {
@@ -45,6 +46,10 @@ const router = createBrowserRouter([
   {
     path: "/golfer-detail",
     element: <GolferDetail />,
+  },
+  {
+    path: "/add-golfer",
+    element: <AddGolfer />,
   },
 ]);
 
