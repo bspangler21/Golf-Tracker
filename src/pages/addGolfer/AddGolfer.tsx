@@ -1,6 +1,6 @@
 import React from "react";
 import { useFormik } from "formik";
-import { mergeStyleSets } from "@fluentui/react";
+import { TextField, mergeStyleSets } from "@fluentui/react";
 
 const classNames = mergeStyleSets({
   wrapper: {
@@ -14,6 +14,7 @@ const classNames = mergeStyleSets({
     width: "200px",
     boxSizing: "border-box",
     padding: "20px",
+    minWidth: "200px",
   },
 });
 
@@ -37,7 +38,7 @@ const AddGolfer = () => {
     <form onSubmit={formik.handleSubmit} className={classNames.wrapper}>
       <div className={classNames.textField}>
         <label htmlFor="firstName">First Name</label>
-        <input
+        <TextField
           id="firstName"
           name="firstName"
           type="text"
@@ -47,7 +48,7 @@ const AddGolfer = () => {
         />
         <div>
           <label htmlFor="lastName">Last Name</label>
-          <input
+          <TextField
             id="lastName"
             name="lastName"
             type="text"
@@ -58,7 +59,7 @@ const AddGolfer = () => {
         </div>
         <div>
           <label htmlFor="handicap">handicap Address</label>
-          <input
+          <TextField
             id="handicap"
             name="handicap"
             type="handicap"
