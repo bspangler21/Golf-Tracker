@@ -1,13 +1,19 @@
 import { mergeStyleSets } from "@fluentui/react";
-import { Formik, FormikHelpers, Field, Form } from "formik";
+import { Formik, FormikHelpers, Field, Form, useFormik } from "formik";
+import React, { useState } from "react";
 import * as ReactDOM from "react-dom";
 import { createRoot } from "react-dom/client";
 
-interface Values {
-  firstName: string;
-  lastName: string;
-  handicap: number;
-}
+const formik = useFormik({
+  initialValues: {
+    firstName: "",
+    lastName: "",
+    handicap: "",
+  },
+  onSubmit: (values) => {
+    alert(JSON.stringify(values, null, 2));
+  },
+});
 
 const classNames = mergeStyleSets({
   wrapper: {
@@ -54,6 +60,26 @@ const classNames = mergeStyleSets({
 });
 
 const AddGolfer = () => {
+  const [golferFirstName, setGolferFirstName] = useState("");
+
+  // private _onChangeText = (
+  //   ev: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>,
+  //   text?: string
+  // ): void => this.setState({
+  //   golferFistName: text
+  // });
+
+  handleChange: (e: React.ChangeEvent<any>) =>
+    void (
+      {
+        // setGolferFirstName(formik.values.firstName);
+      }
+    );
+
+  // console.log("golferFirstName", golferFirstName);
+
+  console.log("golferFirstName", formik.va);
+
   return (
     <div className={classNames.wrapper}>
       <h1>Signup</h1>
@@ -76,14 +102,23 @@ const AddGolfer = () => {
         <Form className={classNames.mainContentWrapper}>
           <div className={classNames.textField}>
             <label htmlFor="firstName">First Name</label>
-            <Field id="firstName" name="firstName" placeholder="John" />
+            <Field
+              id="firstName"
+              name="firstName"
+              placeholder="John"
+              // onChange={(e, newValue) => {
+              //   setGolferFirstName(newValue || "");
+              // }}
+              // value={golferFirstName}
+              value={formik.values.firstName}
+            />
           </div>
           <div className={classNames.textField}>
             <label htmlFor="lastName">Last Name</label>
             <Field id="lastName" name="lastName" placeholder="Doe" />
           </div>
           <div className={classNames.textField}>
-            <label htmlFor="email">Handicap</label>
+            <label htmlFor="handicap">Handicap</label>
             <Field
               id="handicap"
               name="handicap"
