@@ -44,7 +44,7 @@ const router = createBrowserRouter([
     element: <ScheduleList />,
   },
   {
-    path: "/golfer-detail",
+    path: "/golfer-detail/:id",
     element: <GolferDetail />,
   },
   {

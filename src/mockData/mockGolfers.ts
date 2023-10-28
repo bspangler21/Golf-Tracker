@@ -1,4 +1,5 @@
 export interface IGolfer {
+  id: number;
   firstName: string;
   lastName: string;
   handicap: number;
@@ -10,16 +11,19 @@ export interface IGolfers {
 
 export const mockGolfers: IGolfer[] = [
   {
+    id: 1,
     firstName: "Brett",
     lastName: "Spangler",
     handicap: 4,
   },
   {
+    id: 2,
     firstName: "Paul",
     lastName: "Spangler",
     handicap: 10,
   },
   {
+    id: 3,
     firstName: "Byron",
     lastName: "Walleser",
     handicap: 7,

@@ -63,7 +63,7 @@ const GolfersAlt = () => {
   const nav = useNavigate();
 
   function handleItemClick(event: React.MouseEvent<HTMLElement>): void {
-    nav(`/`);
+    nav(`/golfer-detail`);
   }
 
   // const [golfers, setGolfers] = useState(golfersArray);
@@ -94,12 +94,8 @@ const GolfersAlt = () => {
       <tbody className="tableBody">
         {golfers.map((g) => (
           <>
-            <tr>
-              <td colSpan={2}>
-                <button className="button" onClick={handleItemClick}>
-                  {g.handicap}
-                </button>
-              </td>
+            <tr key={g.id} onClick={() => nav(`/golfer-detail/${g.id}`)}>
+              <td colSpan={2}>{g.handicap}</td>
               <td colSpan={4}>{g.firstName}</td>
               <td>{g.lastName}</td>
             </tr>
