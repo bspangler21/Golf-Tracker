@@ -19,20 +19,19 @@ const Golfers = () => {
 			size="lg"
 		>
 			<thead>
-				<tr>
-					<th colSpan={2} className={utilStyles.tableHeader}>
-						<a href={`/`}>Handicap</a>
-					</th>
+				<tr className={utilStyles.tableHeader}>
+					<th colSpan={2}>Handicap</th>
 					<th colSpan={4}>First Name</th>
 					<th>Last Name</th>
 				</tr>
 			</thead>
-			<tbody className="tableBody">
+			<tbody>
 				{golfers.map((g) => (
 					<>
 						<tr
 							key={g.id}
 							onClick={() => nav(`/golfer-detail/${g.id}`)}
+							className={utilStyles.tableBody}
 						>
 							<td colSpan={2}>{g.handicap}</td>
 							<td colSpan={4}>{g.firstName}</td>

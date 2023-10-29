@@ -11,9 +11,9 @@
 }
 
 .tableHeader {
-  color: #ffffff;
-  background-color: #000000;
-  border-color: #000000;
+  /* color: #ffffff; */
+  /* background-color: #000000; */
+  border-color: black;
   align-items: center;
   align-content: center;
   max-width: 100%;
@@ -24,11 +24,11 @@
 }
 
 .tableHeader:hover {
-  color: rgb(225, 219, 219);
-  background-color: #000000;
-  border-color: #000000;
-  align-items: center;
-  align-content: center;
+  /* color: rgb(225, 219, 219); */
+  /* background-color: #000000; */
+  /* border-color: #000000; */
+  /* align-items: center; */
+  /* align-content: center; */
 
 }
 
@@ -58,9 +58,22 @@
 
 .tableBody {
   color: #000000;
-  border-color: #000000;
+  /* border-color: #000000; */
+  border-width: 1px;
+  /* background-color: rgba(0, 0, 0, .075); */
+  text-align: center;
+  max-width: 100%;
+}
+
+.tableBody:hover {
+  color: #000000;
+  /* border-color: #000000; */
   border-width: 1px;
   background-color: rgba(0, 0, 0, .075);
   text-align: center;
   max-width: 100%;
+}
+
+.headerText {
+  font-size: xx-large;
 }
