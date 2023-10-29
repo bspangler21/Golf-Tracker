@@ -3,16 +3,10 @@ import { mockGolfers } from "../../mockData/mockGolfers";
 import "./GolferDetail.css";
 import { Link, useParams } from "react-router-dom";
 import { mergeStyleSets } from "@fluentui/react";
-import {getGolferById} from "../../util/golfer";
+import { getGolferById } from "../../util/golfer";
 import utilStyles from "../../styles/utilStyles.module.css";
 
 const allGolfers = mockGolfers;
-
-const classNames = mergeStyleSets({
-	mainBlock: {
-		display: "block",
-	},
-});
 
 // function getGolferById(id: number): IGolfer {
 // 	let golferDetail: IGolfer = {} as IGolfer;
@@ -40,12 +34,21 @@ const GolferDetail = () => {
 
 	return (
 		<>
-			<div className={classNames.mainBlock}>
-				<img src={reactLogo} alt="" className="GolferImage"></img>
-				<h1 className={utilStyles.headerText}>
+			<div className={utilStyles.h1Text}>
+				<img
+					src={reactLogo}
+					alt=""
+					className={utilStyles.profileImage}
+				></img>
+				<h1>
 					{golferData.firstName} {golferData.lastName}
 				</h1>
-				<text>{golferData.handicap}</text>
+			</div>
+			<div>
+				<h3 className={utilStyles.h3Text}>
+					Handicap: {golferData.handicap}
+				</h3>
+				<h3 className={utilStyles.h3Text}>Rounds Played: </h3>
 			</div>
 		</>
 	);

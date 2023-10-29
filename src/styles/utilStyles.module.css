@@ -74,6 +74,17 @@
   max-width: 100%;
 }
 
-.headerText {
-  font-size: xx-large;
+.h1Text {
+  display: block;
+  font-size: large;
+}
+
+.h3Text {
+  font-size: medium;
+  font-weight: normal;
+  text-align: left;
+}
+
+.profileImage {
+  height: 4em;
 }
