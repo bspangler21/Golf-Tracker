@@ -16,6 +16,7 @@ import Golfers from "./pages/golfers/Golfers";
 import ScheduleList from "./pages/schedule/ScheduleList";
 import GolferDetail from "./pages/golferDetail/GolferDetail";
 import AddGolfer from "./pages/addGolfer/AddGolfer";
+import Scorecard from "./pages/scorecard/Scorecard";
 
 const router = createBrowserRouter([
 	{
@@ -51,6 +52,10 @@ const router = createBrowserRouter([
 	{
 		path: "/add-golfer",
 		element: <AddGolfer />,
+	},
+	{
+		path: "/scorecard",
+		element: <Scorecard />,
 	},
 ]);
 
