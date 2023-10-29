@@ -48,7 +48,7 @@ const GolferDetail = () => {
 				<h3 className={utilStyles.h3Text}>
 					Handicap: {golferData.handicap}
 				</h3>
-				<h3 className={utilStyles.h3Text}>Rounds Played: </h3>
+				<h3 className={utilStyles.h3Text}>Rounds Played: {Math.round(Math.random() * 25)}</h3>
 			</div>
 		</>
 	);
