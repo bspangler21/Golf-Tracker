@@ -8,7 +8,7 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 // 	webLightTheme,
 // 	Button,
 // } from "@fluentui/react-components";
-import Home from "./pages/Home";
+import Home from "./pages/home/Home";
 import Login from "./pages/login/Login";
 // import Schedule from "./pages/golfers/Golfers";
 // import Golfers from "./pages/golfers/Golfers";

@@ -6,7 +6,6 @@ import {
 	Text,
 	mergeStyleSets,
 } from "@fluentui/react";
-import "./Home.css";
 // import { useNavigate } from "react-router-dom";
 
 // const nav = useNavigate();
