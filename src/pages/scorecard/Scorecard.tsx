@@ -1,10 +1,12 @@
+import { Label, TextField } from "@fluentui/react";
+
 const Scorecard = () => {
 	return (
 		<>
-			<table class="responsive-table scorecard">
+			<table className="responsive-table scorecard">
 				<caption>Joe Smith</caption>
 				<thead>
-					<tr class="hole-number">
+					<tr className="hole-number">
 						<th scope="col"></th>
 						<th data-title="1" scope="col">
 							1
@@ -161,62 +163,62 @@ const Scorecard = () => {
 					<tr>
 						<th data-type="player">Score</th>
 						<td>
-							<span className="par">4</span>
+							<TextField></TextField>
 						</td>
 						<td>
-							<span className="par">3</span>
+							<TextField></TextField>
 						</td>
 						<td>
-							<span className="par">5</span>
+							<TextField></TextField>
 						</td>
 						<td>
-							<span className="par">4</span>
+							<TextField></TextField>
 						</td>
 						<td>
-							<span className="par">4</span>
+							<TextField></TextField>
 						</td>
 						<td>
-							<span className="par">4</span>
+							<TextField></TextField>
 						</td>
 						<td>
-							<span className="par">5</span>
+							<TextField></TextField>
 						</td>
 						<td>
-							<span className="double-bogey">5</span>
+							<TextField></TextField>
 						</td>
 						<td>
-							<span className="bogey">5</span>
+							<TextField></TextField>
 						</td>
 						<td>39</td>
 
 						<td>
-							<span className="par">4</span>
+							<TextField></TextField>
 						</td>
 						<td>
-							<span className="par">3</span>
+							<TextField></TextField>
 						</td>
 						<td>
-							<span className="par">5</span>
+							<TextField></TextField>
 						</td>
 						<td>
-							<span className="par">4</span>
+							<TextField></TextField>
 						</td>
 						<td>
-							<span className="bogey">4</span>
+							<TextField></TextField>
 						</td>
 						<td>
-							<span className="bogey">5</span>
+							<TextField></TextField>
 						</td>
 						<td>
-							<span className="bogey">5</span>
+							<TextField></TextField>
 						</td>
 						<td>
-							<span className="birdie">4</span>
+							<TextField></TextField>
 						</td>
 						<td>
-							<span className="par">4</span>
+							<TextField></TextField>
 						</td>
-						<td>38</td>
+						<Label>39</Label>
 
 						<td>77</td>
 					</tr>
@@ -224,7 +226,7 @@ const Scorecard = () => {
 
 				<tfoot>
 					<tr>
-						<td colspan={9}>
+						<td colSpan={9}>
 							<strong>Augusta National, Augusta Georgia </strong>—
 							March 31, 2014 — 76 with a slight wind
 						</td>
