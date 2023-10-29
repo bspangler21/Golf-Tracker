@@ -14,6 +14,7 @@
   /* color: #ffffff; */
   /* background-color: #000000; */
   border-color: black;
+  /* border-width: 0px; */
   align-items: center;
   align-content: center;
   max-width: 100%;
@@ -57,18 +58,18 @@
 
 
 .tableBody {
-  color: #000000;
+  /* color: #000000; */
   /* border-color: #000000; */
-  border-width: 1px;
+  /* border-width: 2px; */
   /* background-color: rgba(0, 0, 0, .075); */
   text-align: center;
   max-width: 100%;
 }
 
 .tableBody:hover {
-  color: #000000;
+  /* color: #000000; */
   /* border-color: #000000; */
-  border-width: 1px;
+  /* border-width: 1px; */
   background-color: rgba(0, 0, 0, .075);
   text-align: center;
   max-width: 100%;

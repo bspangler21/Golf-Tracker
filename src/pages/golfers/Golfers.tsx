@@ -20,8 +20,8 @@ const Golfers = () => {
 		>
 			<thead>
 				<tr className={utilStyles.tableHeader}>
-					<th colSpan={2}>Handicap</th>
-					<th colSpan={4}>First Name</th>
+					<th>Handicap</th>
+					<th>First Name</th>
 					<th>Last Name</th>
 				</tr>
 			</thead>
@@ -33,8 +33,8 @@ const Golfers = () => {
 							onClick={() => nav(`/golfer-detail/${g.id}`)}
 							className={utilStyles.tableBody}
 						>
-							<td colSpan={2}>{g.handicap}</td>
-							<td colSpan={4}>{g.firstName}</td>
+							<td>{g.handicap}</td>
+							<td>{g.firstName}</td>
 							<td>{g.lastName}</td>
 						</tr>
 					</>
