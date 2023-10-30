@@ -1,6 +1,26 @@
 import { Label, TextField } from "@fluentui/react";
+import { FormEvent, useState } from "react";
+import { mockHoles } from "../../mockData/mockHoles";
+import { IHole } from "../../types/IHole";
+
+const golfHoles: IHole[] = mockHoles;
 
 const Scorecard = () => {
+	const [frontNineScore, setFrontNineScore] = useState(0);
+	let holeScore: number = 0;
+
+	console.log("frontNineScore", frontNineScore);
+
+	function handleOnChange(
+		event: FormEvent<HTMLInputElement | HTMLTextAreaElement>,
+		newValue?: string | undefined
+	): void {
+		if (newValue) {
+			holeScore = parseInt(newValue);
+			setFrontNineScore(holeScore);
+		}
+	}
+
 	return (
 		<>
 			<table className="responsive-table scorecard">
@@ -79,147 +99,17 @@ const Scorecard = () => {
 				</thead>
 
 				<tbody>
+					{golfHoles.map((h, holeNumber) => (
+						<tr key={holeNumber}>
+							<td>
+								<TextField></TextField>
+							</td>
+						</tr>
+					))}
 					<tr>
-						<th data-type="player">Professional Tees</th>
-						<td>390</td>
-						<td>143</td>
-						<td>535</td>
-						<td>405</td>
-						<td>483</td>
-						<td>463</td>
-						<td>503</td>
-						<td>223</td>
-						<td>448</td>
-						<td>3593</td>
-
-						<td>346</td>
-						<td>169</td>
-						<td>525</td>
-						<td>429</td>
-						<td>193</td>
-						<td>447</td>
-						<td>407</td>
-						<td>485</td>
-						<td>442</td>
-						<td>3443</td>
-
-						<td>7036</td>
-					</tr>
-
-					<tr>
-						<th data-type="player">Handicap</th>
-						<td>15</td>
-						<td>17</td>
-						<td>7</td>
-						<td>5</td>
-						<td>3</td>
-						<td>1</td>
-						<td>11</td>
-						<td>13</td>
-						<td>9</td>
-						<td>&nbsp;</td>
-
-						<td>16</td>
-						<td>14</td>
-						<td>8</td>
-						<td>6</td>
-						<td>18</td>
-						<td>2</td>
-						<td>4</td>
-						<td>10</td>
-						<td>12</td>
-						<td>&nbsp;</td>
-
-						<td>&nbsp;</td>
-					</tr>
-
-					<tr>
-						<th data-type="player">Par</th>
-						<td>4</td>
-						<td>3</td>
-						<td>5</td>
-						<td>4</td>
-						<td>4</td>
-						<td>4</td>
-						<td>5</td>
-						<td>3</td>
-						<td>4</td>
-						<td>36</td>
-
-						<td>4</td>
-						<td>3</td>
-						<td>5</td>
-						<td>4</td>
-						<td>3</td>
-						<td>4</td>
-						<td>4</td>
-						<td>5</td>
-						<td>4</td>
-						<td>36</td>
-
-						<td>72</td>
-					</tr>
-
-					<tr>
-						<th data-type="player">Score</th>
 						<td>
-							<TextField></TextField>
+							<Label>39</Label>
 						</td>
-						<td>
-							<TextField></TextField>
-						</td>
-						<td>
-							<TextField></TextField>
-						</td>
-						<td>
-							<TextField></TextField>
-						</td>
-						<td>
-							<TextField></TextField>
-						</td>
-						<td>
-							<TextField></TextField>
-						</td>
-						<td>
-							<TextField></TextField>
-						</td>
-						<td>
-							<TextField></TextField>
-						</td>
-						<td>
-							<TextField></TextField>
-						</td>
-						<td>39</td>
-
-						<td>
-							<TextField></TextField>
-						</td>
-						<td>
-							<TextField></TextField>
-						</td>
-						<td>
-							<TextField></TextField>
-						</td>
-						<td>
-							<TextField></TextField>
-						</td>
-						<td>
-							<TextField></TextField>
-						</td>
-						<td>
-							<TextField></TextField>
-						</td>
-						<td>
-							<TextField></TextField>
-						</td>
-						<td>
-							<TextField></TextField>
-						</td>
-						<td>
-							<TextField></TextField>
-						</td>
-						<Label>39</Label>
-
 						<td>77</td>
 					</tr>
 				</tbody>
