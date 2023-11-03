@@ -61,7 +61,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/scorecard2",
-    element: <Scorecard2 />,
+    element: <Scorecard2 courseName={undefined} players={undefined} />,
   },
 ]);
 

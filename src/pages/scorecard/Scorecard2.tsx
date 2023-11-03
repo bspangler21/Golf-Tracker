@@ -1,8 +1,10 @@
 import { Label, TextField } from "@fluentui/react";
 import { ChangeEvent, FormEvent, useState } from "react";
 import { mockHoles } from "../../mockData/mockHoles";
+import { mockGolfers } from "../../mockData/mockGolfers";
 
 const golfHoles = mockHoles;
+const golfers = mockGolfers;
 
 interface Hole {
   holeNumber: number;
@@ -20,9 +22,15 @@ interface ScorecardProps {
   players: Player[];
 }
 
-const Scorecard2 = ({ courseName, holes, players }) => {
-  const [scores, setScores] = useState(players.map(() => Array(holes.length).fill(0)));
-  function handleScoreChange(e: ChangeEvent<HTMLInputElement>, index: any, holeIndex: any): void {
+const Scorecard2 = ({ courseName, players }) => {
+  const [scores, setScores] = useState(
+    mockGolfers.map(() => Array(golfHoles.length).fill(0))
+  );
+  function handleScoreChange(
+    e: ChangeEvent<HTMLInputElement>,
+    index: any,
+    holeIndex: any
+  ): void {
     throw new Error("Function not implemented.");
   }
 
@@ -33,24 +41,28 @@ const Scorecard2 = ({ courseName, holes, players }) => {
         <thead>
           <tr>
             <th>Hole</th>
-            {holes.map((hole) => (
+            {golfHoles.map((hole) => (
               <th key={hole.holeNumber}>H{hole.holeNumber}</th>
             ))}
           </tr>
         </thead>
         <tbody>
-          {players.map((player, index) => (
-            <tr key={player.name}>
-              <td>{player.name}</td>
-              {player.scores.map((score, holeIndex) => (
-                <td key={holeIndex}>
-                  <input
-                    type="number"
-                    value={scores[index][holeIndex]}
-                    onChange={(e) => handleScoreChange(e, index, holeIndex)}
-                  />
-                </td>
-              ))}
+          {golfers.map((player, index) => (
+            <tr key={player.id}>
+              <td>
+                {player.firstName}
+                {player.lastName}
+              </td>
+              {player.scores &&
+                player.scores.map((score, holeIndex) => (
+                  <td key={holeIndex}>
+                    <input
+                      type="number"
+                      value={scores[index][holeIndex]}
+                      onChange={(e) => handleScoreChange(e, index, holeIndex)}
+                    />
+                  </td>
+                ))}
             </tr>
           ))}
         </tbody>
