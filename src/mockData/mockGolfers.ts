@@ -13,12 +13,14 @@ export const mockGolfers: IGolfer[] = [
     firstName: "Paul",
     lastName: "Spangler",
     handicap: 10,
+    scores: [4, 3, 4, 5, 5, 5, 5, 5, 5],
   },
   {
     id: 3,
     firstName: "Byron",
     lastName: "Walleser",
     handicap: 7,
+    scores: [4, 3, 4, 5, 5, 5, 5, 5, 5],
   },
 ];
 

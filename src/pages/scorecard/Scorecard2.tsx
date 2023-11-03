@@ -76,7 +76,9 @@ const Scorecard2 = ({ courseName, players }) => {
                     ></TextField>
                   </td>
                 ))}
-              <td>{frontNineScore}</td>
+              {golfers.map((player, index) => (
+                <td key={player.id}>{frontNineScore}</td>
+              ))}
             </tr>
           ))}
         </tbody>
