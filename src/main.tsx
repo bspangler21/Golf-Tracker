@@ -18,6 +18,7 @@ import GolferDetail from "./pages/golferDetail/GolferDetail";
 import AddGolfer from "./pages/addGolfer/AddGolfer";
 import Scorecard from "./pages/scorecard/Scorecard";
 import Header from "./pageComponents/Header";
+import Scorecard2 from "./pages/scorecard/Scorecard2";
 
 const router = createBrowserRouter([
   {
@@ -57,6 +58,10 @@ const router = createBrowserRouter([
   {
     path: "/scorecard",
     element: <Scorecard />,
+  },
+  {
+    path: "/scorecard2",
+    element: <Scorecard2 />,
   },
 ]);
 

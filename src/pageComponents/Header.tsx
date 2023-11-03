@@ -13,6 +13,8 @@ const Header = () => {
         <Link href="/golfers">Golfers</Link>
         {" | "}
         <Link href="/schedule-list">Schedule</Link>
+        {" | "}
+        <Link href="/scorecard">Scorecard</Link>
       </nav>
     </div>
   );
