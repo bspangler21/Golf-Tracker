@@ -23,6 +23,9 @@ interface ScorecardProps {
 }
 
 const Scorecard2 = ({ courseName, players }) => {
+  const [frontNineScore, setFrontNineScore] = useState(0);
+  const [backNineScore, setBackNineScore] = useState(0);
+  let holeScore: number = 0;
   const [scores, setScores] = useState(
     mockGolfers.map(() => Array(golfHoles.length).fill(0))
   );
@@ -32,6 +35,16 @@ const Scorecard2 = ({ courseName, players }) => {
     holeIndex: any
   ): void {
     throw new Error("Function not implemented.");
+  }
+
+  function handleOnChange(
+    event: FormEvent<HTMLInputElement | HTMLTextAreaElement>,
+    newValue?: string | undefined
+  ): void {
+    if (newValue) {
+      holeScore = parseInt(newValue);
+      setFrontNineScore(frontNineScore + holeScore);
+    }
   }
 
   return (
@@ -44,6 +57,7 @@ const Scorecard2 = ({ courseName, players }) => {
             {golfHoles.map((hole) => (
               <th key={hole.holeNumber}>H{hole.holeNumber}</th>
             ))}
+            <th>Total</th>
           </tr>
         </thead>
         <tbody>
@@ -54,15 +68,15 @@ const Scorecard2 = ({ courseName, players }) => {
                 {player.lastName}
               </td>
               {player.scores &&
-                player.scores.map((score, holeIndex) => (
+                player.scores.map((holeIndex) => (
                   <td key={holeIndex}>
-                    <input
-                      type="number"
-                      value={scores[index][holeIndex]}
-                      onChange={(e) => handleScoreChange(e, index, holeIndex)}
-                    />
+                    <TextField
+                      // value={scores[index][holeIndex]}
+                      onChange={handleOnChange}
+                    ></TextField>
                   </td>
                 ))}
+              <td>{frontNineScore}</td>
             </tr>
           ))}
         </tbody>
