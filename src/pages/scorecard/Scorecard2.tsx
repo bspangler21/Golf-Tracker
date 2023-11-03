@@ -39,11 +39,15 @@ const Scorecard2 = ({ courseName, players }) => {
 
   function handleOnChange(
     event: FormEvent<HTMLInputElement | HTMLTextAreaElement>,
-    newValue?: string | undefined
+    newValue?: string | undefined,
+    index?: number,
+    holeIndex?: number
   ): void {
     if (newValue) {
       holeScore = parseInt(newValue);
       setFrontNineScore(frontNineScore + holeScore);
+      console.log("frontNineScore", frontNineScore);
+      console.log("holeScore", holeScore);
     }
   }
 
@@ -68,17 +72,16 @@ const Scorecard2 = ({ courseName, players }) => {
                 {player.lastName}
               </td>
               {player.scores &&
-                player.scores.map((holeIndex) => (
+                player.scores.map((scores, holeIndex) => (
                   <td key={holeIndex}>
                     <TextField
-                      // value={scores[index][holeIndex]}
-                      onChange={handleOnChange}
+                      value={scores[index][holeIndex]}
+                      onChange={(e) =>
+                        handleOnChange(e, value, index, holeIndex)
+                      }
                     ></TextField>
                   </td>
                 ))}
-              {golfers.map((player, index) => (
-                <td key={player.id}>{frontNineScore}</td>
-              ))}
             </tr>
           ))}
         </tbody>
