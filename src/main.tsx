@@ -21,55 +21,55 @@ import Header from "./pageComponents/Header";
 import Scorecard2 from "./pages/scorecard/Scorecard2";
 
 const router = createBrowserRouter([
-  {
-    path: "/",
+	{
+		path: "/",
 
-    element: <Home />,
-  },
-  {
-    path: "/app",
-    element: <App />,
-  },
+		element: <Home />,
+	},
+	{
+		path: "/app",
+		element: <App />,
+	},
 
-  {
-    path: "/home",
-    element: <Home />,
-  },
-  {
-    path: "/login",
-    element: <Login />,
-  },
-  {
-    path: "/golfers",
-    element: <Golfers />,
-  },
-  {
-    path: "/schedule-list",
-    element: <ScheduleList />,
-  },
-  {
-    path: "/golfer-detail/:id",
-    element: <GolferDetail />,
-  },
-  {
-    path: "/add-golfer",
-    element: <AddGolfer />,
-  },
-  {
-    path: "/scorecard",
-    element: <Scorecard />,
-  },
-  {
-    path: "/scorecard2",
-    element: <Scorecard2 courseName={undefined} players={undefined} />,
-  },
+	{
+		path: "/home",
+		element: <Home />,
+	},
+	{
+		path: "/login",
+		element: <Login />,
+	},
+	{
+		path: "/golfers",
+		element: <Golfers />,
+	},
+	{
+		path: "/schedule-list",
+		element: <ScheduleList />,
+	},
+	{
+		path: "/golfer-detail/:id",
+		element: <GolferDetail />,
+	},
+	{
+		path: "/add-golfer",
+		element: <AddGolfer />,
+	},
+	{
+		path: "/scorecard",
+		element: <Scorecard />,
+	},
+	{
+		path: "/scorecard2",
+		element: <Scorecard2 courseName={undefined} players={undefined} />,
+	},
 ]);
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
-  <React.StrictMode>
-    <Header />
-    {/* Will cause duplication if not commented out */}
-    {/* <App /> */}
-    <RouterProvider router={router} />
-  </React.StrictMode>
+	<React.StrictMode>
+		<Header />
+		{/* Will cause duplication if not commented out */}
+		{/* <App /> */}
+		<RouterProvider router={router} />
+	</React.StrictMode>
 );
