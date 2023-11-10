@@ -40,7 +40,7 @@ const router = createBrowserRouter([
 		element: <Login />,
 	},
 	{
-		path: "/golfers",
+		path: "https://golf-tracker-gray.vercel.app/golfers",
 		element: <Golfers />,
 	},
 	{
