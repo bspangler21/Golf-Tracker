@@ -7,5 +7,5 @@ export default defineConfig({
 	server: {
 		port: 3000,
 	},
-	base: "golf-tracker-gray.vercel.app",
+	base: "/golf-tracker/",
 });
