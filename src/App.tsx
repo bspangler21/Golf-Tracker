@@ -58,6 +58,51 @@ function App() {
       element: <Scorecard2 courseName={undefined} players={undefined} />,
     },
   ]);
+  // const router = createBrowserRouter([
+  //   {
+  //     path: "/",
+  //     element: <Home />,
+  //     children: [
+  //       {
+  //         path: "/app",
+  //         element: <App />,
+  //       },
+
+  //       {
+  //         path: "/home",
+  //         element: <Home />,
+  //       },
+  //       {
+  //         path: "/login",
+  //         element: <Login />,
+  //       },
+  //       {
+  //         path: "/golfers",
+  //         element: <Golfers />,
+  //       },
+  //       {
+  //         path: "/schedule-list",
+  //         element: <ScheduleList />,
+  //       },
+  //       {
+  //         path: "/golfer-detail/:id",
+  //         element: <GolferDetail />,
+  //       },
+  //       {
+  //         path: "/add-golfer",
+  //         element: <AddGolfer />,
+  //       },
+  //       {
+  //         path: "/scorecard",
+  //         element: <Scorecard />,
+  //       },
+  //       {
+  //         path: "/scorecard2",
+  //         element: <Scorecard2 courseName={undefined} players={undefined} />,
+  //       },
+  //     ],
+  //   },
+  // ]);
 
   return (
     <div className="App">

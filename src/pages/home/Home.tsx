@@ -59,7 +59,7 @@ export default function Home() {
 						</Stack.Item>
 						<Stack.Item>
 							<DefaultButton
-								href={`https://golf-tracker-gray.vercel.app/golfers`}
+								href={`/golfers`}
 								className={classNames.button}
 							>
 								View Golfers

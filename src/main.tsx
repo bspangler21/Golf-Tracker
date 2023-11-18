@@ -20,55 +20,103 @@ import Scorecard from "./pages/scorecard/Scorecard";
 import Header from "./pageComponents/Header";
 import Scorecard2 from "./pages/scorecard/Scorecard2";
 
-const router = createBrowserRouter([
-  {
-    path: "/",
+// const router = createBrowserRouter([
+//   {
+//     path: "/",
 
-    element: <Home />,
-  },
-  {
-    path: "/app",
-    element: <App />,
-  },
+//     element: <Home />,
+//   },
+//   {
+//     path: "/app",
+//     element: <App />,
+//   },
 
-  {
-    path: "/home",
-    element: <Home />,
-  },
-  {
-    path: "/login",
-    element: <Login />,
-  },
-  {
-    path: "https://golf-tracker-gray.vercel.app/golfers",
-    element: <Golfers />,
-  },
-  {
-    path: "/schedule-list",
-    element: <ScheduleList />,
-  },
-  {
-    path: "/golfer-detail/:id",
-    element: <GolferDetail />,
-  },
-  {
-    path: "/add-golfer",
-    element: <AddGolfer />,
-  },
-  {
-    path: "/scorecard",
-    element: <Scorecard />,
-  },
-  {
-    path: "/scorecard2",
-    element: <Scorecard2 courseName={undefined} players={undefined} />,
-  },
-]);
+//   {
+//     path: "/home",
+//     element: <Home />,
+//   },
+//   {
+//     path: "/login",
+//     element: <Login />,
+//   },
+//   {
+//     path: "https://golf-tracker-gray.vercel.app/golfers",
+//     element: <Golfers />,
+//   },
+//   {
+//     path: "/schedule-list",
+//     element: <ScheduleList />,
+//   },
+//   {
+//     path: "/golfer-detail/:id",
+//     element: <GolferDetail />,
+//   },
+//   {
+//     path: "/add-golfer",
+//     element: <AddGolfer />,
+//   },
+//   {
+//     path: "/scorecard",
+//     element: <Scorecard />,
+//   },
+//   {
+//     path: "/scorecard2",
+//     element: <Scorecard2 courseName={undefined} players={undefined} />,
+//   },
+// ]);
+
+// const router = createBrowserRouter([
+//   {
+//     path: "/",
+//     element: <Home />,
+//     children: [
+//       {
+//         path: "/app",
+//         element: <App />,
+//       },
+
+//       {
+//         path: "/home",
+//         element: <Home />,
+//       },
+//       {
+//         path: "/login",
+//         element: <Login />,
+//       },
+//       {
+//         path: "/golfers",
+//         element: <Golfers />,
+//       },
+//       {
+//         path: "/schedule-list",
+//         element: <ScheduleList />,
+//       },
+//       {
+//         path: "/golfer-detail/:id",
+//         element: <GolferDetail />,
+//       },
+//       {
+//         path: "/add-golfer",
+//         element: <AddGolfer />,
+//       },
+//       {
+//         path: "/scorecard",
+//         element: <Scorecard />,
+//       },
+//       {
+//         path: "/scorecard2",
+//         element: <Scorecard2 courseName={undefined} players={undefined} />,
+//       },
+//     ],
+//   },
+// ]);
+
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
     <Header />
     {/* Will cause duplication if not commented out */}
     <App />
+    {/* <RouterProvider router={router} /> */}
   </React.StrictMode>
 );
