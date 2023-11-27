@@ -12,103 +12,103 @@ import Login from "./pages/login/Login";
 import ScheduleList from "./pages/schedule/ScheduleList";
 import Scorecard from "./pages/scorecard/Scorecard";
 import Scorecard2 from "./pages/scorecard/Scorecard2";
+import Root from "./pages/Root";
 
 function App() {
-  const router = createBrowserRouter([
-    {
-      path: "/",
+	// const router = createBrowserRouter([
+	//   {
+	//     path: "/",
+	//     element: <Home />,
+	//     id: "root"
+	//   },
+	//   {
+	//     path: "home",
+	//     element: <Home />,
+	//   },
+	//   {
+	//     path: "login",
+	//     element: <Login />,
+	//   },
+	//   {
+	//     path: "golfers",
+	//     element: <Golfers />,
+	//   },
+	//   {
+	//     path: "schedule-list",
+	//     element: <ScheduleList />,
+	//   },
+	//   {
+	//     path: "golfer-detail/:id",
+	//     element: <GolferDetail />,
+	//   },
+	//   {
+	//     path: "add-golfer",
+	//     element: <AddGolfer />,
+	//   },
+	//   {
+	//     path: "scorecard",
+	//     element: <Scorecard />,
+	//   },
+	//   {
+	//     path: "scorecard2",
+	//     element: <Scorecard2 courseName={undefined} players={undefined} />,
+	//   },
+	// ]);
+	const router = createBrowserRouter([
+		{
+			path: "/",
+			element: <Root />,
+			children: [
+				{
+					index: true,
+					path: "home",
+					element: <Home />,
+				},
+				{
+					path: "login",
+					element: <Login />,
+				},
+				{
+					path: "golfers",
+					element: <Golfers />,
+					children: [
+						{
+							path: ":id",
+							element: <GolferDetail />,
+						},
+					],
+				},
+				{
+					path: "schedule-list",
+					element: <ScheduleList />,
+				},
 
-      element: <Home />,
-    },
-    {
-      path: "/app",
-      element: <App />,
-    },
+				{
+					path: "add-golfer",
+					element: <AddGolfer />,
+				},
+				{
+					path: "scorecard",
+					element: <Scorecard />,
+				},
+				{
+					path: "scorecard2",
+					element: (
+						<Scorecard2
+							courseName={undefined}
+							players={undefined}
+						/>
+					),
+				},
+			],
+		},
+	]);
 
-    {
-      path: "/home",
-      element: <Home />,
-    },
-    {
-      path: "/login",
-      element: <Login />,
-    },
-    {
-      path: "/golfers",
-      element: <Golfers />,
-    },
-    {
-      path: "/schedule-list",
-      element: <ScheduleList />,
-    },
-    {
-      path: "/golfer-detail/:id",
-      element: <GolferDetail />,
-    },
-    {
-      path: "/add-golfer",
-      element: <AddGolfer />,
-    },
-    {
-      path: "/scorecard",
-      element: <Scorecard />,
-    },
-    {
-      path: "/scorecard2",
-      element: <Scorecard2 courseName={undefined} players={undefined} />,
-    },
-  ]);
-  // const router = createBrowserRouter([
-  //   {
-  //     path: "/",
-  //     element: <Home />,
-  //     children: [
-  //       {
-  //         path: "/app",
-  //         element: <App />,
-  //       },
-
-  //       {
-  //         path: "/home",
-  //         element: <Home />,
-  //       },
-  //       {
-  //         path: "/login",
-  //         element: <Login />,
-  //       },
-  //       {
-  //         path: "/golfers",
-  //         element: <Golfers />,
-  //       },
-  //       {
-  //         path: "/schedule-list",
-  //         element: <ScheduleList />,
-  //       },
-  //       {
-  //         path: "/golfer-detail/:id",
-  //         element: <GolferDetail />,
-  //       },
-  //       {
-  //         path: "/add-golfer",
-  //         element: <AddGolfer />,
-  //       },
-  //       {
-  //         path: "/scorecard",
-  //         element: <Scorecard />,
-  //       },
-  //       {
-  //         path: "/scorecard2",
-  //         element: <Scorecard2 courseName={undefined} players={undefined} />,
-  //       },
-  //     ],
-  //   },
-  // ]);
-
-  return (
-    <div className="App">
-      <RouterProvider router={router} />
-    </div>
-  );
+	return (
+		<div className="App">
+			<RouterProvider router={router} />
+		</div>
+	);
 }
 
 export default App;

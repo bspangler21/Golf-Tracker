@@ -111,12 +111,10 @@ import Scorecard2 from "./pages/scorecard/Scorecard2";
 //   },
 // ]);
 
-
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
-  <React.StrictMode>
-    <Header />
-    {/* Will cause duplication if not commented out */}
-    <App />
-    {/* <RouterProvider router={router} /> */}
-  </React.StrictMode>
+	<React.StrictMode>
+		{/* Will cause duplication if not commented out */}
+		<App />
+		{/* <RouterProvider router={router} /> */}
+	</React.StrictMode>
 );
