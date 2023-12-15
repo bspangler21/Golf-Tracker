@@ -104,7 +104,7 @@ function App() {
 				],
 			},
 		],
-		{ basename: "golf-tracker-eight.vercel.app" }
+		// { basename: "golf-tracker-eight.vercel.app" }
 	);
 
 	return (
