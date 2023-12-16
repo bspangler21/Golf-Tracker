@@ -13,9 +13,9 @@ function App() {
 	return (
 		<BrowserRouter>
 			<Routes>
-				<Route path="/home" element={<Home />}></Route>
-				<Route path="/golfers" element={<Golfers />}></Route>
-				<Route path="/login" element={<Login />}></Route>
+				<Route path="/home" Component={Home}></Route>
+				<Route path="/golfers" Component={Golfers}></Route>
+				<Route path="/login" Component={Login}></Route>
 			</Routes>
 		</BrowserRouter>
 	);

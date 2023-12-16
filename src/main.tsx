@@ -17,7 +17,6 @@ import "./index.css";
 // import GolferDetail from "./pages/golferDetail/GolferDetail";
 // import AddGolfer from "./pages/addGolfer/AddGolfer";
 // import Scorecard from "./pages/scorecard/Scorecard";
-import Header from "./pageComponents/Header";
 // import Scorecard2 from "./pages/scorecard/Scorecard2";
 
 // const router = createBrowserRouter([
@@ -67,7 +66,6 @@ import Header from "./pageComponents/Header";
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
 	<React.StrictMode>
-		<Header />
 		<App />
 	</React.StrictMode>
 );
