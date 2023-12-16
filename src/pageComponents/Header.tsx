@@ -1,10 +1,8 @@
 import { Link } from "@fluentui/react";
-import React from "react";
-import { NavLink } from "react-router-dom";
+
 import utilStyles from "../styles/utilStyles.module.css";
 
 const Header = () => {
-	const activeStyle = { color: "#F15B2A" };
 	return (
 		<div>
 			<nav className={utilStyles.navBar}>

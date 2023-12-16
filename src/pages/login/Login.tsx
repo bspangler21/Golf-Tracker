@@ -47,9 +47,9 @@ const loginStackTokens = {
   childrenGap: 20,
 };
 
-const forgotLinkStyles = {
-  color: "blue",
-};
+// const forgotLinkStyles = {
+//   color: "blue",
+// };
 
 export default function Login() {
   const [username, setUsername] = useState("");
@@ -75,7 +75,7 @@ export default function Login() {
               placeholder="Password"
               required
               className={classNames.textBox}
-              onChange={(e, newValue) => {
+              onChange={(_e, newValue) => {
                 setPassword(newValue || "");
               }}
               value={password}
