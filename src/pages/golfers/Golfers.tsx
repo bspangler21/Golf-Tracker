@@ -1,4 +1,4 @@
-import { ReactNode, useState } from "react";
+// import { ReactNode, useState } from "react";
 import { mockGolfers } from "../../mockData/mockGolfers";
 import Table from "react-bootstrap/Table";
 import utilStyles from "../../styles/utilStyles.module.css";
