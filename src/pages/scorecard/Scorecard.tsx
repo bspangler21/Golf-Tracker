@@ -1,18 +1,17 @@
-import { Label, TextField } from "@fluentui/react";
+import { TextField } from "@fluentui/react";
 import { FormEvent, useState } from "react";
 import { mockHoles } from "../../mockData/mockHoles";
 
-const golfHoles = mockHoles;
+// const golfHoles = mockHoles;
 
 const Scorecard = () => {
 	const [frontNineScore, setFrontNineScore] = useState(0);
-	const [backNineScore, setBackNineScore] = useState(0);
 	let holeScore: number = 0;
 
 	console.log("frontNineScore", frontNineScore);
 
 	function handleOnChange(
-		event: FormEvent<HTMLInputElement | HTMLTextAreaElement>,
+		_event: FormEvent<HTMLInputElement | HTMLTextAreaElement>,
 		newValue?: string | undefined
 	): void {
 		if (newValue) {
@@ -238,7 +237,7 @@ const Scorecard = () => {
 						<td>
 							<TextField></TextField>
 						</td>
-						<td>{backNineScore}</td>
+						<td>{frontNineScore}</td>
 
 						<td>77</td>
 					</tr>

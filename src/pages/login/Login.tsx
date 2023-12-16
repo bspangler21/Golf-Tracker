@@ -66,7 +66,7 @@ export default function Login() {
               placeholder="Username"
               className={classNames.textBox}
               required
-              onChange={(e, newValue) => {
+              onChange={(_e, newValue) => {
                 setUsername(newValue || "");
               }}
               value={username}
