@@ -1,12 +1,12 @@
 import reactLogo from "../../assets/react.svg";
-import { mockGolfers } from "../../mockData/mockGolfers";
+// import { mockGolfers } from "../../mockData/mockGolfers";
 import "./GolferDetail.css";
-import { Link, useParams } from "react-router-dom";
-import { mergeStyleSets } from "@fluentui/react";
+import { useParams } from "react-router-dom";
+// import { mergeStyleSets } from "@fluentui/react";
 import { getGolferById } from "../../util/golfer";
 import utilStyles from "../../styles/utilStyles.module.css";
 
-const allGolfers = mockGolfers;
+// const allGolfers = mockGolfers;
 
 // function getGolferById(id: number): IGolfer {
 // 	let golferDetail: IGolfer = {} as IGolfer;

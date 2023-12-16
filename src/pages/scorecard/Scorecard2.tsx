@@ -1,44 +1,38 @@
-import { Label, TextField } from "@fluentui/react";
-import { ChangeEvent, FormEvent, useState } from "react";
+// import { Label, TextField } from "@fluentui/react";
+import { FormEvent, useState } from "react";
 import { mockHoles } from "../../mockData/mockHoles";
 import { mockGolfers } from "../../mockData/mockGolfers";
+import { TextField } from "@fluentui/react";
 
 const golfHoles = mockHoles;
 const golfers = mockGolfers;
 
-interface Hole {
-	holeNumber: number;
-	par: number;
-}
+// interface Hole {
+// 	holeNumber: number;
+// 	par: number;
+// }
 
-interface Player {
-	name: string;
-	scores: number[];
-}
+// interface Player {
+// 	name: string;
+// 	scores: number[];
+// }
 
-interface ScorecardProps {
-	courseName: string;
-	holes: Hole[];
-	players: Player[];
-}
+// interface ScorecardProps {
+// 	courseName: string;
+// 	holes: Hole[];
+// 	players: Player[];
+// }
 
-const Scorecard2 = ({ courseName, players }) => {
+const Scorecard2 = ({ courseName }) => {
 	const [frontNineScore, setFrontNineScore] = useState(0);
-	const [backNineScore, setBackNineScore] = useState(0);
+	// const [backNineScore, setBackNineScore] = useState(0);
 	let holeScore: number = 0;
-	const [scores, setScores] = useState(
-		mockGolfers.map(() => Array(golfHoles.length).fill(0))
-	);
-	function handleScoreChange(
-		e: ChangeEvent<HTMLInputElement>,
-		index: any,
-		holeIndex: any
-	): void {
-		throw new Error("Function not implemented.");
-	}
+	// const [scores, setScores] = useState(
+	// 	mockGolfers.map(() => Array(golfHoles.length).fill(0))
+	// );
 
 	function handleOnChange(
-		event: FormEvent<HTMLInputElement | HTMLTextAreaElement>,
+		_event: FormEvent<HTMLInputElement | HTMLTextAreaElement>,
 		newValue?: string | undefined
 		// index?: number,
 		// holeIndex?: number
