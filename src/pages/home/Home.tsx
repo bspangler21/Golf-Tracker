@@ -5,6 +5,7 @@ import {
 	mergeStyleSets,
 } from "@fluentui/react";
 import utilStyles from "../../styles/utilStyles.module.css";
+import { useNavigate } from "react-router-dom";
 // import { useNavigate } from "react-router-dom";
 
 // const nav = useNavigate();
@@ -40,6 +41,7 @@ const stackStyles: IStackTokens = {
 };
 
 export default function Home() {
+	const navigate = useNavigate();
 	return (
 		<div className={utilStyles.container}>
 			<div className="column">
@@ -49,7 +51,9 @@ export default function Home() {
 					<Stack tokens={stackStyles}>
 						<Stack.Item>
 							<DefaultButton
-								href={`/login`}
+								onClick={() => {
+									navigate("/login");
+								}}
 								className={classNames.button}
 							>
 								Login
@@ -57,7 +61,9 @@ export default function Home() {
 						</Stack.Item>
 						<Stack.Item>
 							<DefaultButton
-								href={`/golfers`}
+								onClick={() => {
+									navigate("/golfers");
+								}}
 								className={classNames.button}
 							>
 								View Golfers
