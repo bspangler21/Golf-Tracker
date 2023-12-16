@@ -1,4 +1,4 @@
-import { Link } from "@fluentui/react";
+import { Link } from "react-router-dom";
 
 import utilStyles from "../styles/utilStyles.module.css";
 
@@ -6,13 +6,13 @@ const Header = () => {
 	return (
 		<div>
 			<nav className={utilStyles.navBar}>
-				<Link href="/home">Home</Link>
+				<Link to="/home">Home</Link>
 				{" | "}
-				<Link href="/golfers">Golfers</Link>
+				<Link to="/golfers">Golfers</Link>
 				{" | "}
-				<Link href="/schedule-list">Schedule</Link>
+				<Link to="/schedule-list">Schedule</Link>
 				{" | "}
-				<Link href="/scorecard">Scorecard</Link>
+				<Link to="/scorecard">Scorecard</Link>
 			</nav>
 		</div>
 	);
