@@ -2,7 +2,7 @@ import { useNavigate, useParams } from "react-router-dom";
 // import { mockMatches } from "../../mockData/mockMatches";
 import { getGolferById } from "../../util/golfers";
 import { getMatchesByDateId, getMatchesByPlayerId } from "../../util/matches";
-import { mockMatches } from "../../mockData/mockMatches";
+// import { mockMatches } from "../../mockData/mockMatches";
 
 // const allMatches = mockMatches;
 
