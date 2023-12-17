@@ -8,6 +8,8 @@ import GolferDetail from "./pages/golferDetail/GolferDetail";
 import ScheduleList from "./pages/schedule/ScheduleList";
 import MatchListing from "./pages/matches/MatchListing";
 import Scorecard from "./pages/scorecard/Scorecard";
+import { SpeedInsights } from "@vercel/speed-insights/react";
+
 
 function App() {
 	return (
@@ -29,6 +31,7 @@ function App() {
 					Component={Scorecard}
 				></Route>
 			</Routes>
+			<SpeedInsights />
 		</BrowserRouter>
 	);
 }
