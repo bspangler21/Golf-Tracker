@@ -1,15 +1,31 @@
 import { useNavigate, useParams } from "react-router-dom";
 // import { mockMatches } from "../../mockData/mockMatches";
 import { getGolferById } from "../../util/golfers";
-import { getMatchesByDateId } from "../../util/matches";
+import { getMatchesByDateId, getMatchesByPlayerId } from "../../util/matches";
+import { mockMatches } from "../../mockData/mockMatches";
 
-const MatchListing = () => {
+const allMatches = mockMatches;
+
+interface MatchListingProps {
+	isPlayerView?: boolean;
+	playerId?: number;
+}
+
+const MatchListing = ({
+	isPlayerView = false,
+	playerId,
+}: MatchListingProps) => {
 	const nav = useNavigate();
 	const { id } = useParams();
 	if (!id) throw Error("Date id not found");
 	const dateId = parseInt(id as string);
 	console.log("dateId", dateId);
-	const matchesList = getMatchesByDateId(dateId);
+	console.log("isPlayerView", isPlayerView);
+	console.log("playerId in MatchListing", playerId);
+	const matchesList =
+		isPlayerView && playerId
+			? getMatchesByPlayerId(Number(playerId))
+			: getMatchesByDateId(dateId);
 
 	console.log("matchesList", matchesList);
 

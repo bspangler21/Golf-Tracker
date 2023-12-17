@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 // import { mergeStyleSets } from "@fluentui/react";
 import { getGolferById } from "../../util/golfers";
 import utilStyles from "../../styles/utilStyles.module.css";
+import MatchListing from "../matches/MatchListing";
 
 // const allGolfers = mockGolfers;
 
@@ -29,6 +30,8 @@ const GolferDetail = () => {
 	const golferId = parseInt(id);
 	const golferData = getGolferById(golferId);
 
+	console.log("golferId", golferId);
+
 	console.log(golferId);
 	console.log("golferData", golferData);
 
@@ -51,6 +54,9 @@ const GolferDetail = () => {
 				<h3 className={utilStyles.h3Text}>
 					Rounds Played: {Math.round(Math.random() * 25)}
 				</h3>
+			</div>
+			<div>
+				<MatchListing isPlayerView={true} playerId={golferId} />
 			</div>
 		</>
 	);

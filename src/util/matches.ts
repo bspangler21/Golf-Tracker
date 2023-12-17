@@ -16,3 +16,14 @@ export function getMatchesByDateId(id: number) {
 
 	return matchListing;
 }
+
+export function getMatchesByPlayerId(id: number) {
+	let matchListing: Match[] = [];
+	console.log("matches id param = ", id);
+	console.log("matches", matches);
+	matchListing = matches.filter(
+		(match) => match.golfer1Id === id || match.golfer2Id === id
+	);
+
+	return matchListing;
+}
