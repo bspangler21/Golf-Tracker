@@ -43,9 +43,9 @@ const GolferDetail = () => {
 					alt=""
 					className={utilStyles.profileImage}
 				></img>
-				<h1>
+				<h2>
 					{golferData.firstName} {golferData.lastName}
-				</h1>
+				</h2>
 			</div>
 			<div>
 				<h3 className={utilStyles.h3Text}>
@@ -56,6 +56,10 @@ const GolferDetail = () => {
 				</h3>
 			</div>
 			<div>
+				<h3>
+					Upcoming Matches for {golferData.firstName}{" "}
+					{golferData.lastName}
+				</h3>
 				<MatchListing isPlayerView={true} playerId={golferId} />
 			</div>
 		</>
