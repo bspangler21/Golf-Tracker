@@ -1,9 +1,10 @@
-import {useState } from "react";
+import { useState } from "react";
 import { getGolferById } from "../../util/golfers";
 import { useParams } from "react-router-dom";
 import { mockGolfers } from "../../mockData/mockGolfers";
 import { mockHoles } from "../../mockData/mockHoles";
 import { MatchScore } from "../../types/MatchScore";
+import { DefaultButton } from "@fluentui/react";
 // import { mockHoles } from "../../mockData/mockHoles";
 
 const golfHoles = mockHoles;
@@ -12,6 +13,7 @@ const golfers = mockGolfers;
 const Scorecard = () => {
 	const { golfer1Id, golfer2Id } = useParams();
 	console.log("golfer1", golfer1Id);
+	console.log("golfer2", golfer2Id);
 	const player1 = getGolferById(Number(golfer1Id));
 	const player2 = getGolferById(Number(golfer2Id));
 	const [frontNineScore, setFrontNineScore] = useState(0);
@@ -21,7 +23,8 @@ const Scorecard = () => {
 	const [scores, setScores] = useState(
 		mockGolfers.map(() => Array(golfHoles.length).fill(0))
 	);
-	const [roundScores, setRoundScores] = useState([]);
+	const [roundScores, setRoundScores] = useState<MatchScore[]>([]);
+	// const [roundScores, setRoundScores] = useState([]);
 	let roundScoreArray: MatchScore[] = [];
 
 	let golfer2Array: MatchScore[] = [];
@@ -66,8 +69,6 @@ const Scorecard = () => {
 			holeNumber: holeId,
 			holeScore: newScore,
 		};
-
-		const [roundScores, setRoundScores] = useState<MatchScore[]>([]);
 
 		golferId === 1 ? setGolfer1Score(golfer1Score + newScore) : "";
 		golferId === 2 ? setGolfer2Score(golfer2Score + newScore) : "";
@@ -143,13 +144,8 @@ const Scorecard = () => {
 				</thead>
 
 				<tbody>
-					<tr >
-						<th
-							data-type="player"
-							
-						>
-							Professional Tees
-						</th>
+					<tr>
+						<th data-type="player">Professional Tees</th>
 						<td>390</td>
 						<td>143</td>
 						<td>535</td>
@@ -163,12 +159,7 @@ const Scorecard = () => {
 					</tr>
 
 					<tr>
-						<th
-							data-type="player"
-							
-						>
-							Handicap
-						</th>
+						<th data-type="player">Handicap</th>
 						<td>15</td>
 						<td>17</td>
 						<td>7</td>
@@ -186,12 +177,7 @@ const Scorecard = () => {
 					</tr>
 
 					<tr>
-						<th
-							data-type="player"
-							
-						>
-							Par
-						</th>
+						<th data-type="player">Par</th>
 						<td>4</td>
 						<td>3</td>
 						<td>5</td>
@@ -212,124 +198,102 @@ const Scorecard = () => {
 						<td>
 							<input
 								onChange={(e) => handleOnChange(e, 1, 1)}
-								
 							></input>
 						</td>
 						<td>
 							<input
 								onChange={(e) => handleOnChange(e, 1, 2)}
-								
 							></input>
 						</td>
 						<td>
 							<input
 								onChange={(e) => handleOnChange(e, 1, 3)}
-								
 							></input>
 						</td>
 						<td>
 							<input
 								onChange={(e) => handleOnChange(e, 1, 4)}
-								
 							></input>
 						</td>
 						<td>
 							<input
 								onChange={(e) => handleOnChange(e, 1, 5)}
-								
 							></input>
 						</td>
 						<td>
 							<input
 								onChange={(e) => handleOnChange(e, 1, 6)}
-								
 							></input>
 						</td>
 						<td>
 							<input
 								onChange={(e) => handleOnChange(e, 1, 7)}
-								
 							></input>
 						</td>
 						<td>
 							<input
 								onChange={(e) => handleOnChange(e, 1, 8)}
-								
 							></input>
 						</td>
 						<td>
 							<input
 								onChange={(e) => handleOnChange(e, 1, 9)}
-								
 							></input>
 						</td>
-						<td className={scoreCardStyles.totalColumn}>
-							{golfer1Score}
-						</td>
+						<td>{golfer1Score}</td>
 					</tr>
-					<tr className={scoreCardStyles.playerInfo}>
-						<th className={scoreCardStyles.playerName}>
+					<tr>
+						<th>
 							{player2.firstName} {player2.lastName}
 						</th>
 
 						<td>
 							<input
 								onChange={(e) => handleOnChange(e, 2, 1)}
-								
 							></input>
 						</td>
 						<td>
 							<input
 								onChange={(e) => handleOnChange(e, 2, 2)}
-								
 							></input>
 						</td>
 						<td>
 							<input
 								onChange={(e) => handleOnChange(e, 2, 3)}
-								
 							></input>
 						</td>
 						<td>
 							<input
 								onChange={(e) => handleOnChange(e, 2, 4)}
-								
 							></input>
 						</td>
 						<td>
 							<input
 								onChange={(e) => handleOnChange(e, 2, 5)}
-								
 							></input>
 						</td>
 						<td>
 							<input
 								onChange={(e) => handleOnChange(e, 2, 6)}
-								
 							></input>
 						</td>
 						<td>
 							<input
 								onChange={(e) => handleOnChange(e, 2, 7)}
-								
 							></input>
 						</td>
 						<td>
 							<input
 								title="Enter value"
 								onChange={(e) => handleOnChange(e, 2, 8)}
-								
 							></input>
 						</td>
 						<td>
 							<input
 								onChange={(e) => handleOnChange(e, 2, 9)}
-								
 							></input>
 						</td>
-						<td className={scoreCardStyles.totalColumn}>
-							{golfer2Score}
-						</td>
+						<td>{golfer2Score}</td>
 					</tr>
 				</tbody>
 
@@ -342,8 +306,9 @@ const Scorecard = () => {
 					</tr>
 				</tfoot>
 			</table>
+			<br></br>
 			<div>
-				<button
+				<DefaultButton
 					onClick={() =>
 						handleSubmitTotal(
 							player1.id,
@@ -355,7 +320,7 @@ const Scorecard = () => {
 					}
 				>
 					Submit
-				</button>
+				</DefaultButton>
 			</div>
 		</>
 	);

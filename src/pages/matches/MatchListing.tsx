@@ -29,7 +29,7 @@ const MatchListing = () => {
 								key={match.id}
 								onClick={() =>
 									nav(
-										`/scorecard/Scorecard?golfer1Id=${match.golfer1Id}&golfer2Id=${match.golfer2Id}`
+										`/scorecard/${match.golfer1Id}/${match.golfer2Id}`
 									)
 								}
 							>

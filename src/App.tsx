@@ -7,6 +7,7 @@ import Header from "./pageComponents/Header";
 import GolferDetail from "./pages/golferDetail/GolferDetail";
 import ScheduleList from "./pages/schedule/ScheduleList";
 import MatchListing from "./pages/matches/MatchListing";
+import Scorecard from "./pages/scorecard/Scorecard";
 
 function App() {
 	return (
@@ -22,6 +23,10 @@ function App() {
 				></Route>
 				<Route path="/schedule-list" Component={ScheduleList}></Route>
 				<Route path="/matches/:id" Component={MatchListing}></Route>
+				<Route
+					path="/scorecard/:golfer1Id/:golfer2Id"
+					Component={Scorecard}
+				></Route>
 			</Routes>
 		</BrowserRouter>
 	);
