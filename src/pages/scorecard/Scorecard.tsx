@@ -83,7 +83,7 @@ const Scorecard = () => {
 	// Make golferIndex an array?
 	const handleSubmitTotal = (
 		golfer1Index: number,
-		matchId: number,
+		_matchId: number,
 		golfer1TotalScore: number,
 		golfer2Index: number,
 		golfer2TotalScore: number
