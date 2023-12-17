@@ -16,18 +16,18 @@ const Scorecard = () => {
 	console.log("golfer2", golfer2Id);
 	const player1 = getGolferById(Number(golfer1Id));
 	const player2 = getGolferById(Number(golfer2Id));
-	const [frontNineScore, setFrontNineScore] = useState(0);
-	const [backNineScore, setBackNineScore] = useState(0);
-	let holeScore: number = 0;
+	// const [frontNineScore, setFrontNineScore] = useState(0);
+	// const [backNineScore, setBackNineScore] = useState(0);
+	// let holeScore: number = 0;
 	const [golferTotalScore, setGolferTotalScore] = useState(0);
 	const [scores, setScores] = useState(
 		mockGolfers.map(() => Array(golfHoles.length).fill(0))
 	);
 	const [roundScores, setRoundScores] = useState<MatchScore[]>([]);
 	// const [roundScores, setRoundScores] = useState([]);
-	let roundScoreArray: MatchScore[] = [];
+	// let roundScoreArray: MatchScore[] = [];
 
-	let golfer2Array: MatchScore[] = [];
+	// let golfer2Array: MatchScore[] = [];
 	const [golfer1Score, setGolfer1Score] = useState(0);
 	const [golfer2Score, setGolfer2Score] = useState(0);
 
@@ -63,12 +63,18 @@ const Scorecard = () => {
 		console.log("Updated Scores:", updatedScores);
 		console.log("Updated Golfers:", updatedGolfers);
 
-		const newRoundScore = {
+		const newRoundScore: MatchScore = {
+			leagueId: 1,
 			matchId: 1,
 			golferId: golferId,
 			holeNumber: holeId,
 			holeScore: newScore,
 		};
+
+		setRoundScores((prevRoundScores) => [
+			...prevRoundScores,
+			newRoundScore,
+		]);
 
 		golferId === 1 ? setGolfer1Score(golfer1Score + newScore) : "";
 		golferId === 2 ? setGolfer2Score(golfer2Score + newScore) : "";
@@ -95,12 +101,12 @@ const Scorecard = () => {
 		);
 	};
 
-	const handleSubmitPerHole = (
-		event: React.ChangeEvent<HTMLButtonElement>,
-		golferIndex: number,
-		matchId: number,
-		totalScore: number
-	) => {};
+	// const handleSubmitPerHole = (
+	// 	event: React.ChangeEvent<HTMLButtonElement>,
+	// 	golferIndex: number,
+	// 	matchId: number,
+	// 	totalScore: number
+	// ) => {};
 
 	return (
 		<>
