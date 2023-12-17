@@ -3,47 +3,60 @@ import { mockGolfers } from "../../mockData/mockGolfers";
 import Table from "react-bootstrap/Table";
 import utilStyles from "../../styles/utilStyles.module.css";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { DefaultButton } from "@fluentui/react";
 
 const golfers = mockGolfers;
 
 const Golfers = () => {
-  const nav = useNavigate();
+	const nav = useNavigate();
 
-  return (
-    <div className={utilStyles.container}>
-      <Table
-        bordered
-        // hover
-        responsive
-        striped="columns"
-        // variant="dark"
-        size="lg"
-      >
-        <thead>
-          <tr className={utilStyles.tableHeader}>
-            <th>Handicap</th>
-            <th>First Name</th>
-            <th>Last Name</th>
-          </tr>
-        </thead>
-        <tbody>
-          {golfers.map((g) => (
-            <>
-              <tr
-                key={g.id}
-                onClick={() => nav(`/golfer-detail/${g.id}`)}
-                className={utilStyles.tableBody}
-              >
-                <td>{g.handicap}</td>
-                <td>{g.firstName}</td>
-                <td>{g.lastName}</td>
-              </tr>
-            </>
-          ))}
-        </tbody>
-      </Table>
-    </div>
-  );
+	return (
+		<>
+			<div className={utilStyles.container}>
+				<Table
+					// hover
+					responsive
+					// variant="dark"
+					size="lg"
+				>
+					<thead>
+						<tr>
+							<th>Handicap</th>
+							<th>First Name</th>
+							<th>Last Name</th>
+						</tr>
+					</thead>
+					<tbody>
+						{golfers.map((g) => (
+							<>
+								<tr
+									key={g.id}
+									onClick={() =>
+										nav(`/golfer-detail/${g.id}`)
+									}
+								>
+									<td>{g.handicap}</td>
+									<td>{g.firstName}</td>
+									<td>{g.lastName}</td>
+								</tr>
+							</>
+						))}
+					</tbody>
+				</Table>
+			</div>
+			<div>
+				<DefaultButton
+					primary={true}
+					onClick={() => {
+						nav("/login");
+					}}
+				>
+					Login
+				</DefaultButton>
+			</div>
+		</>
+	);
 };
 
 export default Golfers;

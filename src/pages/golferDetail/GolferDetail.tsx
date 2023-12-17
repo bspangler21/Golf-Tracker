@@ -3,7 +3,7 @@ import reactLogo from "../../assets/react.svg";
 import "./GolferDetail.css";
 import { useParams } from "react-router-dom";
 // import { mergeStyleSets } from "@fluentui/react";
-import { getGolferById } from "../../util/golfer";
+import { getGolferById } from "../../util/golfers";
 import utilStyles from "../../styles/utilStyles.module.css";
 
 // const allGolfers = mockGolfers;
@@ -48,7 +48,9 @@ const GolferDetail = () => {
 				<h3 className={utilStyles.h3Text}>
 					Handicap: {golferData.handicap}
 				</h3>
-				<h3 className={utilStyles.h3Text}>Rounds Played: {Math.round(Math.random() * 25)}</h3>
+				<h3 className={utilStyles.h3Text}>
+					Rounds Played: {Math.round(Math.random() * 25)}
+				</h3>
 			</div>
 		</>
 	);
