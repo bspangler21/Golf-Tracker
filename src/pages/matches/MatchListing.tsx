@@ -4,7 +4,7 @@ import { getGolferById } from "../../util/golfers";
 import { getMatchesByDateId, getMatchesByPlayerId } from "../../util/matches";
 import { mockMatches } from "../../mockData/mockMatches";
 
-const allMatches = mockMatches;
+// const allMatches = mockMatches;
 
 interface MatchListingProps {
 	isPlayerView?: boolean;
