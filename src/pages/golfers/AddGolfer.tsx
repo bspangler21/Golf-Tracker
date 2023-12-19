@@ -16,11 +16,30 @@ const AddGolfer = () => {
 	 * Adds a new golfer with the provided information.
 	 */
 	const addNewGolfer = () => {
+		// Validate the input fields
+		/**
+		 * Validates the input fields for adding a golfer.
+		 * Displays an alert and the function returns if any of the fields are empty.
+		 *
+		 */
+		if (!firstName.trim() || !lastName.trim() || !handicap.trim()) {
+			alert("All fields are required");
+			return;
+		}
+		/**
+		 * Validates if the handicap is a number.
+		 * If the handicap is not a number, an alert is displayed and the function returns.
+		 */
+		if (isNaN(Number(handicap))) {
+			alert("Handicap must be a number");
+			return;
+		}
+
 		console.log(
-			`First Name: ${firstName}, Last Name: ${lastName}, Handicap: ${handicap}`
+			`First Name: ${firstName.trim()}, Last Name: ${lastName.trim()}, Handicap: ${handicap.trim()}`
 		);
 		alert(
-			`First Name: ${firstName}, Last Name: ${lastName}, Handicap: ${handicap}`
+			`First Name: ${firstName.trim()}, Last Name: ${lastName.trim()}, Handicap: ${handicap.trim()}`
 		);
 		// Here you can add the code to save the golfer's data
 
@@ -36,6 +55,7 @@ const AddGolfer = () => {
 			<input
 				value={firstName}
 				onChange={(e) => setFirstName(e.target.value)}
+				required={true}
 			></input>{" "}
 			<text>Last Name:</text>
 			<input
