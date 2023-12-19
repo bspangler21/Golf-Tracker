@@ -9,7 +9,7 @@ import ScheduleList from "./pages/schedule/ScheduleList";
 import MatchListing from "./pages/matches/MatchListing";
 import Scorecard from "./pages/scorecard/Scorecard";
 import { SpeedInsights } from "@vercel/speed-insights/react";
-
+import AddGolfer from "./pages/golfers/AddGolfer";
 
 function App() {
 	return (
@@ -30,6 +30,7 @@ function App() {
 					path="/scorecard/:golfer1Id/:golfer2Id"
 					Component={Scorecard}
 				></Route>
+				<Route path="/add-golfer" Component={AddGolfer}></Route>
 			</Routes>
 			<SpeedInsights />
 		</BrowserRouter>

@@ -2,6 +2,7 @@
 import { mockGolfers } from "../../mockData/mockGolfers";
 import Table from "react-bootstrap/Table";
 import utilStyles from "../../styles/utilStyles.module.css";
+import golfersListStyles from "./Golfers.css";
 import { useNavigate } from "react-router-dom";
 import { DefaultButton } from "@fluentui/react";
 
@@ -17,7 +18,8 @@ const Golfers = () => {
 					// hover
 					responsive
 					// variant="dark"
-					size="lg"
+					// size="lg"
+					className={utilStyles.table}
 				>
 					<thead>
 						<tr>
@@ -44,14 +46,15 @@ const Golfers = () => {
 					</tbody>
 				</Table>
 			</div>
+			<br />
 			<div>
 				<DefaultButton
 					primary={true}
 					onClick={() => {
-						nav("/login");
+						nav("/add-golfer");
 					}}
 				>
-					Login
+					Add Golfer
 				</DefaultButton>
 			</div>
 		</>
