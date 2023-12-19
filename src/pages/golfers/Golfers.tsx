@@ -2,7 +2,7 @@
 import { mockGolfers } from "../../mockData/mockGolfers";
 import Table from "react-bootstrap/Table";
 import utilStyles from "../../styles/utilStyles.module.css";
-import golfersListStyles from "./Golfers.css";
+// import golfersListStyles from "./Golfers.css";
 import { useNavigate } from "react-router-dom";
 import { DefaultButton } from "@fluentui/react";
 
