@@ -1,3 +1,6 @@
+/**
+ * Component for adding a new golfer.
+ */
 import { DefaultButton } from "@fluentui/react";
 import { useState } from "react";
 
@@ -9,6 +12,9 @@ const AddGolfer = () => {
 	console.log("firstName", firstName);
 	console.log("handicap", handicap);
 
+	/**
+	 * Adds a new golfer with the provided information.
+	 */
 	const addNewGolfer = () => {
 		console.log(
 			`First Name: ${firstName}, Last Name: ${lastName}, Handicap: ${handicap}`
@@ -23,6 +29,7 @@ const AddGolfer = () => {
 		setLastName("");
 		setHandicap("");
 	};
+
 	return (
 		<>
 			<text>First Name:</text>
