@@ -1,9 +1,9 @@
 import { Course } from "../types/Course";
 
-const mockCourses: Course[] = [
+export const mockCourses: Course[] = [
 	{
 		id: "1",
-		name: "Lake Breeze",
+		name: "Lake Breeze Golf Club",
 		description: "A nice course with a lake",
 		city: "Winneconne",
 		state: "WI",

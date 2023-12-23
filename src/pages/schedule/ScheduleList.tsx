@@ -32,7 +32,7 @@ export default function ScheduleList() {
 	const nav = useNavigate();
 
 	return (
-		<div>
+		<div style={{ display: "flex", justifyContent: "center" }}>
 			<table>
 				<thead>
 					<tr>

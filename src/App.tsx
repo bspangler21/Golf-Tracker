@@ -28,7 +28,7 @@ function App() {
 				<Route path="/schedule-list" Component={ScheduleList}></Route>
 				<Route path="/matches/:id" Component={MatchListing}></Route>
 				<Route
-					path="/scorecard/:golfer1Id/:golfer2Id"
+					path="/scorecard/:golfer1Id/:golfer2Id/:dateId"
 					Component={Scorecard}
 				></Route>
 				<Route path="/add-golfer" Component={AddGolfer}></Route>

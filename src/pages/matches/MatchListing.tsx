@@ -30,7 +30,7 @@ const MatchListing = ({
 	console.log("matchesList", matchesList);
 
 	return (
-		<div>
+		<div style={{ display: "flex", justifyContent: "center" }}>
 			<table>
 				<thead>
 					<tr>
@@ -45,7 +45,7 @@ const MatchListing = ({
 								key={match.id}
 								onClick={() =>
 									nav(
-										`/scorecard/${match.golfer1Id}/${match.golfer2Id}`
+										`/scorecard/${match.golfer1Id}/${match.golfer2Id}/${dateId}`
 									)
 								}
 							>

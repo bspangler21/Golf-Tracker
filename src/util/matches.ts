@@ -1,7 +1,9 @@
 import { Match } from "../types/Match";
 import { mockMatches } from "../mockData/mockMatches";
+import { mockDates } from "../mockData/mockDates";
 
 const matches = mockMatches;
+const dates = mockDates;
 
 export function getMatchesByDateId(id: number) {
 	let matchListing: Match[] = [];
@@ -26,4 +28,16 @@ export function getMatchesByPlayerId(id: number) {
 	);
 
 	return matchListing;
+}
+
+// get match date by date id
+export function getMatchDateById(id: number) {
+	let matchDate = new Date();
+	dates.forEach((d) => {
+		if (d.id === id) {
+			matchDate = d.matchDate;
+		}
+	});
+
+	return matchDate;
 }

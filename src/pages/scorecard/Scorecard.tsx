@@ -5,17 +5,24 @@ import { mockGolfers } from "../../mockData/mockGolfers";
 import { mockHoles } from "../../mockData/mockHoles";
 import { MatchScore } from "../../types/MatchScore";
 import { DefaultButton } from "@fluentui/react";
+import { mockCourses } from "../../mockData/mockCourses";
+import { getMatchDateById } from "../../util/matches";
+import { format } from "date-fns";
 // import { mockHoles } from "../../mockData/mockHoles";
 
 const golfHoles = mockHoles;
 const golfers = mockGolfers;
+const course = mockCourses.find((course) => course.id === "1");
 
 const Scorecard = () => {
-	const { golfer1Id, golfer2Id } = useParams();
+	const { golfer1Id, golfer2Id, dateId } = useParams();
 	console.log("golfer1", golfer1Id);
 	console.log("golfer2", golfer2Id);
 	const player1 = getGolferById(Number(golfer1Id));
 	const player2 = getGolferById(Number(golfer2Id));
+	const matchDay = getMatchDateById(Number(dateId));
+	console.log("matchDay", matchDay);
+	console.log("dateId", dateId);
 	// const [frontNineScore, setFrontNineScore] = useState(0);
 	// const [backNineScore, setBackNineScore] = useState(0);
 	// let holeScore: number = 0;
@@ -306,8 +313,13 @@ const Scorecard = () => {
 				<tfoot>
 					<tr>
 						<td colSpan={9}>
-							<strong>Augusta National, Augusta Georgia </strong>—
-							March 31, 2014 — 76 with a slight wind
+							{course && (
+								<strong>
+									{course.name}, {course.city}, {course.state}
+								</strong>
+							)}{" "}
+							— {format(matchDay, "MMMM do, yyyy")} — 76
+							with a slight wind
 						</td>
 					</tr>
 				</tfoot>
