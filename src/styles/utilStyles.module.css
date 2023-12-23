@@ -16,6 +16,16 @@
   padding-bottom: 20px;
 }
 
+.footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  width: 100vw;
+  padding-bottom: 20px;
+  color: #ffffff;
+}
+
 .table {
   color: #000000;
   border-color: #000000;

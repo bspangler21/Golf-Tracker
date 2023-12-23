@@ -10,6 +10,7 @@ import MatchListing from "./pages/matches/MatchListing";
 import Scorecard from "./pages/scorecard/Scorecard";
 import { SpeedInsights } from "@vercel/speed-insights/react";
 import AddGolfer from "./pages/golfers/AddGolfer";
+import Footer from "./pageComponents/Footer";
 
 function App() {
 	return (
@@ -33,6 +34,7 @@ function App() {
 				<Route path="/add-golfer" Component={AddGolfer}></Route>
 			</Routes>
 			<SpeedInsights />
+			<Footer />
 		</BrowserRouter>
 	);
 }
