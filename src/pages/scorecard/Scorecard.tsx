@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { getGolferById } from "../../util/golfers";
 import { useParams } from "react-router-dom";
-import { mockGolfers } from "../../mockData/mockGolfers";
+// import { mockGolfers } from "../../mockData/mockGolfers";
 import { mockHoles } from "../../mockData/mockHoles";
 import { MatchScore } from "../../types/MatchScore";
 import { DefaultButton } from "@fluentui/react";
@@ -12,7 +12,7 @@ import { useFetchGolfers } from "../../hooks/GolferHooks";
 // import { mockHoles } from "../../mockData/mockHoles";
 
 const golfHoles = mockHoles;
-const golfers = mockGolfers;
+// const golfers = mockGolfers;
 const course = mockCourses.find((course) => course.id === "1");
 
 const Scorecard = () => {
@@ -22,7 +22,7 @@ const Scorecard = () => {
 	console.log("golfer2", golfer2Id);
 	const player1 = getGolferById(golfer1Id ?? "", data ?? []);
 	const player2 = getGolferById(golfer2Id ?? "", data ?? []);
-	const matchDay = getMatchDateById(Number(dateId));
+	const matchDay = getMatchDateById(dateId ?? "");
 	console.log("matchDay", matchDay);
 	console.log("dateId", dateId);
 	// const [frontNineScore, setFrontNineScore] = useState(0);
@@ -30,7 +30,7 @@ const Scorecard = () => {
 	// let holeScore: number = 0;
 	const [golferTotalScore, setGolferTotalScore] = useState(0);
 	const [scores, setScores] = useState(
-		mockGolfers.map(() => Array(golfHoles.length).fill(0))
+		data?.map(() => Array(golfHoles.length).fill(0))
 	);
 	const [roundScores, setRoundScores] = useState<MatchScore[]>([]);
 	// const [roundScores, setRoundScores] = useState([]);
@@ -62,7 +62,7 @@ const Scorecard = () => {
 			(total, score) => total + score
 		); // Calculate total score
 
-		const updatedGolfers = [...golfers];
+		const updatedGolfers = [...data ?? []];
 		updatedGolfers[golferId].scores = updatedScores[golferId]; // Update the scores for the golfer
 		updatedGolfers[golferId].totalScore = totalScore; // Update the total score for the golfer
 
@@ -91,10 +91,10 @@ const Scorecard = () => {
 
 	// Make golferIndex an array?
 	const handleSubmitTotal = (
-		golfer1Index: number,
+		golfer1Index: string,
 		_matchId: number,
 		golfer1TotalScore: number,
-		golfer2Index: number,
+		golfer2Index: string,
 		golfer2TotalScore: number
 	) => {
 		let winningMessage =
@@ -337,10 +337,10 @@ const Scorecard = () => {
 				<DefaultButton
 					onClick={() =>
 						handleSubmitTotal(
-							player1.id,
+							player1.id || "",
 							1,
 							golfer1Score,
-							player2.id,
+							player2.id || "",
 							golfer2Score
 						)
 					}

@@ -1,6 +1,6 @@
 export type LeagueDate = {
-	leagueId: number;
-	id: number;
+	leagueId: string;
+	id: string;
 	matchDate: Date;
 	matchWeekNumber: number;
 };

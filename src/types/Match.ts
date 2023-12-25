@@ -1,7 +1,7 @@
 export type Match = {
-	id: number;
-	leagueId: number;
-	dateId: number;
+	id: string;
+	leagueId: string;
+	dateId: string;
 	golfer1Id: string;
 	golfer2Id: string;
 };
