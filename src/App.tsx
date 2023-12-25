@@ -9,7 +9,7 @@ import ScheduleList from "./pages/schedule/ScheduleList";
 import MatchListing from "./pages/matches/MatchListing";
 import Scorecard from "./pages/scorecard/Scorecard";
 import { SpeedInsights } from "@vercel/speed-insights/react";
-import AddGolfer from "./pages/golfers/AddGolfer";
+import AddGolfer from "./pages/golfers/GolferForm";
 import Footer from "./pageComponents/Footer";
 
 function App() {
