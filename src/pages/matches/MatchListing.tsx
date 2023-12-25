@@ -19,7 +19,8 @@ const MatchListing = ({
 	const nav = useNavigate();
 	const { id } = useParams();
 	if (!id) throw Error("Date id not found");
-	const dateId = parseInt(id as string);
+	// const dateId = parseInt(id as string);
+	const dateId = id;
 	const { data } = useFetchGolfers();
 	console.log("dateId", dateId);
 	console.log("isPlayerView", isPlayerView);
