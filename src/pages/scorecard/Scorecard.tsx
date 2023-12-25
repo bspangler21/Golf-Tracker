@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { getGolferById } from "../../util/golfers";
 import { useParams } from "react-router-dom";
-// import { mockGolfers } from "../../mockData/mockGolfers";
+import { mockGolfers } from "../../mockData/mockGolfers";
 import { mockHoles } from "../../mockData/mockHoles";
 import { MatchScore } from "../../types/MatchScore";
 import { DefaultButton } from "@fluentui/react";
@@ -20,8 +20,8 @@ const Scorecard = () => {
 	const { golfer1Id, golfer2Id, dateId } = useParams();
 	console.log("golfer1", golfer1Id);
 	console.log("golfer2", golfer2Id);
-	const player1 = getGolferById(golfer1Id ?? "", data ?? []);
-	const player2 = getGolferById(golfer2Id ?? "", data ?? []);
+	const player1 = getGolferById(golfer1Id ?? "", data ?? mockGolfers);
+	const player2 = getGolferById(golfer2Id ?? "", data ?? mockGolfers);
 	const matchDay = getMatchDateById(dateId ?? "");
 	console.log("matchDay", matchDay);
 	console.log("dateId", dateId);
@@ -55,7 +55,7 @@ const Scorecard = () => {
 		console.log("golferTotalScore", golferTotalScore);
 		console.log("golferIndex", golferId);
 		console.log("holeId", holeId);
-		const updatedScores = [...scores]; // Create a copy of the current scores
+		const updatedScores = [...(scores ?? [])];
 		updatedScores[golferId][holeId] = newScore; // Update the score for the specific golfer and hole
 
 		const totalScore = updatedScores[golferId].reduce(

@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { getGolferById } from "../../util/golfers";
 import { getMatchesByDateId, getMatchesByPlayerId } from "../../util/matches";
 import { useFetchGolfers } from "../../hooks/GolferHooks";
+import { mockGolfers } from "../../mockData/mockGolfers";
 // import { mockMatches } from "../../mockData/mockMatches";
 
 // const allMatches = mockMatches;
@@ -59,11 +60,11 @@ const MatchListing = ({
 							>
 								<td>{match.id}</td>
 								<td>
-									{getGolferById(match.golfer1Id, data ?? []).firstName}{" "}
-									{getGolferById(match.golfer1Id, data ?? []).lastName}{" "}
+									{getGolferById(match.golfer1Id, data ?? mockGolfers).firstName}{" "}
+									{getGolferById(match.golfer1Id, data ?? mockGolfers).lastName}{" "}
 									vs.{" "}
-									{getGolferById(match.golfer2Id, data ?? []).firstName}{" "}
-									{getGolferById(match.golfer2Id, data ?? []).lastName}{" "}
+									{getGolferById(match.golfer2Id, data ?? mockGolfers).firstName}{" "}
+									{getGolferById(match.golfer2Id, data ?? mockGolfers).lastName}{" "}
 								</td>
 							</tr>
 						))}

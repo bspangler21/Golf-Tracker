@@ -10,7 +10,7 @@ import { useEffect, useState } from "react";
 import { useFetchGolfers } from "../../hooks/GolferHooks";
 
 // const golfers = mockGolfers;
-const testGolfers = mockGolfers;
+// const testGolfers = mockGolfers;
 
 // function fetchGolfers() {
 // 	const returnedGolfers = fetch("http://localhost:4000/api/Golfers").then((response) => response.json());
@@ -23,7 +23,7 @@ const Golfers = () => {
 	const { data } = useFetchGolfers();
 
 	useEffect(() => {
-		setGolfers(data ?? []);
+		setGolfers(data ?? mockGolfers);
 	}, [data]);
 
 	// useEffect(() => {
