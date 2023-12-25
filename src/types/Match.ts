@@ -2,8 +2,8 @@ export type Match = {
 	id: number;
 	leagueId: number;
 	dateId: number;
-	golfer1Id: number;
-	golfer2Id: number;
+	golfer1Id: string;
+	golfer2Id: string;
 };
 
 export type Matches = {

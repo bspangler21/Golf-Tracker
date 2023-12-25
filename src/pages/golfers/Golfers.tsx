@@ -9,6 +9,7 @@ import { Golfer } from "../../types/Golfer";
 import { useEffect, useState } from "react";
 
 // const golfers = mockGolfers;
+const testGolfers = mockGolfers;
 
 function fetchGolfers() {
 	const returnedGolfers = fetch("http://localhost:4000/api/Golfers").then((response) => response.json());

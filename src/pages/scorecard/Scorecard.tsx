@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { getGolferById } from "../../util/golfers";
+// import { getGolferById } from "../../util/golfers";
 import { useParams } from "react-router-dom";
 import { mockGolfers } from "../../mockData/mockGolfers";
 import { mockHoles } from "../../mockData/mockHoles";

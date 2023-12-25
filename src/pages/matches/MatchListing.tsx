@@ -1,6 +1,6 @@
 import { useNavigate, useParams } from "react-router-dom";
 // import { mockMatches } from "../../mockData/mockMatches";
-import { getGolferById } from "../../util/golfers";
+// import { getGolferById } from "../../util/golfers";
 import { getMatchesByDateId, getMatchesByPlayerId } from "../../util/matches";
 // import { mockMatches } from "../../mockData/mockMatches";
 
@@ -8,7 +8,7 @@ import { getMatchesByDateId, getMatchesByPlayerId } from "../../util/matches";
 
 interface MatchListingProps {
 	isPlayerView?: boolean;
-	playerId?: number;
+	playerId?: string;
 }
 
 const MatchListing = ({
@@ -22,12 +22,17 @@ const MatchListing = ({
 	console.log("dateId", dateId);
 	console.log("isPlayerView", isPlayerView);
 	console.log("playerId in MatchListing", playerId);
-	const matchesList =
-		isPlayerView && playerId
-			? getMatchesByPlayerId(Number(playerId))
-			: getMatchesByDateId(dateId);
+	// const matchesList =
+	// 	isPlayerView && playerId
+	// 		? getMatchesByPlayerId(Number(playerId))
+	// 		: getMatchesByDateId(dateId);
 
-	console.log("matchesList", matchesList);
+	const matchesList =
+			isPlayerView && playerId
+				? getMatchesByPlayerId(playerId)
+				: getMatchesByDateId(dateId);
+
+		console.log("matchesList", matchesList);
 
 	return (
 		<div style={{ display: "flex", justifyContent: "center" }}>

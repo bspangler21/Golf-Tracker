@@ -19,7 +19,7 @@ export function getMatchesByDateId(id: number) {
 	return matchListing;
 }
 
-export function getMatchesByPlayerId(id: number) {
+export function getMatchesByPlayerId(id: string) {
 	let matchListing: Match[] = [];
 	console.log("matches id param = ", id);
 	console.log("matches", matches);
