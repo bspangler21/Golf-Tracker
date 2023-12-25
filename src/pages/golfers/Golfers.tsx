@@ -7,28 +7,33 @@ import { useNavigate } from "react-router-dom";
 import { DefaultButton } from "@fluentui/react";
 import { Golfer } from "../../types/Golfer";
 import { useEffect, useState } from "react";
+import { useFetchGolfers } from "../../hooks/GolferHooks";
 
 // const golfers = mockGolfers;
 const testGolfers = mockGolfers;
 
-function fetchGolfers() {
-	const returnedGolfers = fetch("http://localhost:4000/api/Golfers").then((response) => response.json());
-	return returnedGolfers;
-}
-
+// function fetchGolfers() {
+// 	const returnedGolfers = fetch("http://localhost:4000/api/Golfers").then((response) => response.json());
+// 	return returnedGolfers;
+// }
 
 const Golfers = () => {
 	const nav = useNavigate();
 	const [golfers, setGolfers] = useState<Golfer[]>([]);
+	const { data } = useFetchGolfers();
 
 	useEffect(() => {
-		const getGolfers = async () => {
-			const golfersFromServer = await fetchGolfers();
-			setGolfers(golfersFromServer);
-		};
+		setGolfers(data ?? []);
+	}, [data]);
 
-		getGolfers();
-	}, []);
+	// useEffect(() => {
+	// 	const getGolfers = async () => {
+	// 		const golfersFromServer = await fetchGolfers();
+	// 		setGolfers(golfersFromServer);
+	// 	};
+
+	// 	getGolfers();
+	// }, []);
 
 	return (
 		<>

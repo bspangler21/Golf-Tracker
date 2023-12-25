@@ -1,5 +1,5 @@
 import { useState } from "react";
-// import { getGolferById } from "../../util/golfers";
+import { getGolferById } from "../../util/golfers";
 import { useParams } from "react-router-dom";
 import { mockGolfers } from "../../mockData/mockGolfers";
 import { mockHoles } from "../../mockData/mockHoles";
@@ -8,6 +8,7 @@ import { DefaultButton } from "@fluentui/react";
 import { mockCourses } from "../../mockData/mockCourses";
 import { getMatchDateById } from "../../util/matches";
 import { format } from "date-fns";
+import { useFetchGolfers } from "../../hooks/GolferHooks";
 // import { mockHoles } from "../../mockData/mockHoles";
 
 const golfHoles = mockHoles;
@@ -15,11 +16,12 @@ const golfers = mockGolfers;
 const course = mockCourses.find((course) => course.id === "1");
 
 const Scorecard = () => {
+	const { data } = useFetchGolfers();
 	const { golfer1Id, golfer2Id, dateId } = useParams();
 	console.log("golfer1", golfer1Id);
 	console.log("golfer2", golfer2Id);
-	const player1 = getGolferById(Number(golfer1Id));
-	const player2 = getGolferById(Number(golfer2Id));
+	const player1 = getGolferById(golfer1Id ?? "", data ?? []);
+	const player2 = getGolferById(golfer2Id ?? "", data ?? []);
 	const matchDay = getMatchDateById(Number(dateId));
 	console.log("matchDay", matchDay);
 	console.log("dateId", dateId);
@@ -73,7 +75,7 @@ const Scorecard = () => {
 		const newRoundScore: MatchScore = {
 			leagueId: 1,
 			matchId: 1,
-			golferId: golferId,
+			golferId: golferId.toString(),
 			holeNumber: holeId,
 			holeScore: newScore,
 		};
@@ -97,13 +99,19 @@ const Scorecard = () => {
 	) => {
 		let winningMessage =
 			golfer1TotalScore > golfer2TotalScore
-				? `${getGolferById(golfer2Index).firstName} wins!`
-				: `${getGolferById(golfer1Index).firstName} wins!`;
+				? `${
+						getGolferById(golfer2Index.toString(), data ?? [])
+							.firstName
+				  } wins!`
+				: `${
+						getGolferById(golfer1Index.toString(), data ?? [])
+							.firstName
+				  } wins!`;
 		alert(
 			`${
-				getGolferById(golfer1Index).firstName
+				getGolferById(golfer1Index.toString(), data ?? []).firstName
 			}'s total score is ${golfer1TotalScore}. ${
-				getGolferById(golfer2Index).firstName
+				getGolferById(golfer2Index.toString(), data ?? []).firstName
 			}'s total score is ${golfer2TotalScore}. ${winningMessage}`
 		);
 	};
@@ -318,8 +326,8 @@ const Scorecard = () => {
 									{course.name}, {course.city}, {course.state}
 								</strong>
 							)}{" "}
-							— {format(matchDay, "MMMM do, yyyy")} — 76
-							with a slight wind
+							— {format(matchDay, "MMMM do, yyyy")} — 76 with a
+							slight wind
 						</td>
 					</tr>
 				</tfoot>

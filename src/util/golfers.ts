@@ -23,19 +23,19 @@ import { useFetchGolfers } from "../hooks/GolferHooks";
 // 	return returnedGolfers;
 // }
 
-// export function getGolferById(id: string): Golfer {
-// 	let golferDetail: Golfer = {} as Golfer;
+export function getGolferById(id: string, golfers: Golfer[]): Golfer {
+	let golferDetail: Golfer = {} as Golfer;
 
-// 	if (golfers) {
-// 		golfers.forEach((g) => {
-// 			if (g.id === id) {
-// 				(golferDetail.id = g.id),
-// 					(golferDetail.firstName = g.firstName),
-// 					(golferDetail.lastName = g.lastName),
-// 					(golferDetail.handicap = g.handicap);
-// 			}
-// 		});
-// 	}
+	if (golfers) {
+		golfers.forEach((g) => {
+			if (g.id === id) {
+				(golferDetail.id = g.id),
+					(golferDetail.firstName = g.firstName),
+					(golferDetail.lastName = g.lastName),
+					(golferDetail.handicap = g.handicap);
+			}
+		});
+	}
 
-// 	return golferDetail;
-// }
+	return golferDetail;
+}

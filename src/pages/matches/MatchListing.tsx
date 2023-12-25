@@ -1,7 +1,8 @@
 import { useNavigate, useParams } from "react-router-dom";
 // import { mockMatches } from "../../mockData/mockMatches";
-// import { getGolferById } from "../../util/golfers";
+import { getGolferById } from "../../util/golfers";
 import { getMatchesByDateId, getMatchesByPlayerId } from "../../util/matches";
+import { useFetchGolfers } from "../../hooks/GolferHooks";
 // import { mockMatches } from "../../mockData/mockMatches";
 
 // const allMatches = mockMatches;
@@ -19,6 +20,7 @@ const MatchListing = ({
 	const { id } = useParams();
 	if (!id) throw Error("Date id not found");
 	const dateId = parseInt(id as string);
+	const { data } = useFetchGolfers();
 	console.log("dateId", dateId);
 	console.log("isPlayerView", isPlayerView);
 	console.log("playerId in MatchListing", playerId);
@@ -56,11 +58,11 @@ const MatchListing = ({
 							>
 								<td>{match.id}</td>
 								<td>
-									{getGolferById(match.golfer1Id).firstName}{" "}
-									{getGolferById(match.golfer1Id).lastName}{" "}
+									{getGolferById(match.golfer1Id, data ?? []).firstName}{" "}
+									{getGolferById(match.golfer1Id, data ?? []).lastName}{" "}
 									vs.{" "}
-									{getGolferById(match.golfer2Id).firstName}{" "}
-									{getGolferById(match.golfer2Id).lastName}{" "}
+									{getGolferById(match.golfer2Id, data ?? []).firstName}{" "}
+									{getGolferById(match.golfer2Id, data ?? []).lastName}{" "}
 								</td>
 							</tr>
 						))}
