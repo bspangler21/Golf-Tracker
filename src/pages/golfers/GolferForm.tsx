@@ -23,6 +23,7 @@ const GolferForm = ({ golfer, submitted }: Args) => {
 	 * Adds a new golfer with the provided information.
 	 */
 	const onSubmit: React.MouseEventHandler<HTMLButtonElement> = async (e) => {
+		console.log("golferState", golferState);
 		e.preventDefault();
 		submitted(golferState);
 		// Validate the input fields
