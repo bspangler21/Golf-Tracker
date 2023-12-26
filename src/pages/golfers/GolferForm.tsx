@@ -16,9 +16,10 @@ const GolferForm = ({ golfer, submitted }: Args) => {
 	const [handicap, setHandicap] = useState("");
 	const [golferState, setGolferState] = useState({ ...golfer });
 
-	console.log("firstName", firstName);
-	console.log("handicap", handicap);
-
+	// console.log("firstName", firstName);
+	// console.log("handicap", handicap);
+	console.log("golferState", golferState);
+	console.log("golfer", golfer);
 	/**
 	 * Adds a new golfer with the provided information.
 	 */
@@ -31,25 +32,25 @@ const GolferForm = ({ golfer, submitted }: Args) => {
 		 * Validates the input fields for adding a golfer.
 		 * Displays an alert and the function returns if any of the fields are empty.
 		 *
-		 */
+		 
 		if (!firstName.trim() || !lastName.trim() || !handicap.trim()) {
 			alert("All fields are required");
 			return;
-		}
+		}*/
 		/**
 		 * Validates if the handicap is a number.
 		 * If the handicap is not a number, an alert is displayed and the function returns.
-		 */
+		 
 		if (isNaN(Number(handicap))) {
 			alert("Handicap must be a number");
 			return;
-		}
+		}*/
 
 		console.log(
-			`First Name: ${firstName.trim()}, Last Name: ${lastName.trim()}, Handicap: ${handicap.trim()}`
+			`First Name: ${golferState.firstName.trim()}, Last Name: ${golferState.lastName.trim()}, Handicap: ${golferState.handicap}`
 		);
 		alert(
-			`First Name: ${firstName.trim()}, Last Name: ${lastName.trim()}, Handicap: ${handicap.trim()}`
+			`First Name: ${golferState.firstName.trim()}, Last Name: ${golferState.lastName.trim()}, Handicap: ${golferState.handicap}`
 		);
 		// Here you can add the code to save the golfer's data
 
@@ -61,9 +62,9 @@ const GolferForm = ({ golfer, submitted }: Args) => {
 
 	return (
 		<>
-			<text>First Name:</text>
+			<label>First Name:</label>
 			<input
-				// value={firstName}
+				value={golferState.firstName}
 				onChange={(e) =>
 					setGolferState({
 						...golferState,
@@ -72,16 +73,16 @@ const GolferForm = ({ golfer, submitted }: Args) => {
 				}
 				required={true}
 			></input>{" "}
-			<text>Last Name:</text>
+			<label>Last Name:</label>
 			<input
-				// value={lastName}
+				value={golferState.lastName}
 				onChange={(e) =>
 					setGolferState({ ...golferState, lastName: e.target.value })
 				}
 			></input>{" "}
-			<text>Handicap:</text>
+			<label>Handicap:</label>
 			<input
-				// value={handicap}
+				value={golferState.handicap}
 				onChange={(e) =>
 					setGolferState({ ...golferState, handicap: Number(e.target.value)})
 				}
@@ -89,7 +90,7 @@ const GolferForm = ({ golfer, submitted }: Args) => {
 			<br />
 			<br />
 			<div>
-				<DefaultButton onClick={() => onSubmit}>
+				<DefaultButton onClick={onSubmit}>
 					Save Golfer
 				</DefaultButton>
 			</div>
