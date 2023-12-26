@@ -1,12 +1,13 @@
 import reactLogo from "../../assets/react.svg";
 // import { mockGolfers } from "../../mockData/mockGolfers";
 import "./GolferDetail.css";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 // import { mergeStyleSets } from "@fluentui/react";
 // import { getGolferById } from "../../util/golfers";
 import utilStyles from "../../styles/utilStyles.module.css";
 import MatchListing from "../matches/MatchListing";
 import { useFetchGolfer } from "../../hooks/GolferHooks";
+import { DefaultButton } from "@fluentui/react";
 
 // const allGolfers = mockGolfers;
 
@@ -25,6 +26,7 @@ import { useFetchGolfer } from "../../hooks/GolferHooks";
 // }
 
 const GolferDetail = () => {
+	const nav = useNavigate();
 	const { id } = useParams();
 	if (!id) throw Error("Golfer id not found");
 
@@ -39,7 +41,6 @@ const GolferDetail = () => {
 	console.log("data", data);
 
 	return (
-		
 		<>
 			<div className={utilStyles.h1Text}>
 				<img
@@ -61,13 +62,20 @@ const GolferDetail = () => {
 			</div>
 			<div>
 				<h3>
-					Upcoming Matches for {data?.firstName}{" "}
-					{data?.lastName}
+					Upcoming Matches for {data?.firstName} {data?.lastName}
 				</h3>
 				<MatchListing isPlayerView={true} playerId={golferId} />
 			</div>
+			<br></br>
+			<div>
+				<DefaultButton
+					primary
+					onClick={() => nav(`/golfer-detail/edit/${golferId}`)}
+				>
+					Edit Golfer
+				</DefaultButton>
+			</div>
 		</>
-		
 	);
 };
 

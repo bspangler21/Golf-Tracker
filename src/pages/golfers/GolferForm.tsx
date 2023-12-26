@@ -11,9 +11,9 @@ type Args = {
 };
 
 const GolferForm = ({ golfer, submitted }: Args) => {
-	const [firstName, setFirstName] = useState("");
-	const [lastName, setLastName] = useState("");
-	const [handicap, setHandicap] = useState("");
+	// const [firstName, setFirstName] = useState("");
+	// const [lastName, setLastName] = useState("");
+	// const [handicap, setHandicap] = useState("");
 	const [golferState, setGolferState] = useState({ ...golfer });
 
 	// console.log("firstName", firstName);
@@ -46,18 +46,19 @@ const GolferForm = ({ golfer, submitted }: Args) => {
 			return;
 		}*/
 
-		console.log(
-			`First Name: ${golferState.firstName.trim()}, Last Name: ${golferState.lastName.trim()}, Handicap: ${golferState.handicap}`
-		);
-		alert(
-			`First Name: ${golferState.firstName.trim()}, Last Name: ${golferState.lastName.trim()}, Handicap: ${golferState.handicap}`
-		);
+		// console.log(
+		// 	`First Name: ${golferState.firstName.trim()}, Last Name: ${golferState.lastName.trim()}, Handicap: ${
+		// 		golferState.handicap
+		// 	}`
+		// );
+		// alert(
+		// 	`First Name: ${golferState.firstName.trim()}, Last Name: ${golferState.lastName.trim()}, Handicap: ${
+		// 		golferState.handicap
+		// 	}`
+		// );
 		// Here you can add the code to save the golfer's data
 
 		// Clear the input fields
-		setFirstName("");
-		setLastName("");
-		setHandicap("");
 	};
 
 	return (
@@ -84,15 +85,16 @@ const GolferForm = ({ golfer, submitted }: Args) => {
 			<input
 				value={golferState.handicap}
 				onChange={(e) =>
-					setGolferState({ ...golferState, handicap: Number(e.target.value)})
+					setGolferState({
+						...golferState,
+						handicap: Number(e.target.value),
+					})
 				}
 			></input>
 			<br />
 			<br />
 			<div>
-				<DefaultButton onClick={onSubmit}>
-					Save Golfer
-				</DefaultButton>
+				<DefaultButton onClick={onSubmit}>Save Golfer</DefaultButton>
 			</div>
 		</>
 	);
