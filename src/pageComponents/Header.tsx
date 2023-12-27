@@ -6,13 +6,11 @@ const Header = () => {
 	return (
 		<div>
 			<nav className={utilStyles.navBar}>
-				<Link to="/home">Home</Link>
+				<Link to="/">Home</Link>
 				{" | "}
 				<Link to="/golfers">Golfers</Link>
 				{" | "}
 				<Link to="/schedule-list">Schedule</Link>
-				{" | "}
-				<Link to="/scorecard">Scorecard</Link>
 			</nav>
 		</div>
 	);

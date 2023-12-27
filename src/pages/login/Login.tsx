@@ -54,7 +54,7 @@ const loginStackTokens = {
 export default function Login() {
 	const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");
-	const navigate = useNavigate();
+	const nav = useNavigate();
 
 	console.log("username", username);
 
@@ -85,7 +85,7 @@ export default function Login() {
 							primary={true}
 							className={classNames.textBox}
 							onClick={() => {
-								navigate("/login");
+								nav("/login");
 							}}
 						>
 							Login

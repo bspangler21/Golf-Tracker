@@ -1,6 +1,6 @@
-import { IHole } from "../types/IHole";
+import { Hole } from "../types/Hole";
 
-export const mockHoles: IHole[] = [
+export const mockHoles: Hole[] = [
 	{
 		holeNumber: 1,
 	},
