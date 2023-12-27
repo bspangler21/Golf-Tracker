@@ -55,3 +55,17 @@ export const useUpdateGolfer = () => {
 		}
 	);
 };
+
+export const useDeleteGolfer = () => {
+	const queryClient = useQueryClient();
+	const nav = useNavigate();
+	return useMutation<AxiosResponse, AxiosError<Problem>, Golfer>(
+		(g) => axios.delete(`${apiURL}/api/Golfers/${g.id}`),
+		{
+			onSuccess: () => {
+				queryClient.invalidateQueries("golfers");
+				nav(`/golfers`);
+			},
+		}
+	);
+};

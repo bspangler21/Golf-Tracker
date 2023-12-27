@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { DefaultButton, FontIcon, mergeStyles } from "@fluentui/react";
 import { Golfer } from "../../types/Golfer";
 import { useEffect, useState } from "react";
-import { useFetchGolfers } from "../../hooks/GolferHooks";
+import { useDeleteGolfer, useFetchGolfers } from "../../hooks/GolferHooks";
 
 // const golfers = mockGolfers;
 // const testGolfers = mockGolfers;
@@ -28,6 +28,8 @@ const Golfers = () => {
 	const nav = useNavigate();
 	const [golfers, setGolfers] = useState<Golfer[]>([]);
 	const { data } = useFetchGolfers();
+
+	const deleteGolferMutation = useDeleteGolfer();
 
 	useEffect(() => {
 		setGolfers(data ?? mockGolfers);
@@ -102,7 +104,17 @@ const Golfers = () => {
 											className={iconClass}
 										/>
 									</td>
-									<td>
+									<td
+										onClick={() => {
+											if (
+												window.confirm(
+													"Are you sure you want to delete this golfer?"
+												)
+											) {
+												deleteGolferMutation.mutate(g);
+											}
+										}}
+									>
 										<FontIcon
 											aria-label="Delete"
 											iconName="Delete"
