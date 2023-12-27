@@ -66,14 +66,36 @@ const Golfers = () => {
 							<>
 								<tr
 									key={g.id}
-									onClick={() =>
-										nav(`/golfer-detail/${g.id}`)
-									}
+									// onClick={() =>
+									// 	nav(`/golfer-detail/${g.id}`)
+									// }
 								>
-									<td>{g.handicap}</td>
-									<td>{g.firstName}</td>
-									<td>{g.lastName}</td>
-									<td>
+									<td
+										onClick={() =>
+											nav(`/golfer-detail/${g.id}`)
+										}
+									>
+										{g.firstName}
+									</td>
+									<td
+										onClick={() =>
+											nav(`/golfer-detail/${g.id}`)
+										}
+									>
+										{g.lastName}
+									</td>
+									<td
+										onClick={() =>
+											nav(`/golfer-detail/${g.id}`)
+										}
+									>
+										{g.handicap}
+									</td>
+									<td
+										onClick={() =>
+											nav(`/golfer-detail/edit/${g.id}`)
+										}
+									>
 										<FontIcon
 											aria-label="Edit"
 											iconName="Edit"
