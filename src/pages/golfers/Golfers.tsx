@@ -17,6 +17,12 @@ import { useDeleteGolfer, useFetchGolfers } from "../../hooks/GolferHooks";
 // 	return returnedGolfers;
 // }
 
+const classes = mergeStyles({
+	tableHeaderFormat: {
+		width: "150px",
+	},
+});
+
 const iconClass = mergeStyles({
 	fontSize: 25,
 	height: 25,
@@ -56,9 +62,15 @@ const Golfers = () => {
 				>
 					<thead>
 						<tr>
-							<th>First Name</th>
-							<th>Last Name</th>
-							<th>Handicap</th>
+							<th className={utilStyles.tableHeaderWidth}>
+								First Name
+							</th>
+							<th className={utilStyles.tableHeaderWidth}>
+								Last Name
+							</th>
+							<th className={utilStyles.tableHeaderWidth}>
+								Handicap
+							</th>
 							<th></th>
 							<th></th>
 						</tr>

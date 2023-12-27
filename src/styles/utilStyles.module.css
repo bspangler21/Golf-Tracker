@@ -52,6 +52,10 @@
 
 }
 
+.tableHeaderWidth {
+  width: 100px;
+}
+
 .tableHeader:hover {
   /* color: rgb(225, 219, 219); */
   /* background-color: #000000; */
