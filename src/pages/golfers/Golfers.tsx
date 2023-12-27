@@ -4,7 +4,7 @@ import Table from "react-bootstrap/Table";
 import utilStyles from "../../styles/utilStyles.module.css";
 // import golfersListStyles from "./Golfers.css";
 import { useNavigate } from "react-router-dom";
-import { DefaultButton } from "@fluentui/react";
+import { DefaultButton, FontIcon, mergeStyles } from "@fluentui/react";
 import { Golfer } from "../../types/Golfer";
 import { useEffect, useState } from "react";
 import { useFetchGolfers } from "../../hooks/GolferHooks";
@@ -16,6 +16,13 @@ import { useFetchGolfers } from "../../hooks/GolferHooks";
 // 	const returnedGolfers = fetch("http://localhost:4000/api/Golfers").then((response) => response.json());
 // 	return returnedGolfers;
 // }
+
+const iconClass = mergeStyles({
+	fontSize: 25,
+	height: 25,
+	width: 25,
+	margin: "0 5px",
+});
 
 const Golfers = () => {
 	const nav = useNavigate();
@@ -50,6 +57,8 @@ const Golfers = () => {
 							<th>Handicap</th>
 							<th>First Name</th>
 							<th>Last Name</th>
+							<th></th>
+							<th></th>
 						</tr>
 					</thead>
 					<tbody>
@@ -64,6 +73,20 @@ const Golfers = () => {
 									<td>{g.handicap}</td>
 									<td>{g.firstName}</td>
 									<td>{g.lastName}</td>
+									<td>
+										<FontIcon
+											aria-label="Edit"
+											iconName="Edit"
+											className={iconClass}
+										/>
+									</td>
+									<td>
+										<FontIcon
+											aria-label="Delete"
+											iconName="Delete"
+											className={iconClass}
+										/>
+									</td>
 								</tr>
 							</>
 						))}

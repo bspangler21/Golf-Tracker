@@ -4,6 +4,9 @@ import App from "./App.tsx";
 import "./index.css";
 import { QueryClientProvider } from "react-query";
 import { QueryClient } from "react-query";
+import { initializeIcons } from "@fluentui/font-icons-mdl2";
+
+initializeIcons();
 
 const queryClient = new QueryClient();
 
