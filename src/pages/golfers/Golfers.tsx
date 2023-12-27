@@ -54,9 +54,9 @@ const Golfers = () => {
 				>
 					<thead>
 						<tr>
-							<th>Handicap</th>
 							<th>First Name</th>
 							<th>Last Name</th>
+							<th>Handicap</th>
 							<th></th>
 							<th></th>
 						</tr>
