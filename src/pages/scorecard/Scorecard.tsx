@@ -11,9 +11,25 @@ import { format } from "date-fns";
 import { useFetchGolfers } from "../../hooks/GolferHooks";
 // import { mockHoles } from "../../mockData/mockHoles";
 
-const golfHoles = mockHoles;
+const golfHoles = mockHoles.filter(
+	(hole) => hole.courseId === "658cfca75669234ca16a65d8"
+);
+
 // const golfers = mockGolfers;
-const course = mockCourses.find((course) => course.id === "1");
+const course = mockCourses.find(
+	(course) => course.id === "658cfca75669234ca16a65d8"
+);
+
+/**
+ * Calculates the total yardage of the golf holes.
+ *
+ * @param {Array<{ holeLength?: number }>} golfHoles - The array of golf holes.
+ * @returns {number} - The total yardage.
+ */
+let totalYardage = golfHoles.reduce(
+	(sum, hole) => sum + (hole.holeLength ?? 0),
+	0
+);
 
 const Scorecard = () => {
 	const { data } = useFetchGolfers();
@@ -62,7 +78,7 @@ const Scorecard = () => {
 			(total, score) => total + score
 		); // Calculate total score
 
-		const updatedGolfers = [...data ?? []];
+		const updatedGolfers = [...(data ?? [])];
 		updatedGolfers[golferId].scores = updatedScores[golferId]; // Update the scores for the golfer
 		updatedGolfers[golferId].totalScore = totalScore; // Update the total score for the golfer
 
@@ -167,29 +183,23 @@ const Scorecard = () => {
 				<tbody>
 					<tr>
 						<th data-type="player">Professional Tees</th>
-						<td>390</td>
-						<td>143</td>
-						<td>535</td>
-						<td>405</td>
-						<td>483</td>
-						<td>463</td>
-						<td>503</td>
-						<td>223</td>
-						<td>448</td>
-						<td>3593</td>
+						{golfHoles
+							.filter((hole) => hole.holeNumber <= 9)
+							.map((hole) => (
+								<td key={hole.holeNumber}>{hole.holeLength}</td>
+							))}
+						<td>{totalYardage}</td>
 					</tr>
 
 					<tr>
 						<th data-type="player">Handicap</th>
-						<td>15</td>
-						<td>17</td>
-						<td>7</td>
-						<td>5</td>
-						<td>3</td>
-						<td>1</td>
-						<td>11</td>
-						<td>13</td>
-						<td>9</td>
+						{golfHoles
+							.filter((hole) => hole.holeNumber <= 9)
+							.map((hole) => (
+								<td key={hole.holeNumber}>
+									{hole.holeHandicap}
+								</td>
+							))}
 						<td>&nbsp;</td>
 
 						<td>&nbsp;</td>
@@ -199,16 +209,12 @@ const Scorecard = () => {
 
 					<tr>
 						<th data-type="player">Par</th>
-						<td>4</td>
-						<td>3</td>
-						<td>5</td>
-						<td>4</td>
-						<td>4</td>
-						<td>4</td>
-						<td>5</td>
-						<td>3</td>
-						<td>4</td>
-						<td>36</td>
+
+						{golfHoles
+							.filter((hole) => hole.holeNumber <= 9)
+							.map((hole) => (
+								<td key={hole.holeNumber}>{hole.holePar}</td>
+							))}
 					</tr>
 
 					<tr>
