@@ -58,7 +58,7 @@ const MatchListing = ({
 									)
 								}
 							>
-								<td>{match.id}</td>
+								<td>{matchesList.indexOf(match) + 1}</td>
 								<td>
 									{getGolferById(match.golfer1Id, data ?? mockGolfers).firstName}{" "}
 									{getGolferById(match.golfer1Id, data ?? mockGolfers).lastName}{" "}
