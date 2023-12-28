@@ -8,6 +8,8 @@ import utilStyles from "../../styles/utilStyles.module.css";
 import MatchListing from "../matches/MatchListing";
 import { useFetchGolfer } from "../../hooks/GolferHooks";
 import { DefaultButton } from "@fluentui/react";
+import { getGolferById } from "../../util/golfers";
+import { mockGolfers } from "../../mockData/mockGolfers";
 
 // const allGolfers = mockGolfers;
 
@@ -39,6 +41,8 @@ const GolferDetail = () => {
 
 	console.log(golferId);
 	console.log("data", data);
+	let golferData = data ?? getGolferById(golferId, mockGolfers);
+	let golferDisplayName = `${golferData.firstName} ${golferData.lastName}`;
 
 	return (
 		<>
@@ -48,22 +52,18 @@ const GolferDetail = () => {
 					alt=""
 					className={utilStyles.profileImage}
 				></img>
-				<h2>
-					{data?.firstName} {data?.lastName}
-				</h2>
+				<h2>{golferDisplayName}</h2>
 			</div>
 			<div>
 				<h3 className={utilStyles.h3Text}>
-					Handicap: {data?.handicap}
+					Handicap: {golferData.handicap}
 				</h3>
 				<h3 className={utilStyles.h3Text}>
 					Rounds Played: {Math.round(Math.random() * 25)}
 				</h3>
 			</div>
 			<div>
-				<h3>
-					Upcoming Matches for {data?.firstName} {data?.lastName}
-				</h3>
+				<h3>Upcoming Matches for {golferDisplayName}</h3>
 				<MatchListing isPlayerView={true} playerId={golferId} />
 			</div>
 			<br></br>
