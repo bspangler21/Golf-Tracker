@@ -1,6 +1,6 @@
 import { Golfer } from "../types/Golfer";
-import { mockGolfers } from "../mockData/mockGolfers";
-import { useFetchGolfers } from "../hooks/GolferHooks";
+// import { mockGolfers } from "../mockData/mockGolfers";
+// import { useFetchGolfers } from "../hooks/GolferHooks";
 
 // const golfers: Golfer[] = mockGolfers;
 // const testGolfers: Golfer[] = mockGolfers;
