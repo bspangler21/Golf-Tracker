@@ -37,10 +37,12 @@ const GolferDetail = () => {
 	// const data = getGolferById(golferId);
 	const { data } = useFetchGolfer(golferId);
 
-	console.log("golferId", golferId);
+	if (import.meta.env.DEV) {
+		console.log("golferId", golferId);
+		console.log(golferId);
+		console.log("data", data);
+	}
 
-	console.log(golferId);
-	console.log("data", data);
 	let golferData = data ?? getGolferById(golferId, mockGolfers);
 	let golferDisplayName = `${golferData.firstName} ${golferData.lastName}`;
 

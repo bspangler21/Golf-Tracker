@@ -23,20 +23,23 @@ const MatchListing = ({
 	// const dateId = parseInt(id as string);
 	const dateId = id;
 	const { data } = useFetchGolfers();
-	console.log("dateId", dateId);
-	console.log("isPlayerView", isPlayerView);
-	console.log("playerId in MatchListing", playerId);
+
 	// const matchesList =
 	// 	isPlayerView && playerId
 	// 		? getMatchesByPlayerId(Number(playerId))
 	// 		: getMatchesByDateId(dateId);
 
 	const matchesList =
-			isPlayerView && playerId
-				? getMatchesByPlayerId(playerId)
-				: getMatchesByDateId(dateId);
+		isPlayerView && playerId
+			? getMatchesByPlayerId(playerId)
+			: getMatchesByDateId(dateId);
 
+	if (import.meta.env.DEV) {
+		console.log("dateId", dateId);
+		console.log("isPlayerView", isPlayerView);
+		console.log("playerId in MatchListing", playerId);
 		console.log("matchesList", matchesList);
+	}
 
 	return (
 		<div style={{ display: "flex", justifyContent: "center" }}>
@@ -60,11 +63,31 @@ const MatchListing = ({
 							>
 								<td>{matchesList.indexOf(match) + 1}</td>
 								<td>
-									{getGolferById(match.golfer1Id, data ?? mockGolfers).firstName}{" "}
-									{getGolferById(match.golfer1Id, data ?? mockGolfers).lastName}{" "}
+									{
+										getGolferById(
+											match.golfer1Id,
+											data ?? mockGolfers
+										).firstName
+									}{" "}
+									{
+										getGolferById(
+											match.golfer1Id,
+											data ?? mockGolfers
+										).lastName
+									}{" "}
 									vs.{" "}
-									{getGolferById(match.golfer2Id, data ?? mockGolfers).firstName}{" "}
-									{getGolferById(match.golfer2Id, data ?? mockGolfers).lastName}{" "}
+									{
+										getGolferById(
+											match.golfer2Id,
+											data ?? mockGolfers
+										).firstName
+									}{" "}
+									{
+										getGolferById(
+											match.golfer2Id,
+											data ?? mockGolfers
+										).lastName
+									}{" "}
 								</td>
 							</tr>
 						))}

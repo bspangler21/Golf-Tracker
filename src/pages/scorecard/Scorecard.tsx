@@ -34,13 +34,11 @@ let totalYardage = golfHoles.reduce(
 const Scorecard = () => {
 	const { data } = useFetchGolfers();
 	const { golfer1Id, golfer2Id, dateId } = useParams();
-	console.log("golfer1", golfer1Id);
-	console.log("golfer2", golfer2Id);
+
 	const player1 = getGolferById(golfer1Id ?? "", data ?? mockGolfers);
 	const player2 = getGolferById(golfer2Id ?? "", data ?? mockGolfers);
 	const matchDay = getMatchDateById(dateId ?? "");
-	console.log("matchDay", matchDay);
-	console.log("dateId", dateId);
+
 	// const [frontNineScore, setFrontNineScore] = useState(0);
 	// const [backNineScore, setBackNineScore] = useState(0);
 	// let holeScore: number = 0;
@@ -56,9 +54,15 @@ const Scorecard = () => {
 	const [golfer1Score, setGolfer1Score] = useState(0);
 	const [golfer2Score, setGolfer2Score] = useState(0);
 
-	console.log("roundScores outside function", roundScores);
-	console.log("golfer1Score", golfer1Score);
-	console.log("golfer2Score", golfer2Score);
+	if (import.meta.env.DEV) {
+		console.log("golfer1", golfer1Id);
+		console.log("golfer2", golfer2Id);
+		console.log("matchDay", matchDay);
+		console.log("dateId", dateId);
+		console.log("roundScores outside function", roundScores);
+		console.log("golfer1Score", golfer1Score);
+		console.log("golfer2Score", golfer2Score);
+	}
 
 	const handleOnChange = (
 		event: React.ChangeEvent<HTMLInputElement>,
@@ -66,11 +70,9 @@ const Scorecard = () => {
 		holeId: number
 	) => {
 		const newScore = parseInt(event.target.value);
-		console.log("newScore", newScore);
+
 		setGolferTotalScore(golferTotalScore + newScore);
-		console.log("golferTotalScore", golferTotalScore);
-		console.log("golferIndex", golferId);
-		console.log("holeId", holeId);
+
 		const updatedScores = [...(scores ?? [])];
 		updatedScores[golferId][holeId] = newScore; // Update the score for the specific golfer and hole
 
@@ -85,8 +87,14 @@ const Scorecard = () => {
 		setScores(updatedScores); // Update the state with the new scores
 		// Optionally, update the state with the new golfer data to maintain the total score
 
-		console.log("Updated Scores:", updatedScores);
-		console.log("Updated Golfers:", updatedGolfers);
+		if (import.meta.env.DEV) {
+			console.log("newScore", newScore);
+			console.log("golferTotalScore", golferTotalScore);
+			console.log("golferIndex", golferId);
+			console.log("holeId", holeId);
+			console.log("Updated Scores:", updatedScores);
+			console.log("Updated Golfers:", updatedGolfers);
+		}
 
 		const newRoundScore: MatchScore = {
 			leagueId: 1,

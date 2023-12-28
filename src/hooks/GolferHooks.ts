@@ -45,6 +45,7 @@ export const useAddGolfer = () => {
 export const useUpdateGolfer = () => {
 	const queryClient = useQueryClient();
 	const nav = useNavigate();
+	// Will not work if golferId not included at the end of the URL
 	return useMutation<AxiosResponse, AxiosError<Problem>, Golfer>(
 		(g) => axios.put(`${apiURL}/api/Golfers/${g.id}`, g),
 		{

@@ -17,11 +17,11 @@ import { useDeleteGolfer, useFetchGolfers } from "../../hooks/GolferHooks";
 // 	return returnedGolfers;
 // }
 
-const classes = mergeStyles({
-	tableHeaderFormat: {
-		width: "150px",
-	},
-});
+// const classes = mergeStyles({
+// 	tableHeaderFormat: {
+// 		width: "150px",
+// 	},
+// });
 
 const iconClass = mergeStyles({
 	fontSize: 25,
