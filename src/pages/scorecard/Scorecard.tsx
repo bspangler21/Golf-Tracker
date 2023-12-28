@@ -11,6 +11,7 @@ import { format } from "date-fns";
 import { useFetchGolfers } from "../../hooks/GolferHooks";
 // import { mockHoles } from "../../mockData/mockHoles";
 
+//only show holes and course for Lake Breeze
 const golfHoles = mockHoles.filter(
 	(hole) => hole.courseId === "658cfca75669234ca16a65d8"
 );
