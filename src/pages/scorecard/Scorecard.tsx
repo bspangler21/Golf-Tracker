@@ -32,6 +32,11 @@ let totalYardage = golfHoles.reduce(
 	0
 );
 
+let frontNinePar = golfHoles.reduce(
+	(sum, hole) => sum + (hole.holePar ?? 0),
+	0
+);
+
 const Scorecard = () => {
 	const { data } = useFetchGolfers();
 	const { golfer1Id, golfer2Id, dateId } = useParams();
@@ -224,6 +229,7 @@ const Scorecard = () => {
 							.map((hole) => (
 								<td key={hole.holeNumber}>{hole.holePar}</td>
 							))}
+						{<td>{frontNinePar}</td>}
 					</tr>
 
 					<tr>

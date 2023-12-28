@@ -60,7 +60,7 @@ export const mockHoles: Hole[] = [
 	{
 		courseId: "658cfca75669234ca16a65d8",
 		holeNumber: 9,
-		holePar: 5,
+		holePar: 4,
 		holeLength: 352,
 		holeHandicap: 11,
 	},
