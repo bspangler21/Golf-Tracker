@@ -1,2 +1,2 @@
 1. Add functionality to add golfers to multiple leagues
-2. 
+2. Add MatchScore and MatchTotalScore to Mongo
