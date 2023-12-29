@@ -54,9 +54,10 @@ const Golfers = () => {
 
 		// Create a Blob with the CSV content
 		const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8" });
+		const today = new Date();
 
 		// Save the Blob as a CSV file
-		saveAs(blob, "golfers.csv");
+		saveAs(blob, `${today.toLocaleDateString()} golfers.csv`);
 	};
 
 	console.log("csvContent: ", csvContent);

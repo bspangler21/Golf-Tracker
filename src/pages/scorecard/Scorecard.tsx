@@ -9,6 +9,7 @@ import { mockCourses } from "../../mockData/mockCourses";
 import { getMatchDateById } from "../../util/matches";
 import { format } from "date-fns";
 import { useFetchGolfers } from "../../hooks/GolferHooks";
+import { saveAs } from "file-saver";
 // import { mockHoles } from "../../mockData/mockHoles";
 
 //only show holes and course for Lake Breeze
@@ -70,6 +71,8 @@ const Scorecard = () => {
 		console.log("golfer2Score", golfer2Score);
 	}
 
+	let csvContent = "courseId,holeNumber,holeHandicap,holeLength,holePar\n";
+
 	const handleOnChange = (
 		event: React.ChangeEvent<HTMLInputElement>,
 		golferId: number,
@@ -117,6 +120,21 @@ const Scorecard = () => {
 
 		golferId === 1 ? setGolfer1Score(golfer1Score + newScore) : "";
 		golferId === 2 ? setGolfer2Score(golfer2Score + newScore) : "";
+	};
+
+	const exportCourseInfoToCSV = () => {
+		// Convert golfers data to CSV format
+
+		golfHoles.forEach((g) => {
+			csvContent += `${g.courseId},${g.holeNumber},${g.holeHandicap},${g.holeLength},${g.holePar}\n`;
+			console.log(csvContent);
+		});
+
+		// Create a Blob with the CSV content
+		const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8" });
+
+		// Save the Blob as a CSV file
+		saveAs(blob, `holes.csv`);
 	};
 
 	// Make golferIndex an array?
@@ -367,6 +385,12 @@ const Scorecard = () => {
 					}
 				>
 					Submit
+				</DefaultButton>
+			</div>
+			<br></br>
+			<div>
+				<DefaultButton onClick={exportCourseInfoToCSV}>
+					Export Golf Course Info
 				</DefaultButton>
 			</div>
 		</>

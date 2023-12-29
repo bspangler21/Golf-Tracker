@@ -1,4 +1,5 @@
 export type Hole = {
+	id?: string;
 	courseId: string;
 	holeNumber: number;
 	holeHandicap?: number;
