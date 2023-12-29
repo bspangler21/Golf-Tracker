@@ -1,9 +1,10 @@
 // import { mergeStyleSets } from "@fluentui/react";
+// import { useFetchData } from "../../hooks/GolferHooks";
 import { mockDates } from "../../mockData/mockDates";
 import { useNavigate } from "react-router-dom";
 
-const mockDatesList = mockDates;
-console.log("mockDatesList", mockDatesList);
+// const mockDatesList = mockDates;
+// console.log("mockDatesList", mockDatesList);
 
 // const classNames = mergeStyleSets({
 // 	tableTextColor: {
@@ -30,6 +31,9 @@ console.log("mockDatesList", mockDatesList);
 
 export default function ScheduleList() {
 	const nav = useNavigate();
+	// const { data } = useFetchData("golfers");
+	// dates = data ?? mockDates;
+	let dates = mockDates;
 
 	return (
 		<div style={{ display: "flex", justifyContent: "center" }}>
@@ -41,15 +45,15 @@ export default function ScheduleList() {
 					</tr>
 				</thead>
 				<tbody>
-					{mockDatesList &&
-						mockDatesList.map((mockDate) => (
+					{dates &&
+						dates.map((date) => (
 							<tr
-								key={mockDate.id}
-								onClick={() => nav(`/matches/${mockDate.id}`)}
+								key={date.id}
+								onClick={() => nav(`/matches/${date.id}`)}
 							>
-								<td>{mockDate.matchWeekNumber}</td>
+								<td>{date.matchWeekNumber}</td>
 								<td>
-									{mockDate.matchDate.toLocaleDateString()}
+									{date.matchDate.toLocaleDateString()}
 								</td>
 							</tr>
 						))}

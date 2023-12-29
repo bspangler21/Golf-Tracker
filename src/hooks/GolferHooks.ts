@@ -16,6 +16,9 @@ function getTableToQuery(table: string) {
 		case "matches":
 			apiPath = "Matches";
 			break;
+		case "dates":
+			apiPath = "Matches";
+			break;
 	}
 	console.log("chosen table", apiPath);
 }

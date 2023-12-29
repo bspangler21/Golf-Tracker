@@ -1,12 +1,19 @@
 import { useNavigate, useParams } from "react-router-dom";
-// import { mockMatches } from "../../mockData/mockMatches";
+import { mockMatches } from "../../mockData/mockMatches";
 import { getGolferById } from "../../util/golfers";
 import { getMatchesByDateId, getMatchesByPlayerId } from "../../util/matches";
-import { useFetchGolfers } from "../../hooks/GolferHooks";
+import { useFetchData, useFetchGolfers } from "../../hooks/GolferHooks";
 import { mockGolfers } from "../../mockData/mockGolfers";
+import { Golfer } from "../../types/Golfer";
+import { mockDates } from "../../mockData/mockDates";
+import { Match } from "../../types/Match";
+import { LeagueDate } from "../../types/LeagueDate";
 // import { mockMatches } from "../../mockData/mockMatches";
 
 // const allMatches = mockMatches;
+let golfers: Golfer[] = [];
+let matches: Match[] = [];
+let dates: LeagueDate[] = [];
 
 interface MatchListingProps {
 	isPlayerView?: boolean;
@@ -22,17 +29,19 @@ const MatchListing = ({
 	if (!id) throw Error("Date id not found");
 	// const dateId = parseInt(id as string);
 	const dateId = id;
-	const { data } = useFetchGolfers();
+	const { data: golfersData } = useFetchData("golfers");
+	const { data: matchesData } = useFetchData("matches");
 
-	// const matchesList =
-	// 	isPlayerView && playerId
-	// 		? getMatchesByPlayerId(Number(playerId))
-	// 		: getMatchesByDateId(dateId);
+	golfers =
+		golfersData?.filter((item): item is Golfer => "firstName" in item) ??
+		mockGolfers;
+	matches = (matchesData as Match[]) ?? mockMatches;
+	dates = mockDates;
 
 	const matchesList =
 		isPlayerView && playerId
-			? getMatchesByPlayerId(playerId)
-			: getMatchesByDateId(dateId);
+			? getMatchesByPlayerId(playerId, matches)
+			: getMatchesByDateId(dateId, matches);
 
 	if (import.meta.env.DEV) {
 		console.log("dateId", dateId);
@@ -64,29 +73,21 @@ const MatchListing = ({
 								<td>{matchesList.indexOf(match) + 1}</td>
 								<td>
 									{
-										getGolferById(
-											match.golfer1Id,
-											data ?? mockGolfers
-										).firstName
+										getGolferById(match.golfer1Id, golfers)
+											.firstName
 									}{" "}
 									{
-										getGolferById(
-											match.golfer1Id,
-											data ?? mockGolfers
-										).lastName
+										getGolferById(match.golfer1Id, golfers)
+											.lastName
 									}{" "}
 									vs.{" "}
 									{
-										getGolferById(
-											match.golfer2Id,
-											data ?? mockGolfers
-										).firstName
+										getGolferById(match.golfer2Id, golfers)
+											.firstName
 									}{" "}
 									{
-										getGolferById(
-											match.golfer2Id,
-											data ?? mockGolfers
-										).lastName
+										getGolferById(match.golfer2Id, golfers)
+											.lastName
 									}{" "}
 								</td>
 							</tr>

@@ -7,9 +7,13 @@ import { MatchScore } from "../../types/MatchScore";
 import { DefaultButton } from "@fluentui/react";
 import { mockCourses } from "../../mockData/mockCourses";
 import { getMatchDateById } from "../../util/matches";
-import { format } from "date-fns";
-import { useFetchGolfers } from "../../hooks/GolferHooks";
+import { Match, format } from "date-fns";
+import { useFetchData } from "../../hooks/GolferHooks";
 import { saveAs } from "file-saver";
+import { Golfer } from "../../types/Golfer";
+import { LeagueDate } from "../../types/LeagueDate";
+import { mockMatches } from "../../mockData/mockMatches";
+import { mockDates } from "../../mockData/mockDates";
 // import { mockHoles } from "../../mockData/mockHoles";
 
 //only show holes and course for Lake Breeze
@@ -21,6 +25,10 @@ const golfHoles = mockHoles.filter(
 const course = mockCourses.find(
 	(course) => course.id === "658cfca75669234ca16a65d8"
 );
+
+let golfers: Golfer[] = [];
+let matches: any = [];
+let dates: LeagueDate[] = [];
 
 /**
  * Calculates the total yardage of the golf holes.
@@ -39,19 +47,26 @@ let frontNinePar = golfHoles.reduce(
 );
 
 const Scorecard = () => {
-	const { data } = useFetchGolfers();
+	const { data: golferData } = useFetchData("golfers");
+	const { data: matchesData } = useFetchData("matches");
 	const { golfer1Id, golfer2Id, dateId } = useParams();
+	dates = mockDates;
 
-	const player1 = getGolferById(golfer1Id ?? "", data ?? mockGolfers);
-	const player2 = getGolferById(golfer2Id ?? "", data ?? mockGolfers);
-	const matchDay = getMatchDateById(dateId ?? "");
+	golfers =
+		golferData?.filter((item): item is Golfer => "firstName" in item) ??
+		mockGolfers;
+	matches = matchesData ?? mockMatches;
+
+	const player1 = getGolferById(golfer1Id ?? "", golfers);
+	const player2 = getGolferById(golfer2Id ?? "", golfers);
+	const matchDay = getMatchDateById(dateId ?? "", dates);
 
 	// const [frontNineScore, setFrontNineScore] = useState(0);
 	// const [backNineScore, setBackNineScore] = useState(0);
 	// let holeScore: number = 0;
 	const [golferTotalScore, setGolferTotalScore] = useState(0);
 	const [scores, setScores] = useState(
-		data?.map(() => Array(golfHoles.length).fill(0))
+		golfers?.map(() => Array(golfHoles.length).fill(0))
 	);
 	const [roundScores, setRoundScores] = useState<MatchScore[]>([]);
 	// const [roundScores, setRoundScores] = useState([]);
@@ -89,7 +104,7 @@ const Scorecard = () => {
 			(total, score) => total + score
 		); // Calculate total score
 
-		const updatedGolfers = [...(data ?? [])];
+		const updatedGolfers = [...golfers];
 		updatedGolfers[golferId].scores = updatedScores[golferId]; // Update the scores for the golfer
 		updatedGolfers[golferId].totalScore = totalScore; // Update the total score for the golfer
 
@@ -148,18 +163,18 @@ const Scorecard = () => {
 		let winningMessage =
 			golfer1TotalScore > golfer2TotalScore
 				? `${
-						getGolferById(golfer2Index.toString(), data ?? [])
+						getGolferById(golfer2Index.toString(), golfers)
 							.firstName
 				  } wins!`
 				: `${
-						getGolferById(golfer1Index.toString(), data ?? [])
+						getGolferById(golfer1Index.toString(), golfers)
 							.firstName
 				  } wins!`;
 		alert(
 			`${
-				getGolferById(golfer1Index.toString(), data ?? []).firstName
+				getGolferById(golfer1Index.toString(), golfers).firstName
 			}'s total score is ${golfer1TotalScore}. ${
-				getGolferById(golfer2Index.toString(), data ?? []).firstName
+				getGolferById(golfer2Index.toString(), golfers).firstName
 			}'s total score is ${golfer2TotalScore}. ${winningMessage}`
 		);
 	};
