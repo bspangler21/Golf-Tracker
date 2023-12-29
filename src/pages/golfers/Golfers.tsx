@@ -8,6 +8,7 @@ import { DefaultButton, FontIcon, mergeStyles } from "@fluentui/react";
 import { Golfer } from "../../types/Golfer";
 import { useEffect, useState } from "react";
 import { useDeleteGolfer, useFetchGolfers } from "../../hooks/GolferHooks";
+import { saveAs } from "file-saver";
 
 // const golfers = mockGolfers;
 // const testGolfers = mockGolfers;
@@ -37,18 +38,28 @@ const Golfers = () => {
 
 	const deleteGolferMutation = useDeleteGolfer();
 
+	let csvContent = "First Name,Last Name,Handicap\n";
+
 	useEffect(() => {
 		setGolfers(data ?? mockGolfers);
 	}, [data]);
 
-	// useEffect(() => {
-	// 	const getGolfers = async () => {
-	// 		const golfersFromServer = await fetchGolfers();
-	// 		setGolfers(golfersFromServer);
-	// 	};
+	const exportGolfersToCSV = () => {
+		// Convert golfers data to CSV format
 
-	// 	getGolfers();
-	// }, []);
+		golfers.forEach((g) => {
+			csvContent += `${g.firstName},${g.lastName},${g.handicap}\n`;
+			console.log(csvContent);
+		});
+
+		// Create a Blob with the CSV content
+		const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8" });
+
+		// Save the Blob as a CSV file
+		saveAs(blob, "golfers.csv");
+	};
+
+	console.log("csvContent: ", csvContent);
 
 	return (
 		<>
@@ -148,6 +159,12 @@ const Golfers = () => {
 					}}
 				>
 					Add Golfer
+				</DefaultButton>
+			</div>
+			<br />
+			<div>
+				<DefaultButton primary={true} onClick={exportGolfersToCSV}>
+					Export Golfers to CSV
 				</DefaultButton>
 			</div>
 		</>
