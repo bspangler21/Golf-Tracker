@@ -11,8 +11,8 @@ import { LeagueDate } from "../../types/LeagueDate";
 // import { mockMatches } from "../../mockData/mockMatches";
 
 // const allMatches = mockMatches;
-let golfers: Golfer[] = [];
-let matches: Match[] = [];
+let golfers: any = [];
+let matches: any = [];
 let dates: LeagueDate[] = [];
 
 interface MatchListingProps {
@@ -33,7 +33,7 @@ const MatchListing = ({
 	const { data: matchesData } = useFetchData("matches");
 
 	golfers =
-		golfersData?.filter((item): item is Golfer => "firstName" in item) ??
+		golfersData  ??
 		mockGolfers;
 	matches = (matchesData as Match[]) ?? mockMatches;
 	dates = mockDates;

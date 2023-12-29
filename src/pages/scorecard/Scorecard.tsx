@@ -26,7 +26,7 @@ const course = mockCourses.find(
 	(course) => course.id === "658cfca75669234ca16a65d8"
 );
 
-let golfers: Golfer[] = [];
+let golfers: any = [];
 let matches: any = [];
 let dates: LeagueDate[] = [];
 
@@ -52,9 +52,7 @@ const Scorecard = () => {
 	const { golfer1Id, golfer2Id, dateId } = useParams();
 	dates = mockDates;
 
-	golfers =
-		golferData?.filter((item): item is Golfer => "firstName" in item) ??
-		mockGolfers;
+	golfers = golferData ?? mockGolfers;
 	matches = matchesData ?? mockMatches;
 
 	const player1 = getGolferById(golfer1Id ?? "", golfers);
