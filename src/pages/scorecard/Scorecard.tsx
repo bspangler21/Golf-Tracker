@@ -7,13 +7,14 @@ import { MatchScore } from "../../types/MatchScore";
 import { DefaultButton } from "@fluentui/react";
 import { mockCourses } from "../../mockData/mockCourses";
 import { getMatchDateById } from "../../util/matches";
-import { Match, format } from "date-fns";
-import { useFetchData } from "../../hooks/GolferHooks";
+import { format } from "date-fns";
+import { useFetchGolfers } from "../../hooks/GolferHooks";
 import { saveAs } from "file-saver";
 import { Golfer } from "../../types/Golfer";
 import { LeagueDate } from "../../types/LeagueDate";
 import { mockMatches } from "../../mockData/mockMatches";
 import { mockDates } from "../../mockData/mockDates";
+import { Match } from "../../types/Match";
 // import { mockHoles } from "../../mockData/mockHoles";
 
 //only show holes and course for Lake Breeze
@@ -26,8 +27,8 @@ const course = mockCourses.find(
 	(course) => course.id === "658cfca75669234ca16a65d8"
 );
 
-let golfers: any = [];
-let matches: any = [];
+let golfers: Golfer[] = [];
+let matches: Match[] = [];
 let dates: LeagueDate[] = [];
 
 /**
@@ -47,13 +48,15 @@ let frontNinePar = golfHoles.reduce(
 );
 
 const Scorecard = () => {
-	const { data: golferData } = useFetchData("golfers");
-	const { data: matchesData } = useFetchData("matches");
+	const { data: golferData } = useFetchGolfers();
+	// const { data: golferData } = useFetchData("golfers");
+	// const { data: matchesData } = useFetchData("matches");
 	const { golfer1Id, golfer2Id, dateId } = useParams();
 	dates = mockDates;
+	matches = mockMatches;
 
 	golfers = golferData ?? mockGolfers;
-	matches = matchesData ?? mockMatches;
+	// matches = matchesData ?? mockMatches;
 
 	const player1 = getGolferById(golfer1Id ?? "", golfers);
 	const player2 = getGolferById(golfer2Id ?? "", golfers);

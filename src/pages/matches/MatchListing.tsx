@@ -11,8 +11,8 @@ import { LeagueDate } from "../../types/LeagueDate";
 // import { mockMatches } from "../../mockData/mockMatches";
 
 // const allMatches = mockMatches;
-let golfers: any = [];
-let matches: any = [];
+let golfers: Golfer[] = [];
+let matches: Match[] = [];
 let dates: LeagueDate[] = [];
 
 interface MatchListingProps {
@@ -29,14 +29,15 @@ const MatchListing = ({
 	if (!id) throw Error("Date id not found");
 	// const dateId = parseInt(id as string);
 	const dateId = id;
-	const { data: golfersData } = useFetchData("golfers");
-	const { data: matchesData } = useFetchData("matches");
+	// const { data: golfersData } = useFetchData("golfers");
+	const { data: golfersData } = useFetchGolfers();
 
 	golfers =
 		golfersData  ??
 		mockGolfers;
-	matches = (matchesData as Match[]) ?? mockMatches;
+	// matches = (matchesData as Match[]) ?? mockMatches;
 	dates = mockDates;
+	matches = mockMatches;
 
 	const matchesList =
 		isPlayerView && playerId

@@ -7,11 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { DefaultButton, FontIcon, mergeStyles } from "@fluentui/react";
 import { Golfer } from "../../types/Golfer";
 import { useEffect, useState } from "react";
-import {
-	useDeleteGolfer,
-	useFetchData,
-	useFetchGolfers,
-} from "../../hooks/GolferHooks";
+import { useDeleteGolfer, useFetchGolfers } from "../../hooks/GolferHooks";
 import { saveAs } from "file-saver";
 
 // const golfers = mockGolfers;
@@ -38,8 +34,8 @@ const iconClass = mergeStyles({
 const Golfers = () => {
 	const nav = useNavigate();
 	const [golfers, setGolfers] = useState<Golfer[]>([]);
-	// const { data } = useFetchGolfers();
-	const { data } = useFetchData("golfers");
+	const { data } = useFetchGolfers();
+	// const { data } = useFetchData("golfers");
 
 	const deleteGolferMutation = useDeleteGolfer();
 
