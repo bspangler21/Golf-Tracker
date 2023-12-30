@@ -1,5 +1,6 @@
 // import { mergeStyleSets } from "@fluentui/react";
 // import { useFetchData } from "../../hooks/GolferHooks";
+import { DefaultButton } from "@fluentui/react";
 import { mockDates } from "../../mockData/mockDates";
 import { useNavigate } from "react-router-dom";
 
@@ -36,29 +37,35 @@ export default function ScheduleList() {
 	let dates = mockDates;
 
 	return (
-		<div style={{ display: "flex", justifyContent: "center" }}>
-			<table>
-				<thead>
-					<tr>
-						<th>Week Number</th>
-						<th>Date</th>
-					</tr>
-				</thead>
-				<tbody>
-					{dates &&
-						dates.map((date) => (
-							<tr
-								key={date.id}
-								onClick={() => nav(`/matches/${date.id}`)}
-							>
-								<td>{date.matchWeekNumber}</td>
-								<td>
-									{date.matchDate.toLocaleDateString()}
-								</td>
-							</tr>
-						))}
-				</tbody>
-			</table>
-		</div>
+		<>
+			<div style={{ display: "flex", justifyContent: "center" }}>
+				<table>
+					<thead>
+						<tr>
+							<th>Week Number</th>
+							<th>Date</th>
+						</tr>
+					</thead>
+					<tbody>
+						{dates &&
+							dates.map((date) => (
+								<tr
+									key={date.id}
+									onClick={() => nav(`/matches/${date.id}`)}
+								>
+									<td>{date.matchWeekNumber}</td>
+									<td>
+										{date.matchDate.toLocaleDateString()}
+									</td>
+								</tr>
+							))}
+					</tbody>
+				</table>
+			</div>
+			<br></br>
+			<div style={{ display: "flex", justifyContent: "center" }}>
+				<DefaultButton>Add Date</DefaultButton>
+			</div>
+		</>
 	);
 }

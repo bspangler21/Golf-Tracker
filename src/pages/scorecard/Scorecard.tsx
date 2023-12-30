@@ -15,7 +15,6 @@ import { LeagueDate } from "../../types/LeagueDate";
 import { mockMatches } from "../../mockData/mockMatches";
 import { mockDates } from "../../mockData/mockDates";
 import { Match } from "../../types/Match";
-// import { mockHoles } from "../../mockData/mockHoles";
 
 //only show holes and course for Lake Breeze
 const golfHoles = mockHoles.filter(

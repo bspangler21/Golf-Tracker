@@ -1,11 +1,12 @@
 import { useParams } from "react-router-dom";
 import { useFetchGolfer, useUpdateGolfer } from "../../hooks/GolferHooks";
 import ValidationSummary from "../../pageComponents/ValidationSummary";
-import GolferForm from "./GolferForm";
+// import GolferForm from "./GolferForm";
 import { Golfer } from "../../types/Golfer";
 import { mockGolfers } from "../../mockData/mockGolfers";
 import { getGolferById } from "../../util/golfers";
 import { useEffect } from "react";
+import NewGolfer from "../addGolfer/NewGolfer";
 
 type Args = {
 	status: "idle" | "success" | "error" | "loading";
@@ -38,9 +39,11 @@ const EditGolfer = () => {
 
 	if (!isSuccess) return <ApiStatus status={status} />;
 
-	useEffect(() => {
-		golferData = data ?? getGolferById(golferId, mockGolfers);
-	}, [data]);
+	golferData = data ?? getGolferById(golferId, mockGolfers);
+
+	// useEffect(() => {
+	// 	golferData = data ?? getGolferById(golferId, mockGolfers);
+	// }, [data]);
 
 	console.log("golferData", golferData);
 
@@ -59,7 +62,7 @@ const EditGolfer = () => {
 				<ValidationSummary error={updateGolferMutation.error} />
 			)}
 			{golfer && (
-				<GolferForm
+				<NewGolfer
 					golfer={golfer}
 					submitted={(g) => {
 						updateGolferMutation.mutate(g);

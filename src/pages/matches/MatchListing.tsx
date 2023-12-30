@@ -2,15 +2,13 @@ import { useNavigate, useParams } from "react-router-dom";
 import { mockMatches } from "../../mockData/mockMatches";
 import { getGolferById } from "../../util/golfers";
 import { getMatchesByDateId, getMatchesByPlayerId } from "../../util/matches";
-import { useFetchData, useFetchGolfers } from "../../hooks/GolferHooks";
+import { useFetchGolfers } from "../../hooks/GolferHooks";
 import { mockGolfers } from "../../mockData/mockGolfers";
 import { Golfer } from "../../types/Golfer";
 import { mockDates } from "../../mockData/mockDates";
 import { Match } from "../../types/Match";
 import { LeagueDate } from "../../types/LeagueDate";
-// import { mockMatches } from "../../mockData/mockMatches";
 
-// const allMatches = mockMatches;
 let golfers: Golfer[] = [];
 let matches: Match[] = [];
 let dates: LeagueDate[] = [];
@@ -32,9 +30,7 @@ const MatchListing = ({
 	// const { data: golfersData } = useFetchData("golfers");
 	const { data: golfersData } = useFetchGolfers();
 
-	golfers =
-		golfersData  ??
-		mockGolfers;
+	golfers = golfersData ?? mockGolfers;
 	// matches = (matchesData as Match[]) ?? mockMatches;
 	dates = mockDates;
 	matches = mockMatches;
