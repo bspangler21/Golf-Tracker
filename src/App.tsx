@@ -13,8 +13,7 @@ import Footer from "./pageComponents/Footer";
 import AddGolfer from "./pages/golfers/AddGolfer";
 import EditGolfer from "./pages/golfers/EditGolfer";
 import Scorecard2 from "./pages/scorecard/Scorecard2";
-
-
+import AddDate from "./pages/schedule/AddDate";
 
 function App() {
 	return (
@@ -30,6 +29,7 @@ function App() {
 					Component={GolferDetail}
 				></Route>
 				<Route path="/schedule-list" Component={ScheduleList}></Route>
+				<Route path="/add-date" Component={AddDate}></Route>
 				<Route path="/matches/:id" Component={MatchListing}></Route>
 				<Route
 					path="/scorecard/:golfer1Id/:golfer2Id/:dateId"

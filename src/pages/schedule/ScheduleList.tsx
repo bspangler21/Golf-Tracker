@@ -72,7 +72,9 @@ const ScheduleList = () => {
 			</div>
 			<br></br>
 			<div style={{ display: "flex", justifyContent: "center" }}>
-				<DefaultButton>Add Date</DefaultButton>
+				<DefaultButton onClick={() => nav(`/add-date`)}>
+					Add Date
+				</DefaultButton>
 			</div>
 		</>
 	);
