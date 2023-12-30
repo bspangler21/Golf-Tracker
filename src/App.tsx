@@ -9,19 +9,12 @@ import ScheduleList from "./pages/schedule/ScheduleList";
 import MatchListing from "./pages/matches/MatchListing";
 import Scorecard from "./pages/scorecard/Scorecard";
 import { SpeedInsights } from "@vercel/speed-insights/react";
-
 import Footer from "./pageComponents/Footer";
 import AddGolfer from "./pages/golfers/AddGolfer";
 import EditGolfer from "./pages/golfers/EditGolfer";
-import GolferForm from "./pages/golfers/GolferForm";
 import Scorecard2 from "./pages/scorecard/Scorecard2";
 
-const golfer: Golfer = {
-	// id: "0",
-	firstName: "",
-	lastName: "",
-	handicap: 0,
-};
+
 
 function App() {
 	return (
