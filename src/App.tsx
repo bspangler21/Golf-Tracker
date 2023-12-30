@@ -13,7 +13,15 @@ import { SpeedInsights } from "@vercel/speed-insights/react";
 import Footer from "./pageComponents/Footer";
 import AddGolfer from "./pages/golfers/AddGolfer";
 import EditGolfer from "./pages/golfers/EditGolfer";
-import NewGolfer from "./pages/golfers/GolferForm";
+import GolferForm from "./pages/golfers/GolferForm";
+import Scorecard2 from "./pages/scorecard/Scorecard2";
+
+const golfer: Golfer = {
+	// id: "0",
+	firstName: "",
+	lastName: "",
+	handicap: 0,
+};
 
 function App() {
 	return (
@@ -34,12 +42,12 @@ function App() {
 					path="/scorecard/:golfer1Id/:golfer2Id/:dateId"
 					Component={Scorecard}
 				></Route>
+				<Route path="/scorecard2" Component={Scorecard2}></Route>
 				<Route path="/add-golfer" Component={AddGolfer}></Route>
 				<Route
 					path="/golfer-detail/edit/:id"
 					Component={EditGolfer}
 				></Route>
-				<Route path="/new-golfer" Component={NewGolfer}></Route>
 			</Routes>
 			<SpeedInsights />
 			<Footer />

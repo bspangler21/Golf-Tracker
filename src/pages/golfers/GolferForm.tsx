@@ -26,7 +26,7 @@ type Args = {
 };
 
 const GolferForm = ({ golfer, submitted }: Args) => {
-	const [golferState, setGolferState] = useState({ ...golfer });
+	// const [golferState, setGolferState] = useState({ ...golfer });
 	const initialValues = {
 		firstName: golfer.firstName,
 		lastName: golfer.lastName,
