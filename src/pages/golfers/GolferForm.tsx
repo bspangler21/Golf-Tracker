@@ -1,9 +1,24 @@
-/**
- * Component for adding a new golfer.
- */
-import { DefaultButton } from "@fluentui/react";
-import { useState } from "react";
+import { useFormik, Form, Formik, Field, FormikHelpers } from "formik";
+import { TextField, mergeStyleSets } from "@fluentui/react";
 import { Golfer } from "../../types/Golfer";
+import { useState } from "react";
+// import { useState } from "react";
+
+const classNames = mergeStyleSets({
+	wrapper: {
+		height: "100vh",
+		display: "block",
+	},
+	mainContentWrapper: {
+		alignItems: "center",
+	},
+	textField: {
+		width: "200px",
+		boxSizing: "border-box",
+		padding: "20px",
+		minWidth: "200px",
+	},
+});
 
 type Args = {
 	golfer: Golfer;
@@ -11,92 +26,100 @@ type Args = {
 };
 
 const GolferForm = ({ golfer, submitted }: Args) => {
-	// const [firstName, setFirstName] = useState("");
-	// const [lastName, setLastName] = useState("");
-	// const [handicap, setHandicap] = useState("");
 	const [golferState, setGolferState] = useState({ ...golfer });
-
-	// console.log("firstName", firstName);
-	// console.log("handicap", handicap);
-	console.log("golferState", golferState);
-	console.log("golfer", golfer);
-	/**
-	 * Adds a new golfer with the provided information.
-	 */
-	const onSubmit: React.MouseEventHandler<HTMLButtonElement> = async (e) => {
-		console.log("golferState", golferState);
-		e.preventDefault();
-		submitted(golferState);
-		// Validate the input fields
-		/**
-		 * Validates the input fields for adding a golfer.
-		 * Displays an alert and the function returns if any of the fields are empty.
-		 *
-		 
-		if (!firstName.trim() || !lastName.trim() || !handicap.trim()) {
-			alert("All fields are required");
-			return;
-		}*/
-		/**
-		 * Validates if the handicap is a number.
-		 * If the handicap is not a number, an alert is displayed and the function returns.
-		 
-		if (isNaN(Number(handicap))) {
-			alert("Handicap must be a number");
-			return;
-		}*/
-
-		// console.log(
-		// 	`First Name: ${golferState.firstName.trim()}, Last Name: ${golferState.lastName.trim()}, Handicap: ${
-		// 		golferState.handicap
-		// 	}`
-		// );
-		// alert(
-		// 	`First Name: ${golferState.firstName.trim()}, Last Name: ${golferState.lastName.trim()}, Handicap: ${
-		// 		golferState.handicap
-		// 	}`
-		// );
-		// Here you can add the code to save the golfer's data
-
-		// Clear the input fields
+	const initialValues = {
+		firstName: golfer.firstName,
+		lastName: golfer.lastName,
+		handicap: golfer.handicap,
+		id: golfer.id,
 	};
+	// const formik = useFormik({
+	// 	initialValues: {
+	// 		firstName: golfer.firstName,
+	// 		lastName: golfer.lastName,
+	// 		handicap: golfer.handicap,
+	// 		id: golfer.id,
+	// 	},
+	// 	onSubmit: (values) => {
+	// 		setGolferState(values);
+	// 		setGolferState({
+	// 			...golferState,
+	// 			id: golfer.id,
+	// 			handicap: values.handicap,
+	// 			firstName: values.firstName,
+	// 			lastName: values.lastName,
+	// 		});
+	// 		console.log("values", values);
+	// 		console.log("golferState", golferState);
+	// 		submitted(golferState);
+	// 	},
+	// });
+
+	//   const handleChange: (e: React.ChangeEvent<any>) => ()  => void {
+	//     console.log();
+	// };
 
 	return (
-		<>
-			<label>First Name:</label>
-			<input
-				value={golferState.firstName}
-				onChange={(e) =>
-					setGolferState({
-						...golferState,
-						firstName: e.target.value,
-					})
-				}
-				required={true}
-			></input>{" "}
-			<label>Last Name:</label>
-			<input
-				value={golferState.lastName}
-				onChange={(e) =>
-					setGolferState({ ...golferState, lastName: e.target.value })
-				}
-			></input>{" "}
-			<label>Handicap:</label>
-			<input
-				value={golferState.handicap}
-				onChange={(e) =>
-					setGolferState({
-						...golferState,
-						handicap: Number(e.target.value),
-					})
-				}
-			></input>
-			<br />
-			<br />
-			<div>
-				<DefaultButton onClick={onSubmit}>Save Golfer</DefaultButton>
-			</div>
-		</>
+		<div>
+			<Formik
+				initialValues={initialValues}
+				onSubmit={(
+					values: Golfer,
+					{ setSubmitting }: FormikHelpers<Golfer>
+				) => {
+					console.log({ values });
+					// alert(JSON.stringify(values, null, 2));
+					submitted(values);
+					setSubmitting(false);
+				}}
+			>
+				<Form
+					// onSubmit={formik.handleSubmit}
+					className={classNames.wrapper}
+					style={{ display: "flex", justifyContent: "center" }}
+				>
+					<div className={classNames.textField}>
+						<label htmlFor="firstName">First Name</label>
+						<Field
+							id="firstName"
+							name="firstName"
+							type="text"
+							// onChange={formik.handleChange}
+							// value={formik.values.firstName}
+							placeholder=""
+							required={true}
+						/>
+						<div>
+							<label htmlFor="lastName">Last Name</label>
+							<Field
+								id="lastName"
+								name="lastName"
+								type="text"
+								// onChange={formik.handleChange}
+								// value={formik.values.lastName}
+								placeholder=""
+								required={true}
+							/>
+						</div>
+						<div>
+							<label htmlFor="handicap">Handicap</label>
+							<Field
+								id="handicap"
+								name="handicap"
+								type="handicap"
+								// onChange={formik.handleChange}
+								// value={formik.values.handicap.toString()}
+								placeholder=""
+								required={true}
+							/>
+						</div>
+						<br></br>
+						<br></br>
+						<button type="submit">Submit</button>
+					</div>
+				</Form>
+			</Formik>
+		</div>
 	);
 };
 

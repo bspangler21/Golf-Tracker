@@ -1,7 +1,7 @@
 import { useAddGolfer } from "../../hooks/GolferHooks";
 import ValidationSummary from "../../pageComponents/ValidationSummary";
 import { Golfer } from "../../types/Golfer";
-import NewGolfer from "../addGolfer/NewGolfer";
+
 import GolferForm from "./GolferForm";
 
 const AddGolfer = () => {
@@ -19,7 +19,7 @@ const AddGolfer = () => {
 			{addGolferMutation.isError && (
 				<ValidationSummary error={addGolferMutation.error} />
 			)}
-			<NewGolfer
+			<GolferForm
 				golfer={golfer}
 				submitted={(golfer) => addGolferMutation.mutate(golfer)}
 			/>

@@ -5,8 +5,7 @@ import ValidationSummary from "../../pageComponents/ValidationSummary";
 import { Golfer } from "../../types/Golfer";
 import { mockGolfers } from "../../mockData/mockGolfers";
 import { getGolferById } from "../../util/golfers";
-import { useEffect } from "react";
-import NewGolfer from "../addGolfer/NewGolfer";
+import GolferForm from "./GolferForm";
 
 type Args = {
 	status: "idle" | "success" | "error" | "loading";
@@ -62,7 +61,7 @@ const EditGolfer = () => {
 				<ValidationSummary error={updateGolferMutation.error} />
 			)}
 			{golfer && (
-				<NewGolfer
+				<GolferForm
 					golfer={golfer}
 					submitted={(g) => {
 						updateGolferMutation.mutate(g);
