@@ -21,9 +21,10 @@ const classNames = mergeStyleSets({
 type Args = {
 	leagueDate: LeagueDate;
 	submitted: (leagueDate: LeagueDate) => void;
+	isEdit: boolean;
 };
 
-const DateForm = ({ leagueDate, submitted }: Args) => {
+const DateForm = ({ leagueDate, submitted, isEdit }: Args) => {
 	const [dateState, setDateState] = useState({ ...leagueDate });
 
 	const onSubmit: React.MouseEventHandler<HTMLButtonElement> = async (e) => {
@@ -42,7 +43,11 @@ const DateForm = ({ leagueDate, submitted }: Args) => {
 				<DatePicker
 					placeholder="Select a date..."
 					isRequired={true}
-					value={new Date(leagueDate.matchDate)}
+					value={
+						isEdit
+							? new Date(leagueDate.matchDate)
+							: new Date(dateState.matchDate)
+					}
 					onSelectDate={(date) => {
 						setDateState({
 							...dateState,

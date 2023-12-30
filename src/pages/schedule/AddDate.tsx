@@ -21,6 +21,7 @@ const AddDate = () => {
 			<DateForm
 				leagueDate={leagueDate}
 				submitted={(leagueDate) => addDateMutation.mutate(leagueDate)}
+				isEdit={false}
 			/>
 		</>
 	);

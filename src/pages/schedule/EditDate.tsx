@@ -65,6 +65,7 @@ const EditDate = () => {
 					submitted={(d) => {
 						updateDateMutation.mutate(d);
 					}}
+					isEdit={true}
 				/>
 			)}
 		</>

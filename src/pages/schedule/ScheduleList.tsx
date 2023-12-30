@@ -61,56 +61,63 @@ const ScheduleList = () => {
 					</thead>
 					<tbody>
 						{dates &&
-							dates.map((date) => (
-								<tr key={date.id}>
-									<td
-										onClick={() =>
-											nav(`/matches/${date.id}`)
-										}
-									>
-										{date.matchWeekNumber}
-									</td>
-									<td
-										onClick={() =>
-											nav(`/matches/${date.id}`)
-										}
-									>
-										{new Date(
-											date.matchDate
-										).toLocaleDateString()}
-									</td>
-									<td
-										onClick={() =>
-											nav(
-												`/schedule-list/edit/${date.id}`
-											)
-										}
-									>
-										<FontIcon
-											aria-label="Edit"
-											iconName="Edit"
-											className={iconClass}
-										/>
-									</td>
-									<td
-										onClick={() => {
-											if (
-												window.confirm(
-													"Are you sure you want to delete this date?"
-												)
-											) {
-												deleteDateMutation.mutate(date);
+							dates
+								.sort((a, b) =>
+									a.matchDate > b.matchDate ? 1 : -1
+								)
+								// .reverse()
+								.map((date) => (
+									<tr key={date.id}>
+										<td
+											onClick={() =>
+												nav(`/matches/${date.id}`)
 											}
-										}}
-									>
-										<FontIcon
-											aria-label="Delete"
-											iconName="Delete"
-											className={iconClass}
-										/>
-									</td>
-								</tr>
-							))}
+										>
+											{date.matchWeekNumber}
+										</td>
+										<td
+											onClick={() =>
+												nav(`/matches/${date.id}`)
+											}
+										>
+											{new Date(
+												date.matchDate
+											).toLocaleDateString()}
+										</td>
+										<td
+											onClick={() =>
+												nav(
+													`/schedule-list/edit/${date.id}`
+												)
+											}
+										>
+											<FontIcon
+												aria-label="Edit"
+												iconName="Edit"
+												className={iconClass}
+											/>
+										</td>
+										<td
+											onClick={() => {
+												if (
+													window.confirm(
+														"Are you sure you want to delete this date?"
+													)
+												) {
+													deleteDateMutation.mutate(
+														date
+													);
+												}
+											}}
+										>
+											<FontIcon
+												aria-label="Delete"
+												iconName="Delete"
+												className={iconClass}
+											/>
+										</td>
+									</tr>
+								))}
 					</tbody>
 				</table>
 			</div>
