@@ -50,7 +50,7 @@ const Golfers = () => {
 
 		golfers.forEach((g) => {
 			csvContent += `${g.firstName},${g.lastName},${g.handicap}\n`;
-			console.log(csvContent);
+			// console.log(csvContent);
 		});
 
 		// Create a Blob with the CSV content
@@ -89,66 +89,72 @@ const Golfers = () => {
 						</tr>
 					</thead>
 					<tbody>
-						{golfers.map((g) => (
-							<>
-								<tr
-									key={g.id}
-									// onClick={() =>
-									// 	nav(`/golfer-detail/${g.id}`)
-									// }
-								>
-									<td
-										onClick={() =>
-											nav(`/golfer-detail/${g.id}`)
-										}
+						{golfers
+							.sort((a, b) => (a.handicap > b.handicap ? 1 : -1))
+							.map((g) => (
+								<>
+									<tr
+										key={g.id}
+										// onClick={() =>
+										// 	nav(`/golfer-detail/${g.id}`)
+										// }
 									>
-										{g.firstName}
-									</td>
-									<td
-										onClick={() =>
-											nav(`/golfer-detail/${g.id}`)
-										}
-									>
-										{g.lastName}
-									</td>
-									<td
-										onClick={() =>
-											nav(`/golfer-detail/${g.id}`)
-										}
-									>
-										{g.handicap}
-									</td>
-									<td
-										onClick={() =>
-											nav(`/golfer-detail/edit/${g.id}`)
-										}
-									>
-										<FontIcon
-											aria-label="Edit"
-											iconName="Edit"
-											className={iconClass}
-										/>
-									</td>
-									<td
-										onClick={() => {
-											if (
-												window.confirm(
-													"Are you sure you want to delete this golfer?"
-												)
-											) {
-												deleteGolferMutation.mutate(g);
+										<td
+											onClick={() =>
+												nav(`/golfer-detail/${g.id}`)
 											}
-										}}
-									>
-										<FontIcon
-											aria-label="Delete"
-											iconName="Delete"
-											className={iconClass}
-										/>
-									</td>
-								</tr>
-							</>
-						))}
+										>
+											{g.firstName}
+										</td>
+										<td
+											onClick={() =>
+												nav(`/golfer-detail/${g.id}`)
+											}
+										>
+											{g.lastName}
+										</td>
+										<td
+											onClick={() =>
+												nav(`/golfer-detail/${g.id}`)
+											}
+										>
+											{g.handicap}
+										</td>
+										<td
+											onClick={() =>
+												nav(
+													`/golfer-detail/edit/${g.id}`
+												)
+											}
+										>
+											<FontIcon
+												aria-label="Edit"
+												iconName="Edit"
+												className={iconClass}
+											/>
+										</td>
+										<td
+											onClick={() => {
+												if (
+													window.confirm(
+														"Are you sure you want to delete this golfer?"
+													)
+												) {
+													deleteGolferMutation.mutate(
+														g
+													);
+												}
+											}}
+										>
+											<FontIcon
+												aria-label="Delete"
+												iconName="Delete"
+												className={iconClass}
+											/>
+										</td>
+									</tr>
+								</>
+							))}
 					</tbody>
 				</Table>
 			</div>

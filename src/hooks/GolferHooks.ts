@@ -86,9 +86,10 @@ export const useUpdateGolfer = () => {
 	return useMutation<AxiosResponse, AxiosError<Problem>, Golfer>(
 		(g) => axios.put(`${apiURL}/api/Golfers/${g.id}`, g),
 		{
-			onSuccess: (_, golfer) => {
+			onSuccess: (_, _golfer) => {
 				queryClient.invalidateQueries("golfers");
-				nav(`/golfer-detail/${golfer.id}`);
+				// nav(`/golfer-detail/${golfer.id}`);
+				nav("/golfers");
 			},
 		}
 	);
