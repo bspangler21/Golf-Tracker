@@ -4,6 +4,7 @@ import ValidationSummary from "../../pageComponents/ValidationSummary";
 import { LeagueDate } from "../../types/LeagueDate";
 import { useFetchDate, useUpdateDate } from "../../hooks/LeagueDateHooks";
 import DateForm from "./DateForm";
+import { mockDates } from "../../mockData/mockDates";
 
 type Args = {
 	status: "idle" | "success" | "error" | "loading";
@@ -36,7 +37,7 @@ const EditDate = () => {
 
 	if (!isSuccess) return <ApiStatus status={status} />;
 
-	dateData = data ?? "";
+	dateData = data ?? mockDates[0];
 
 	// useEffect(() => {
 	// 	dateData = data ?? getGolferById(dateId, mockGolfers);

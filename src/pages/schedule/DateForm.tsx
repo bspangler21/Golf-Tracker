@@ -1,13 +1,6 @@
-import {
-	Form,
-	Formik,
-	Field,
-	FormikHelpers,
-	useField,
-	useFormikContext,
-} from "formik";
 import { DatePicker, mergeStyleSets } from "@fluentui/react";
 import { LeagueDate } from "../../types/LeagueDate";
+import { useState } from "react";
 
 const classNames = mergeStyleSets({
 	wrapper: {
@@ -30,64 +23,39 @@ type Args = {
 	submitted: (leagueDate: LeagueDate) => void;
 };
 
-const DatePickerField = ({ name, ...props }) => {
-	const { setFieldValue } = useFormikContext();
-	const [field] = useField({ name, ...props });
-	return (
-		<DatePicker
-			{...field}
-			{...props}
-			onSelectDate={(date) => {
-				if (date) {
-					setFieldValue(field.name, new Date(date).toDateString());
-				}
-			}}
-		/>
-	);
-};
-
 const DateForm = ({ leagueDate, submitted }: Args) => {
-	// const [golferState, setGolferState] = useState({ ...leagueDate });
-	const initialValues = {
-		leagueId: leagueDate.leagueId,
-		matchDate: leagueDate.matchDate,
-		matchWeekNumber: leagueDate.matchWeekNumber,
+	const [dateState, setDateState] = useState({ ...leagueDate });
+
+	const onSubmit: React.MouseEventHandler<HTMLButtonElement> = async (e) => {
+		console.log("dateState", dateState);
+		e.preventDefault();
+		submitted(dateState);
 	};
 
 	return (
-		<div>
-			<Formik
-				initialValues={initialValues}
-				onSubmit={(
-					values: LeagueDate,
-					{ setSubmitting }: FormikHelpers<LeagueDate>
-				) => {
-					console.log({ values });
-					// alert(JSON.stringify(values, null, 2));
-					submitted(values);
-					setSubmitting(false);
-				}}
-			>
-				<Form
-					// onSubmit={formik.handleSubmit}
-					className={classNames.wrapper}
-					style={{ display: "flex", justifyContent: "center" }}
-				>
-					<div className={classNames.textField}>
-						<label htmlFor="matchDate">Date</label>
-						<DatePickerField
-							id="matchDate"
-							name="matchDate"
-							placeholder="Select a date..."
-							required={true}
-							value={leagueDate.matchDate}
-						/>
-						<br></br>
-						<br></br>
-						<button type="submit">Submit</button>
-					</div>
-				</Form>
-			</Formik>
+		<div
+			className={classNames.wrapper}
+			style={{ display: "flex", justifyContent: "center" }}
+		>
+			<div className={classNames.textField}>
+				<label htmlFor="matchDate">Date</label>
+				<DatePicker
+					placeholder="Select a date..."
+					isRequired={true}
+					value={new Date(leagueDate.matchDate)}
+					onSelectDate={(date) => {
+						setDateState({
+							...dateState,
+							matchDate: date ?? new Date(),
+						});
+					}}
+				/>
+				<br></br>
+				<br></br>
+				<button type="submit" onClick={onSubmit}>
+					Submit
+				</button>
+			</div>
 		</div>
 	);
 };
