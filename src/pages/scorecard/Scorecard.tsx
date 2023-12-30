@@ -187,11 +187,13 @@ const Scorecard = () => {
 	// ) => {};
 
 	return (
-		<>
-			<table className="responsive-table scorecard">
+		<div style={{ width: "100%" }}>
+			<table
+			// className="responsive-table scorecard"
+			>
 				<caption></caption>
 				<thead>
-					<tr className="hole-number">
+					<tr>
 						<th scope="col"></th>
 						<th data-title="1" scope="col">
 							1
@@ -408,7 +410,7 @@ const Scorecard = () => {
 					Export Golf Course Info
 				</DefaultButton>
 			</div>
-		</>
+		</div>
 	);
 };
 
