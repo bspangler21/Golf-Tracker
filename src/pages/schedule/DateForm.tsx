@@ -7,7 +7,6 @@ import {
 	useFormikContext,
 } from "formik";
 import { DatePicker, mergeStyleSets } from "@fluentui/react";
-import { Golfer } from "../../types/Golfer";
 import { LeagueDate } from "../../types/LeagueDate";
 
 const classNames = mergeStyleSets({
@@ -38,7 +37,11 @@ const DatePickerField = ({ name, ...props }) => {
 		<DatePicker
 			{...field}
 			{...props}
-			onSelectDate={(date) => setFieldValue(field.name, date)}
+			onSelectDate={(date) => {
+				if (date) {
+					setFieldValue(field.name, new Date(date).toDateString());
+				}
+			}}
 		/>
 	);
 };
@@ -77,6 +80,7 @@ const DateForm = ({ leagueDate, submitted }: Args) => {
 							name="matchDate"
 							placeholder="Select a date..."
 							required={true}
+							value={leagueDate.matchDate}
 						/>
 						<br></br>
 						<br></br>

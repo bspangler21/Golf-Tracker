@@ -1,13 +1,17 @@
 // import { mergeStyleSets } from "@fluentui/react";
 // import { useFetchData } from "../../hooks/GolferHooks";
-import { DefaultButton } from "@fluentui/react";
+import { DefaultButton, FontIcon, mergeStyles } from "@fluentui/react";
 import { mockDates } from "../../mockData/mockDates";
 import { useNavigate } from "react-router-dom";
-import { useFetchLeagueDates } from "../../hooks/LeagueDateHooks";
+import { useDeleteDate, useFetchDates } from "../../hooks/LeagueDateHooks";
 import { LeagueDate } from "../../types/LeagueDate";
 
-// const mockDatesList = mockDates;
-// console.log("mockDatesList", mockDatesList);
+const iconClass = mergeStyles({
+	fontSize: 25,
+	height: 25,
+	width: 25,
+	margin: "0 5px",
+});
 
 // const classNames = mergeStyleSets({
 // 	tableTextColor: {
@@ -35,7 +39,8 @@ let dates: LeagueDate[] = [];
 
 const ScheduleList = () => {
 	const nav = useNavigate();
-	const { data } = useFetchLeagueDates();
+	const { data } = useFetchDates();
+	const deleteDateMutation = useDeleteDate();
 	dates = data ?? mockDates;
 
 	if (import.meta.env.DEV) {
@@ -50,20 +55,59 @@ const ScheduleList = () => {
 						<tr>
 							<th>Week Number</th>
 							<th>Date</th>
+							<th></th>
+							<th></th>
 						</tr>
 					</thead>
 					<tbody>
 						{dates &&
 							dates.map((date) => (
-								<tr
-									key={date.id}
-									onClick={() => nav(`/matches/${date.id}`)}
-								>
-									<td>{date.matchWeekNumber}</td>
-									<td>
+								<tr key={date.id}>
+									<td
+										onClick={() =>
+											nav(`/matches/${date.id}`)
+										}
+									>
+										{date.matchWeekNumber}
+									</td>
+									<td
+										onClick={() =>
+											nav(`/matches/${date.id}`)
+										}
+									>
 										{new Date(
 											date.matchDate
 										).toLocaleDateString()}
+									</td>
+									<td
+										onClick={() =>
+											nav(
+												`/schedule-list/edit/${date.id}`
+											)
+										}
+									>
+										<FontIcon
+											aria-label="Edit"
+											iconName="Edit"
+											className={iconClass}
+										/>
+									</td>
+									<td
+										onClick={() => {
+											if (
+												window.confirm(
+													"Are you sure you want to delete this date?"
+												)
+											) {
+												deleteDateMutation.mutate(date);
+											}
+										}}
+									>
+										<FontIcon
+											aria-label="Delete"
+											iconName="Delete"
+											className={iconClass}
+										/>
 									</td>
 								</tr>
 							))}
