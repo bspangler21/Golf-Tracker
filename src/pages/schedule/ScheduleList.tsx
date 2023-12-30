@@ -3,6 +3,8 @@
 import { DefaultButton } from "@fluentui/react";
 import { mockDates } from "../../mockData/mockDates";
 import { useNavigate } from "react-router-dom";
+import { useFetchLeagueDates } from "../../hooks/LeagueDateHooks";
+import { LeagueDate } from "../../types/LeagueDate";
 
 // const mockDatesList = mockDates;
 // console.log("mockDatesList", mockDatesList);
@@ -29,12 +31,16 @@ import { useNavigate } from "react-router-dom";
 // 		verticalAlign: "middle",
 // 	},
 // });
+let dates: LeagueDate[] = [];
 
-export default function ScheduleList() {
+const ScheduleList = () => {
 	const nav = useNavigate();
-	// const { data } = useFetchData("golfers");
-	// dates = data ?? mockDates;
-	let dates = mockDates;
+	const { data } = useFetchLeagueDates();
+	dates = data ?? mockDates;
+
+	if (import.meta.env.DEV) {
+		console.log("dates", dates);
+	}
 
 	return (
 		<>
@@ -55,7 +61,9 @@ export default function ScheduleList() {
 								>
 									<td>{date.matchWeekNumber}</td>
 									<td>
-										{date.matchDate.toLocaleDateString()}
+										{new Date(
+											date.matchDate
+										).toLocaleDateString()}
 									</td>
 								</tr>
 							))}
@@ -68,4 +76,6 @@ export default function ScheduleList() {
 			</div>
 		</>
 	);
-}
+};
+
+export default ScheduleList;
