@@ -133,6 +133,16 @@ const ScheduleList = () => {
 	generateMatchups();
 	console.log("matchups", matchups);
 
+	const exportMatches = () => {
+		matchups.forEach((matchup) => {
+			csvContent += `${matchup[0].firstName} ${matchup[0].lastName},${matchup[1].firstName} ${matchup[1].lastName}\n`;
+		});
+
+		const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8" });
+
+		saveAs(blob, `matches.csv`);
+	};
+
 	return (
 		<>
 			<div style={{ display: "flex", justifyContent: "center" }}>
@@ -212,6 +222,9 @@ const ScheduleList = () => {
 				<DefaultButton onClick={() => nav(`/add-date`)}>
 					Add Date
 				</DefaultButton>
+			</div>
+			<div>
+				<button onClick={exportMatches}>Export</button>
 			</div>
 		</>
 	);
