@@ -8,6 +8,7 @@ import { Golfer } from "../../types/Golfer";
 import { mockDates } from "../../mockData/mockDates";
 import { Match } from "../../types/Match";
 import { LeagueDate } from "../../types/LeagueDate";
+import { useFetchDates } from "../../hooks/LeagueDateHooks";
 
 let golfers: Golfer[] = [];
 let matches: Match[] = [];
@@ -29,10 +30,11 @@ const MatchListing = ({
 	const dateId = id;
 	// const { data: golfersData } = useFetchData("golfers");
 	const { data: golfersData } = useFetchGolfers();
+	const { data: datesData } = useFetchDates();
 
 	golfers = golfersData ?? mockGolfers;
 	// matches = (matchesData as Match[]) ?? mockMatches;
-	dates = mockDates;
+	dates = datesData ?? mockDates;
 	matches = mockMatches;
 
 	const matchesList =
@@ -46,6 +48,8 @@ const MatchListing = ({
 		console.log("playerId in MatchListing", playerId);
 		console.log("matchesList", matchesList);
 	}
+
+	
 
 	return (
 		<div style={{ display: "flex", justifyContent: "center" }}>

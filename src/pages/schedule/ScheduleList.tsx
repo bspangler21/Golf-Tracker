@@ -5,6 +5,12 @@ import { mockDates } from "../../mockData/mockDates";
 import { useNavigate } from "react-router-dom";
 import { useDeleteDate, useFetchDates } from "../../hooks/LeagueDateHooks";
 import { LeagueDate } from "../../types/LeagueDate";
+import { useFetchGolfers } from "../../hooks/GolferHooks";
+import { Golfer } from "../../types/Golfer";
+import { mockGolfers } from "../../mockData/mockGolfers";
+import { getGolferById } from "../../util/golfers";
+import { useState } from "react";
+import { saveAs } from "file-saver";
 
 const iconClass = mergeStyles({
 	fontSize: 25,
@@ -36,16 +42,96 @@ const iconClass = mergeStyles({
 // 	},
 // });
 let dates: LeagueDate[] = [];
+let golfers: Golfer[] = [];
 
 const ScheduleList = () => {
 	const nav = useNavigate();
-	const { data } = useFetchDates();
+	const { data: datesData } = useFetchDates();
+	const { data: golfersData } = useFetchGolfers();
 	const deleteDateMutation = useDeleteDate();
-	dates = data ?? mockDates;
+	golfers = golfersData ?? mockGolfers;
+	dates = datesData ?? mockDates;
+	let golfer1Index: number = 0;
+	let golfer2Index: number = golfer1Index + 1;
+	let randomNumber = Math.random();
+	console.log("randomNumber", randomNumber);
+	// const [golfer1OpponentIndex, setGolfer1OpponentIndex] = useState<number>(
+	// 	Math.floor(randomNumber * golfers.length)
+	// );
+	let golfer1OpponentIndex: number = Math.floor(
+		randomNumber * golfers.length
+	);
+	let golfer2OpponentIndex: number = golfer1OpponentIndex + 1;
+	// const [golfer2OpponentIndex, setGolfer2OpponentIndex] = useState<number>(
+	// 	golfer1OpponentIndex + 1
+	// );
 
 	if (import.meta.env.DEV) {
 		console.log("dates", dates);
 	}
+
+	// dates.forEach((date) => {
+	// 	console.log("dateId", date.id);
+	// });
+
+	console.log("golfers", golfers);
+
+	// for (let i = 0; i < dates.length; i++) {
+	// 	console.log("dates[i].id", dates[i].id);
+
+	// 	for (let j = 0; j < golfers.length; j++) {
+	// 		console.log(
+	// 			"golfers[j].id",
+	// 			getGolferById(golfers[j]?.id ?? "", golfers)
+	// 		);
+	// 		console.log(
+	// 			"golfer1",
+	// 			getGolferById(golfers[0]?.id ?? "", golfers)
+	// 		);
+	// 		console.log("golfer1OpponentIndex", golfer1OpponentIndex);
+	// 		console.log("golfer2OpponentIndex", golfer2OpponentIndex);
+	// 		golfer1OpponentIndex++;
+	// 		console.log("golfer1OpponentIndex", golfer1OpponentIndex);
+	// 		console.log("golfer2OpponentIndex", golfer2OpponentIndex);
+	// 	}
+	// }
+	let csvContent = "Player 1,Player 2\n";
+	let matchups: Golfer[][] = [];
+
+	function matchExists(newMatchup, previousMatchups) {
+		// Check if the matchup or its reverse already exists in previous matchups
+		for (const matchup of previousMatchups) {
+			if (
+				(matchup[0] === newMatchup[0] &&
+					matchup[1] === newMatchup[1]) ||
+				(matchup[0] === newMatchup[1] && matchup[1] === newMatchup[0])
+			) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	// wrap date around this somehow to generate matchups for each date
+	const generateMatchups = () => {
+		for (let i = 0; i < golfers.length - 1; i++) {
+			for (let j = i + 1; j < golfers.length; j++) {
+				// Create a matchup
+				const matchup = [golfers[i], golfers[j]];
+
+				// Check if the matchup or its reverse already exists in previous matchups
+				if (!matchExists(matchup, matchups)) {
+					// Add the matchup to the schedule
+					matchups.push(matchup);
+				}
+			}
+		}
+
+		return matchups;
+	};
+
+	generateMatchups();
+	console.log("matchups", matchups);
 
 	return (
 		<>

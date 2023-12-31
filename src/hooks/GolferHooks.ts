@@ -24,14 +24,14 @@ function getTableToQuery(table: string) {
 }
 
 export const useFetchGolfers = () => {
-	console.log("api url", apiURL);
+	// console.log("api url", apiURL);
 	return useQuery<Golfer[]>("golfers", () => {
 		return fetch(`${apiURL}/api/Golfers`).then((res) => res.json());
 	});
 };
 
 export const useFetchData = <T extends Golfer | Match>(table: string) => {
-	console.log("api url", apiURL);
+	// console.log("api url", apiURL);
 	getTableToQuery(table);
 	return useQuery<T[]>(table, () => {
 		return fetch(`${apiURL}/api/${apiPath}`).then((res) => res.json());
