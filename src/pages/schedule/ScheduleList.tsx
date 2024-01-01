@@ -43,6 +43,7 @@ const iconClass = mergeStyles({
 // });
 let dates: LeagueDate[] = [];
 let golfers: Golfer[] = [];
+let weeks: any[] = [];
 
 const ScheduleList = () => {
 	const nav = useNavigate();
@@ -96,47 +97,57 @@ const ScheduleList = () => {
 	// 	}
 	// }
 	let csvContent = "Player 1,Player 2\n";
-	let matchups: Golfer[][] = [];
+	let matchups: any[] = [];
 
-	function matchExists(newMatchup, previousMatchups) {
+	function matchExists(newMatchup, week) {
 		// Check if the matchup or its reverse already exists in previous matchups
-		for (const matchup of previousMatchups) {
-			if (
+		return week.some(
+			(matchup) =>
 				(matchup[0] === newMatchup[0] &&
 					matchup[1] === newMatchup[1]) ||
 				(matchup[0] === newMatchup[1] && matchup[1] === newMatchup[0])
-			) {
-				return true;
-			}
-		}
-		return false;
+		);
 	}
 
 	// wrap date around this somehow to generate matchups for each date
 	const generateMatchups = () => {
-		for (let i = 0; i < golfers.length - 1; i++) {
-			for (let j = i + 1; j < golfers.length; j++) {
+		for (
+			let weekNumber = 1;
+			weekNumber <= golfers.length - 1;
+			weekNumber++
+		) {
+			const week: any[] = [];
+			for (let i = 0; i < golfers.length - 1; i++) {
+				const j = (i + weekNumber) % golfers.length;
 				// Create a matchup
-				const matchup = [golfers[i], golfers[j]];
+				const matchup = [golfers[i], golfers[j], weekNumber];
 
 				// Check if the matchup or its reverse already exists in previous matchups
-				if (!matchExists(matchup, matchups)) {
+				if (!matchExists(matchup, week)) {
+					week.push(matchup);
 					// Add the matchup to the schedule
-					matchups.push(matchup);
+					matchups.push({ week: weekNumber, matchup });
 				}
 			}
+			weeks.push(week);
 		}
 
-		return matchups;
+		return { matchups, weeks };
 	};
 
 	generateMatchups();
 	console.log("matchups", matchups);
 
 	const exportMatches = () => {
-		matchups.forEach((matchup) => {
-			csvContent += `${matchup[0].firstName} ${matchup[0].lastName},${matchup[1].firstName} ${matchup[1].lastName}\n`;
-		});
+		// matchups.forEach((matchup) => {
+		// 	csvContent += `${matchup[0]},${matchup[1]}\n`;
+		// });
+		csvContent += matchups
+			.map(
+				({ week, matchup }) =>
+					`${week},${matchup[0].firstName} ${matchup[0].lastName},${matchup[1].firstName} ${matchup[1].lastName}\n`
+			)
+			.join("");
 
 		const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8" });
 
