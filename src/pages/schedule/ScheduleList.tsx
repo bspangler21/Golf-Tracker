@@ -143,26 +143,25 @@ const ScheduleList = () => {
 
 	function splitMatchupsByWeek(matchups) {
 		let weeklyMatchups: any[] = [];
+		let currentPlayer: Golfer = {
+			firstName: "",
+			lastName: "",
+			handicap: 0,
+		};
+		let weekNumber = 1;
 		for (let i = 0; i < matchups.length; i++) {
-			let weekNumber = 1;
-			console.log("matchups[i]", matchups[i]);
-			console.log("matchups[i-1]", matchups[i - 1]);
-			if (
-				matchups[i - 1] &&
-				// matchups[i][0] === matchups[i - 1][0] ||
-				// matchups[i][0] === matchups[i - 1][1] ||
-				// matchups[i][1] === matchups[i - 1][0] ||
-				// matchups[i][1] === matchups[i - 1][1])
-				(matchups[i].player1 === matchups[i - 1].player1 ||
-					matchups[i].player1 === matchups[i - 1].player2 ||
-					matchups[i].player2 === matchups[i - 1].player1 ||
-					matchups[i].player2 === matchups[i - 1].player2)
-			) {
+			
+			// console.log("matchups[i]", matchups[i]);
+			// console.log("matchups[i-1]", matchups[i - 1]);
+			console.log("currentPlayer", currentPlayer);
+			console.log("matchups[i].player1", matchups[i].player1);
+			if (matchups[i].player1 === currentPlayer) {
 				weekNumber++;
 				weeklyMatchups.push({
 					weekNumber: weekNumber,
 					matchup: { ...matchups[i] },
 				});
+				currentPlayer = matchups[i].player1;
 			} else {
 				weeklyMatchups.push({
 					weekNumber: 1,
@@ -170,6 +169,7 @@ const ScheduleList = () => {
 					// player2: matchups[i][1],
 					matchup: { ...matchups[i] },
 				});
+				currentPlayer = matchups[i].player1;
 			}
 		}
 		console.log("weeklyMatchups", weeklyMatchups);
