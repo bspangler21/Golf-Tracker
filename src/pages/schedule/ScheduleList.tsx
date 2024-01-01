@@ -109,46 +109,103 @@ const ScheduleList = () => {
 		);
 	}
 
-	// wrap date around this somehow to generate matchups for each date
-	const generateMatchups = () => {
-		for (
-			let weekNumber = 1;
-			weekNumber <= golfers.length - 1;
-			weekNumber++
-		) {
-			const week: any[] = [];
-			for (let i = 0; i < golfers.length - 1; i++) {
-				const j = (i + weekNumber) % golfers.length;
-				// Create a matchup
-				const matchup = [golfers[i], golfers[j], weekNumber];
+	// function splitMatchupsByWeek(matchups) {
+	// 	const players = new Set();
+	// 	const weeklyMatchups = {};
 
+	// 	// Iterate over matchups
+	// 	matchups.forEach(({ week, matchup }) => {
+	// 		const [player1, player2] = matchup;
+
+	// 		// Check if players have already played in the current week
+	// 		if (!players.has(player1) && !players.has(player2)) {
+	// 			// Mark players as played
+	// 			players.add(player1);
+	// 			players.add(player2);
+
+	// 			// Add matchup to the current week
+	// 			if (!weeklyMatchups[week]) {
+	// 				weeklyMatchups[week] = [];
+	// 			}
+	// 			weeklyMatchups[week].push(matchup);
+	// 		}
+
+	// 		// If both players have played, reset the set for the next week
+	// 		if (players.size === matchups.length) {
+	// 			players.clear();
+	// 		}
+	// 	});
+
+	// 	return weeklyMatchups;
+	// }
+
+	// wrap date around this somehow to generate matchups for each date
+
+	function splitMatchupsByWeek(matchups) {
+		let weeklyMatchups: any[] = [];
+		for (let i = 0; i < matchups.length; i++) {
+			let weekNumber = 1;
+			console.log("matchups[i]", matchups[i]);
+			console.log("matchups[i-1]", matchups[i - 1]);
+			if (
+				matchups[i - 1] &&
+				// matchups[i][0] === matchups[i - 1][0] ||
+				// matchups[i][0] === matchups[i - 1][1] ||
+				// matchups[i][1] === matchups[i - 1][0] ||
+				// matchups[i][1] === matchups[i - 1][1])
+				(matchups[i].player1 === matchups[i - 1].player1 ||
+					matchups[i].player1 === matchups[i - 1].player2 ||
+					matchups[i].player2 === matchups[i - 1].player1 ||
+					matchups[i].player2 === matchups[i - 1].player2)
+			) {
+				weekNumber++;
+				weeklyMatchups.push({
+					weekNumber: weekNumber,
+					matchup: { ...matchups[i] },
+				});
+			} else {
+				weeklyMatchups.push({
+					weekNumber: 1,
+					// player1: matchups[i][0],
+					// player2: matchups[i][1],
+					matchup: { ...matchups[i] },
+				});
+			}
+		}
+		console.log("weeklyMatchups", weeklyMatchups);
+		return weeklyMatchups;
+	}
+
+	const generateMatchups = () => {
+		for (let i = 0; i < golfers.length - 1; i++) {
+			for (let j = i + 1; j < golfers.length; j++) {
+				// Create a matchup
+				const matchup = [golfers[i], golfers[j]];
+				// splitMatchupsByWeek(matchup);
+				// console.log("weeklyMatchup", splitMatchupsByWeek(matchup));
 				// Check if the matchup or its reverse already exists in previous matchups
-				if (!matchExists(matchup, week)) {
-					week.push(matchup);
+				if (!matchExists(matchup, matchups)) {
 					// Add the matchup to the schedule
-					matchups.push({ week: weekNumber, matchup });
+					// matchups.push(matchup);
+					matchups.push({ player1: golfers[i], player2: golfers[j] });
 				}
 			}
-			weeks.push(week);
 		}
 
-		return { matchups, weeks };
+		return matchups;
 	};
 
 	generateMatchups();
+	splitMatchupsByWeek(matchups);
 	console.log("matchups", matchups);
 
 	const exportMatches = () => {
-		// matchups.forEach((matchup) => {
-		// 	csvContent += `${matchup[0]},${matchup[1]}\n`;
-		// });
-		csvContent += matchups
-			.map(
-				({ week, matchup }) =>
-					`${week},${matchup[0].firstName} ${matchup[0].lastName},${matchup[1].firstName} ${matchup[1].lastName}\n`
-			)
-			.join("");
-
+		matchups.forEach((matchup) => {
+			console.log("matchup", matchup);
+			// splitMatchupsByWeek(matchup);
+			csvContent += `${matchup[0].firstName} ${matchup[0].lastName},${matchup[1].firstName} ${matchup[1].lastName}\n`;
+		});
+		// console.log("weeklyMatchups", splitMatchupsByWeek(matchups));
 		const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8" });
 
 		saveAs(blob, `matches.csv`);
