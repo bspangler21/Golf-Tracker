@@ -155,7 +155,17 @@ const ScheduleList = () => {
 			// console.log("matchups[i-1]", matchups[i - 1]);
 			console.log("currentPlayer", currentPlayer);
 			console.log("matchups[i].player1", matchups[i].player1);
-			if (matchups[i].player1 === currentPlayer) {
+			if (
+				matchups[i - 1] &&
+				// matchups[i][0] === matchups[i - 1][0] ||
+				// matchups[i][0] === matchups[i - 1][1] ||
+				// matchups[i][1] === matchups[i - 1][0] ||
+				// matchups[i][1] === matchups[i - 1][1])
+				(matchups[i].player1 === matchups[i - 1].player1 ||
+					matchups[i].player1 === matchups[i - 1].player2 ||
+					matchups[i].player2 === matchups[i - 1].player1 ||
+					matchups[i].player2 === matchups[i - 1].player2)
+			) {
 				weekNumber++;
 				weeklyMatchups.push({
 					weekNumber: weekNumber,
@@ -172,7 +182,7 @@ const ScheduleList = () => {
 				currentPlayer = matchups[i].player1;
 			}
 		}
-		console.log("weeklyMatchups", weeklyMatchups);
+		console.log("weeklyMatchups", weeklyMatchups.sort((a, b) => a.weekNumber > b.weekNumber ? 1 : -1));
 		return weeklyMatchups;
 	}
 
