@@ -11,6 +11,7 @@ import { mockGolfers } from "../../mockData/mockGolfers";
 import { getGolferById } from "../../util/golfers";
 import { useState } from "react";
 import { saveAs } from "file-saver";
+import { fi } from "date-fns/locale";
 
 const iconClass = mergeStyles({
 	fontSize: 25,
@@ -64,39 +65,8 @@ const ScheduleList = () => {
 		randomNumber * golfers.length
 	);
 	let golfer2OpponentIndex: number = golfer1OpponentIndex + 1;
-	// const [golfer2OpponentIndex, setGolfer2OpponentIndex] = useState<number>(
-	// 	golfer1OpponentIndex + 1
-	// );
-
-	if (import.meta.env.DEV) {
-		// console.log("dates", dates);
-	}
-
-	// dates.forEach((date) => {
-	// 	console.log("dateId", date.id);
-	// });
-
-	// console.log("golfers", golfers);
-
-	// for (let i = 0; i < dates.length; i++) {
-	// 	console.log("dates[i].id", dates[i].id);
-
-	// 	for (let j = 0; j < golfers.length; j++) {
-	// 		console.log(
-	// 			"golfers[j].id",
-	// 			getGolferById(golfers[j]?.id ?? "", golfers)
-	// 		);
-	// 		console.log(
-	// 			"golfer1",
-	// 			getGolferById(golfers[0]?.id ?? "", golfers)
-	// 		);
-	// 		console.log("golfer1OpponentIndex", golfer1OpponentIndex);
-	// 		console.log("golfer2OpponentIndex", golfer2OpponentIndex);
-	// 		golfer1OpponentIndex++;
-	// 		console.log("golfer1OpponentIndex", golfer1OpponentIndex);
-	// 		console.log("golfer2OpponentIndex", golfer2OpponentIndex);
-	// 	}
-	// }
+	let finalMatchups: any[] = [];
+	let finalMatchupsExport: any[] = [];
 
 	interface Matchup {
 		player1: Golfer;
@@ -112,186 +82,57 @@ const ScheduleList = () => {
 		handicap: 0,
 	};
 
-	function findMostRecentWeekNumber(
-		weeklyMatchups: any[],
-		player1: any
-	): number {
-		let mostRecentWeekNumber = 0;
-
-		for (let i = 0; i < weeklyMatchups.length; i++) {
-			const matchup = weeklyMatchups[i].matchup;
-			console.log("weeklyMatchups[i]", weeklyMatchups[i]);
-			if (matchup.player2 === player1) {
-				mostRecentWeekNumber = Math.max(
-					mostRecentWeekNumber,
-					weeklyMatchups[i].weekNumber
-				);
-			}
+	function shuffleArray(array) {
+		for (let i = array.length - 1; i > 0; i--) {
+			const j = Math.floor(Math.random() * (i + 1));
+			[array[i], array[j]] = [array[j], array[i]];
 		}
-		console.log("mostRecentWeekNumber", mostRecentWeekNumber);
-		return mostRecentWeekNumber;
+		return array;
 	}
 
-	function matchExists(newMatchup, week) {
-		// Check if the matchup or its reverse already exists in previous matchups
-		return week.some(
-			(matchup) =>
-				(matchup[0] === newMatchup[0] &&
-					matchup[1] === newMatchup[1]) ||
-				(matchup[0] === newMatchup[1] && matchup[1] === newMatchup[0])
-		);
+	function generateMatchSchedule(golfers: Golfer[]) {
+		if (golfers.length % 2 !== 0) {
+			golfers.push({ firstName: "Bye", lastName: "", handicap: 0 });
+		}
+		const shuffledGolfers = shuffleArray(golfers);
+		const matchSchedule: any = [];
+
+		for (let i = 0; i < shuffledGolfers.length - 1; i++) {
+			const roundMatches: any = [];
+			let match: any = { golfer1: {}, golfer2: {}, weekNumber: 0 };
+			for (let j = 0; j < shuffledGolfers.length / 2; j++) {
+				match = {
+					homeTeam: shuffledGolfers[j],
+					awayTeam: shuffledGolfers[shuffledGolfers.length - 1 - j],
+
+					weekNumber: `Date ${i + 1}`,
+				};
+				roundMatches.push(match);
+			}
+			matchSchedule.push(roundMatches);
+
+			// Rotate the teams array for the next round
+			shuffledGolfers.splice(1, 0, shuffledGolfers.pop());
+		}
+		console.log("matchSchedule", matchSchedule);
+		return matchSchedule;
 	}
-
-	// function splitMatchupsByWeek(matchups) {
-	// 	const players = new Set();
-	// 	const weeklyMatchups = {};
-
-	// 	// Iterate over matchups
-	// 	matchups.forEach(({ week, matchup }) => {
-	// 		const [player1, player2] = matchup;
-
-	// 		// Check if players have already played in the current week
-	// 		if (!players.has(player1) && !players.has(player2)) {
-	// 			// Mark players as played
-	// 			players.add(player1);
-	// 			players.add(player2);
-
-	// 			// Add matchup to the current week
-	// 			if (!weeklyMatchups[week]) {
-	// 				weeklyMatchups[week] = [];
-	// 			}
-	// 			weeklyMatchups[week].push(matchup);
-	// 		}
-
-	// 		// If both players have played, reset the set for the next week
-	// 		if (players.size === matchups.length) {
-	// 			players.clear();
-	// 		}
-	// 	});
-
-	// 	return weeklyMatchups;
-	// }
-
-	// wrap date around this somehow to generate matchups for each date
-
-	function splitMatchupsByWeek(matchups) {
-		// let weeklyMatchups: any[] = [];
-
-		// let weekNumber = 1;
-		for (let i = 0; i < matchups.length; i++) {
-			if (!matchups[i - 1]) {
-				weeklyMatchups.push({
-					weekNumber: 1,
-					// player1: matchups[i][0],
-					// player2: matchups[i][1],
-					matchup: { ...matchups[i] },
-				});
-			} else if (
-				matchups[i].player1 === matchups[i - 1].player1
-
-				// matchups[i].player2 === matchups[i - 1].player1 ||
-				// matchups[i].player2 === matchups[i - 1].player2
-			) {
-				weekNumber++;
-				weeklyMatchups.push({
-					weekNumber: weekNumber,
-					matchup: { ...matchups[i] },
-				});
-			} else {
-				weekNumber = findMostRecentWeekNumber(
-					weeklyMatchups,
-					matchups[i].player1
-					// matchups[i].player2
-				);
-				console.log(
-					"most recent week number",
-					matchups[i].player1.firstName + " " + weekNumber
-				);
-				weekNumber++;
-				weeklyMatchups.push({
-					weekNumber: weekNumber,
-					matchup: { ...matchups[i] },
-				});
-			}
-		}
-		console.log(
-			"weeklyMatchups",
-			weeklyMatchups.sort((a, b) =>
-				a.weekNumber > b.weekNumber ? 1 : -1
-			)
-		);
-		return weeklyMatchups;
-	}
-
-	const generateMatchups = () => {
-		for (let i = 0; i < golfers.length - 1; i++) {
-			for (let j = i + 1; j < golfers.length; j++) {
-				// Create a matchup
-				const matchup = [golfers[i], golfers[j]];
-				// splitMatchupsByWeek(matchup);
-				// console.log("weeklyMatchup", splitMatchupsByWeek(matchup));
-				// Check if the matchup or its reverse already exists in previous matchups
-				if (!matchExists(matchup, matchups)) {
-					// Add the matchup to the schedule
-					// matchups.push(matchup);
-
-					matchups.push({ player1: golfers[i], player2: golfers[j] });
-				}
-			}
-		}
-
-		return matchups;
-	};
-
-	function generateGolfSchedule() {
-		const schedule: any[] = [];
-		const matchups: any[] = [];
-		let numGolfers = golfers.length;
-
-		// Create matchups
-		for (let i = 0; i < numGolfers - 1; i++) {
-			for (let j = i + 1; j < numGolfers; j++) {
-				matchups.push([i + 1, j + 1]);
-			}
-		}
-
-		// Assign matchups to weeks
-		for (let week = 1; week <= numGolfers - 1; week++) {
-			const weekSchedule: any[] = [];
-
-			// Rotate players and create matchups
-			for (let i = 0; i < numGolfers / 2; i++) {
-				const golfer1 = golfers[matchups[i][0] - 1];
-				const golfer2 = golfers[matchups[i][1]];
-
-				weekSchedule.push([golfer1, golfer2]);
-			}
-
-			// Rotate matchups for the next week
-			matchups.unshift(matchups.pop());
-
-			schedule.push({ week, matchups: weekSchedule });
-		}
-		console.log("schedule", schedule);
-		return schedule;
-	}
-
-	// Example usage:
-
-	const golfSchedule = generateGolfSchedule();
-
-	console.log("Golf Schedule:", golfSchedule);
-
-	// generateMatchups();
-	// splitMatchupsByWeek(
-	// 	// matchups.sort((a: any, b: any) =>
-	// 	// 	a.player1.id > b.player1.id ? 1 : -1
-	// 	// )
-	// 	matchups
-	// );
-	console.log("matchups", matchups);
 
 	const exportMatches = () => {
+		finalMatchups = generateMatchSchedule(golfers);
+		// finalMatchups.forEach((matchup) => {
+		// 	console.log("matchup", matchup);
+		// 	csvContent += `${matchup.weekNumber},${matchup.homeTeam?.firstName ?? ""} ${matchup.homeTeam?.lastName ?? ""},${matchup.awayTeam?.firstName ?? ""} ${matchup.awayTeam?.lastName ?? ""}\n`;
+		// });
+		finalMatchups.map((matchup) => {
+			matchup.map((match) => {
+				csvContent += `${match.weekNumber},${
+					match.homeTeam?.firstName ?? ""
+				} ${match.homeTeam?.lastName ?? ""},${
+					match.awayTeam?.firstName ?? ""
+				} ${match.awayTeam?.lastName ?? ""}\n`;
+			});
+		});
 		// generateMatchups();
 		// splitMatchupsByWeek(
 		// 	// matchups.sort((a: any, b: any) =>
@@ -299,44 +140,6 @@ const ScheduleList = () => {
 		// 	// )
 		// 	matchups
 		// );
-		console.log("exportMatches", matchups);
-		/*matchups.forEach((matchup) => {
-			// console.log("matchup", matchup);
-			// splitMatchupsByWeek(matchup);
-			// csvContent += `${matchup[0].firstName} ${matchup[0].lastName},${matchup[1].firstName} ${matchup[1].lastName}\n`;
-			// csvContent += `${matchup.player1.firstName} ${matchup.player1.lastName},${matchup.player2.firstName} ${matchup.player2.lastName}\n`;
-			if (matchup.player1 !== lastPlayer1) {
-				weekNumber++;
-				weeklyMatchups.push({
-					weekNumber: weekNumber,
-					matchup: { ...matchup },
-				});
-			} else {
-				weekNumber = findMostRecentWeekNumber(
-					weeklyMatchups,
-					matchup.player1
-				);
-				weekNumber++;
-				weeklyMatchups.push({
-					weekNumber: weekNumber,
-					matchup: { ...matchup },
-				});
-			}
-			lastPlayer1 = matchup.player1;
-			csvContent += `${weekNumber},${matchup.player1.firstName} ${matchup.player1.lastName},${matchup.player2.firstName} ${matchup.player2.lastName}\n`;
-		});
-		console.log("weeklyMatchups", weeklyMatchups);
-		// console.log("weeklyMatchups", splitMatchupsByWeek(matchups));*/
-
-		console.log("Golf Schedule:");
-		golfSchedule.forEach((weekSchedule) => {
-			weekSchedule.matchups.forEach((matchup) => {
-				console.log(
-					`${weekSchedule.week}, ${matchup[0].firstName}${matchup[0].lastName}, ${matchup[1].firstName}${matchup[1].lastName}`
-				);
-				csvContent += `${weekSchedule.week}, ${matchup[0].firstName}${matchup[0].lastName}, ${matchup[1].firstName}${matchup[1].lastName}\n`;
-			});
-		});
 
 		const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8" });
 
