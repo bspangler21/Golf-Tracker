@@ -243,6 +243,45 @@ const ScheduleList = () => {
 		return matchups;
 	};
 
+	function generateGolfSchedule() {
+		const schedule: any[] = [];
+		const matchups: any[] = [];
+		let numGolfers = golfers.length;
+
+		// Create matchups
+		for (let i = 0; i < numGolfers - 1; i++) {
+			for (let j = i + 1; j < numGolfers; j++) {
+				matchups.push([i + 1, j + 1]);
+			}
+		}
+
+		// Assign matchups to weeks
+		for (let week = 1; week <= numGolfers - 1; week++) {
+			const weekSchedule: any[] = [];
+
+			// Rotate players and create matchups
+			for (let i = 0; i < numGolfers / 2; i++) {
+				const golfer1 = golfers[matchups[i][0] - 1];
+				const golfer2 = golfers[matchups[i][1]];
+
+				weekSchedule.push([golfer1, golfer2]);
+			}
+
+			// Rotate matchups for the next week
+			matchups.unshift(matchups.pop());
+
+			schedule.push({ week, matchups: weekSchedule });
+		}
+		console.log("schedule", schedule);
+		return schedule;
+	}
+
+	// Example usage:
+
+	const golfSchedule = generateGolfSchedule();
+
+	console.log("Golf Schedule:", golfSchedule);
+
 	// generateMatchups();
 	// splitMatchupsByWeek(
 	// 	// matchups.sort((a: any, b: any) =>
@@ -253,7 +292,7 @@ const ScheduleList = () => {
 	console.log("matchups", matchups);
 
 	const exportMatches = () => {
-		generateMatchups();
+		// generateMatchups();
 		// splitMatchupsByWeek(
 		// 	// matchups.sort((a: any, b: any) =>
 		// 	// 	a.player1.id > b.player1.id ? 1 : -1
@@ -261,7 +300,7 @@ const ScheduleList = () => {
 		// 	matchups
 		// );
 		console.log("exportMatches", matchups);
-		matchups.forEach((matchup) => {
+		/*matchups.forEach((matchup) => {
 			// console.log("matchup", matchup);
 			// splitMatchupsByWeek(matchup);
 			// csvContent += `${matchup[0].firstName} ${matchup[0].lastName},${matchup[1].firstName} ${matchup[1].lastName}\n`;
@@ -287,7 +326,17 @@ const ScheduleList = () => {
 			csvContent += `${weekNumber},${matchup.player1.firstName} ${matchup.player1.lastName},${matchup.player2.firstName} ${matchup.player2.lastName}\n`;
 		});
 		console.log("weeklyMatchups", weeklyMatchups);
-		// console.log("weeklyMatchups", splitMatchupsByWeek(matchups));
+		// console.log("weeklyMatchups", splitMatchupsByWeek(matchups));*/
+
+		console.log("Golf Schedule:");
+		golfSchedule.forEach((weekSchedule) => {
+			weekSchedule.matchups.forEach((matchup) => {
+				console.log(
+					`${weekSchedule.week}, ${matchup[0].firstName}${matchup[0].lastName}, ${matchup[1].firstName}${matchup[1].lastName}`
+				);
+				csvContent += `${weekSchedule.week}, ${matchup[0].firstName}${matchup[0].lastName}, ${matchup[1].firstName}${matchup[1].lastName}\n`;
+			});
+		});
 
 		const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8" });
 
