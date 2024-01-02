@@ -107,7 +107,19 @@ const ScheduleList = () => {
 
 	function shuffleArray(array) {
 		for (let i = array.length - 1; i > 0; i--) {
+			/**
+			 * Generates a random number between 0 and the specified maximum value.
+			 *
+			 * @param {number} max - The maximum value for the random number.
+			 * @returns {number} - The generated random number.
+			 */
 			const j = Math.floor(Math.random() * (i + 1));
+			/* Swaps the elements at the given indices in the array.
+			 *
+			 * @param array - The array in which the elements should be swapped.
+			 * @param i - The index of the first element to be swapped.
+			 * @param j - The index of the second element to be swapped.
+			 */
 			[array[i], array[j]] = [array[j], array[i]];
 		}
 		return array;
