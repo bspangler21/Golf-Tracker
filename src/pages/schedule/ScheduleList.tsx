@@ -8,10 +8,8 @@ import { LeagueDate } from "../../types/LeagueDate";
 import { useFetchGolfers } from "../../hooks/GolferHooks";
 import { Golfer } from "../../types/Golfer";
 import { mockGolfers } from "../../mockData/mockGolfers";
-import { getGolferById } from "../../util/golfers";
-import { useState } from "react";
 import { saveAs } from "file-saver";
-import { fi } from "date-fns/locale";
+
 
 const iconClass = mergeStyles({
 	fontSize: 25,
@@ -44,7 +42,7 @@ const iconClass = mergeStyles({
 // });
 let dates: LeagueDate[] = [];
 let golfers: Golfer[] = [];
-let weeks: any[] = [];
+// let weeks: any[] = [];
 
 const ScheduleList = () => {
 	const nav = useNavigate();
@@ -53,34 +51,34 @@ const ScheduleList = () => {
 	const deleteDateMutation = useDeleteDate();
 	golfers = golfersData ?? mockGolfers;
 	dates = datesData ?? mockDates;
-	let golfer1Index: number = 0;
-	let golfer2Index: number = golfer1Index + 1;
-	let randomNumber = Math.random();
-	let weekNumber: number = 0;
+	// let golfer1Index: number = 0;
+	// let golfer2Index: number = golfer1Index + 1;
+	// let randomNumber = Math.random();
+	// let weekNumber: number = 0;
 	// console.log("randomNumber", randomNumber);
 	// const [golfer1OpponentIndex, setGolfer1OpponentIndex] = useState<number>(
 	// 	Math.floor(randomNumber * golfers.length)
 	// );
-	let golfer1OpponentIndex: number = Math.floor(
-		randomNumber * golfers.length
-	);
-	let golfer2OpponentIndex: number = golfer1OpponentIndex + 1;
+	// let golfer1OpponentIndex: number = Math.floor(
+	// 	randomNumber * golfers.length
+	// );
+	// let golfer2OpponentIndex: number = golfer1OpponentIndex + 1;
 	let finalMatchups: any[] = [];
-	let finalMatchupsExport: any[] = [];
+	// let finalMatchupsExport: any[] = [];
 
-	interface Matchup {
-		player1: Golfer;
-		player2: Golfer;
-	}
+	// interface Matchup {
+	// 	player1: Golfer;
+	// 	player2: Golfer;
+	// }
 
-	const matchups: Matchup[] = [];
+	// const matchups: Matchup[] = [];
 	let csvContent = "Week Number,Player 1,Player 2\n";
-	let weeklyMatchups: any[] = [];
-	let lastPlayer1: Golfer = {
-		firstName: "",
-		lastName: "",
-		handicap: 0,
-	};
+	// let weeklyMatchups: any[] = [];
+	// let lastPlayer1: Golfer = {
+	// 	firstName: "",
+	// 	lastName: "",
+	// 	handicap: 0,
+	// };
 
 	/**
 	 * Shuffles the elements in an array using the Fisher-Yates algorithm.
