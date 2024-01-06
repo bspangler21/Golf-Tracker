@@ -53,6 +53,7 @@ const Scorecard = () => {
 	const { golfer1Id, golfer2Id, dateId } = useParams();
 	dates = mockDates;
 	matches = mockMatches;
+	console.log("matches", matches);
 
 	golfers = golferData ?? mockGolfers;
 	// matches = matchesData ?? mockMatches;

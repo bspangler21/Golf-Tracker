@@ -39,6 +39,8 @@ const MatchListing = ({
 	dates = datesData ?? mockDates;
 	matches = mockMatches;
 
+	console.log("dates", dates);
+	
 	const matchesList =
 		isPlayerView && playerId
 			? getMatchesByPlayerId(playerId, matches)
