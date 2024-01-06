@@ -11,8 +11,8 @@ import { LeagueDate } from "../../types/LeagueDate";
 import { useFetchDates } from "../../hooks/LeagueDateHooks";
 
 let golfers: Golfer[] = [];
-let matches: Match[] = [];
-let dates: LeagueDate[] = [];
+
+
 
 interface MatchListingProps {
 	isPlayerView?: boolean;
@@ -23,6 +23,8 @@ const MatchListing = ({
 	isPlayerView = false,
 	playerId,
 }: MatchListingProps) => {
+	let dates: LeagueDate[] = [];
+	let matches: Match[] = [];
 	const nav = useNavigate();
 	const { id } = useParams();
 	if (!id) throw Error("Date id not found");

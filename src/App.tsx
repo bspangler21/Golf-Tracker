@@ -12,7 +12,7 @@ import { SpeedInsights } from "@vercel/speed-insights/react";
 import Footer from "./pageComponents/Footer";
 import AddGolfer from "./pages/golfers/AddGolfer";
 import EditGolfer from "./pages/golfers/EditGolfer";
-import Scorecard2 from "./pages/scorecard/Scorecard2";
+// import Scorecard2 from "./pages/scorecard/Scorecard2";
 import AddDate from "./pages/schedule/AddDate";
 import EditDate from "./pages/schedule/EditDate";
 
@@ -40,7 +40,7 @@ function App() {
 					path="/scorecard/:golfer1Id/:golfer2Id/:dateId"
 					Component={Scorecard}
 				></Route>
-				<Route path="/scorecard2" Component={Scorecard2}></Route>
+				{/* <Route path="/scorecard2" Component={Scorecard2}></Route> */}
 				<Route path="/add-golfer" Component={AddGolfer}></Route>
 				<Route
 					path="/golfer-detail/edit/:id"

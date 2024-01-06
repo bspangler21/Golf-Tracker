@@ -27,7 +27,7 @@ const course = mockCourses.find(
 );
 
 let golfers: Golfer[] = [];
-// let matches: Match[] = [];
+let matches: Match[] = [];
 let dates: LeagueDate[] = [];
 
 /**
