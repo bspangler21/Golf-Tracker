@@ -5,3 +5,4 @@
 4. Add hooks for remaining tables in React
 5. Add tee time to Match
 6. Add tee time type so "times" can be templated (i.e., first match plays at 3:37pm, etc.)
+7. Add logic so Adding/Editing still works when API not running
