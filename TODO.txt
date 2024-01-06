@@ -1,5 +1,6 @@
 1. Add functionality to add golfers to multiple leagues
 2. Add MatchScore and MatchTotalScore to Mongo
+  2a. Add TS function to calculate golfer average and handicap
 3. Add remaining tables to API
 4. Add hooks for remaining tables in React
 5. Add tee time to Match

@@ -62,6 +62,7 @@ const MatchListing = ({
 					<tr>
 						<th>Match Number</th>
 						<th>Matchup</th>
+						<th>Tee Time</th>
 					</tr>
 				</thead>
 				<tbody>
