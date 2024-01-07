@@ -1,9 +1,6 @@
 import reactLogo from "../../assets/react.svg";
-// import { mockGolfers } from "../../mockData/mockGolfers";
 import "./GolferDetail.css";
 import { useNavigate, useParams } from "react-router-dom";
-// import { mergeStyleSets } from "@fluentui/react";
-// import { getGolferById } from "../../util/golfers";
 import utilStyles from "../../styles/utilStyles.module.css";
 import MatchListing from "../matches/MatchListing";
 import { useFetchGolfer } from "../../hooks/GolferHooks";
@@ -13,7 +10,6 @@ import { mockGolfers } from "../../mockData/mockGolfers";
 import { useFetchMatchScores } from "../../hooks/MatchScoreHooks";
 import { Golfer } from "../../types/Golfer";
 import { MatchScore } from "../../types/MatchScore";
-import { ms } from "date-fns/locale";
 
 let golfer: Golfer = {
 	id: "0",
