@@ -29,7 +29,30 @@ export const useAddMatchScore = () => {
 		{
 			onSuccess: () => {
 				queryClient.invalidateQueries("matchScores");
-				window.history.back();
+				// window.history.back();
+			},
+			onError: (error) => {
+				if (error.response?.status === 405) {
+					// Handle 405 error here
+					console.error("405 Method Not Allowed");
+				} else {
+					// Handle other errors here
+					console.error(error.message);
+				}
+			},
+		}
+	);
+};
+
+export const useAddMatchScoreNoMutation = (matchId: string) => {
+	const queryClient = useQueryClient();
+	const nav = useNavigate();
+	return useMutation<AxiosResponse, AxiosError<Problem>, MatchScore>(
+		(matchScore) => axios.post(`${apiURL}/api/MatchScores`, matchScore),
+		{
+			onSuccess: () => {
+				queryClient.invalidateQueries("matchScores");
+				nav(`/matches/${matchId}`)
 			},
 			onError: (error) => {
 				if (error.response?.status === 405) {

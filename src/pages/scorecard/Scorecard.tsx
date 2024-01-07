@@ -15,7 +15,10 @@ import { LeagueDate } from "../../types/LeagueDate";
 import { mockMatches } from "../../mockData/mockMatches";
 import { mockDates } from "../../mockData/mockDates";
 import { Match } from "../../types/Match";
-import { useAddMatchScore } from "../../hooks/MatchScoreHooks";
+import {
+	useAddMatchScore,
+	useAddMatchScoreNoMutation,
+} from "../../hooks/MatchScoreHooks";
 import { useFetchDates } from "../../hooks/LeagueDateHooks";
 import { useFetchMatches } from "../../hooks/MatchHooks";
 
@@ -53,7 +56,6 @@ let frontNinePar = golfHoles.reduce(
 );
 
 const Scorecard = () => {
-	const addMatchScoreMutation = useAddMatchScore();
 	const { data: matchesData } = useFetchMatches();
 	const { data: dateData } = useFetchDates();
 	const { data: golferData } = useFetchGolfers();
@@ -67,7 +69,8 @@ const Scorecard = () => {
 
 	golfers = golferData ?? mockGolfers;
 	// matches = matchesData ?? mockMatches;
-
+	const addMatchScoreMutation = useAddMatchScore();
+	const addMatchScore = useAddMatchScoreNoMutation(currentMatchId);
 	const player1 = getGolferById(golfer1Id ?? "", golfers);
 	const player2 = getGolferById(golfer2Id ?? "", golfers);
 	const matchDay = getMatchDateById(dateId ?? "", dates);
@@ -132,19 +135,6 @@ const Scorecard = () => {
 			console.log("Updated Golfers:", updatedGolfers);
 		}
 
-		// const newRoundScore: MatchScore = {
-		// 	// leagueId: 1,
-		// 	matchId: currentMatchId,
-		// 	golferId: golferId.toString(),
-		// 	holeNumber: holeId,
-		// 	holeScore: newScore,
-		// };
-
-		// setRoundScores((prevRoundScores) => [
-		// 	...prevRoundScores,
-		// 	newRoundScore,
-		// ]);
-
 		golferId === 1 ? setGolfer1Score(golfer1Score + newScore) : "";
 		golferId === 1 ? setGolfer1Scores([...golfer1Scores, newScore]) : "";
 		golferId === 2 ? setGolfer2Score(golfer2Score + newScore) : "";
@@ -189,7 +179,7 @@ const Scorecard = () => {
 		console.log("player1Data", player1Data);
 		console.log("player2Data", player2Data);
 		// add path as second parameter?
-		addMatchScoreMutation.mutate(player1Data);
+		addMatchScore.mutate(player1Data);
 		addMatchScoreMutation.mutate(player2Data);
 		let winningMessage =
 			golfer1TotalScore > golfer2TotalScore
