@@ -16,6 +16,8 @@ import { mockMatches } from "../../mockData/mockMatches";
 import { mockDates } from "../../mockData/mockDates";
 import { Match } from "../../types/Match";
 import { useAddMatchScore } from "../../hooks/MatchScoreHooks";
+import { useFetchDates } from "../../hooks/LeagueDateHooks";
+import { useFetchMatches } from "../../hooks/MatchHooks";
 
 //only show holes and course for Lake Breeze
 const golfHoles = mockHoles.filter(
@@ -52,13 +54,15 @@ let frontNinePar = golfHoles.reduce(
 
 const Scorecard = () => {
 	const addMatchScoreMutation = useAddMatchScore();
+	const { data: matchesData } = useFetchMatches();
+	const { data: dateData } = useFetchDates();
 	const { data: golferData } = useFetchGolfers();
 	// const { data: golferData } = useFetchData("golfers");
 	// const { data: matchesData } = useFetchData("matches");
 	const { golfer1Id, golfer2Id, matchId, dateId } = useParams();
 	currentMatchId = matchId ?? "1";
-	dates = mockDates;
-	matches = mockMatches;
+	dates = dateData ?? mockDates;
+	matches = matchesData ?? mockMatches;
 	console.log("matches", matches);
 
 	golfers = golferData ?? mockGolfers;

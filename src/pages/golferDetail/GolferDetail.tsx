@@ -10,6 +10,7 @@ import { mockGolfers } from "../../mockData/mockGolfers";
 import { useFetchMatchScores } from "../../hooks/MatchScoreHooks";
 import { Golfer } from "../../types/Golfer";
 import { MatchScore } from "../../types/MatchScore";
+import { mockMatchScores } from "../../mockData/mockMatchScores";
 
 let golfer: Golfer = {
 	id: "0",
@@ -40,7 +41,7 @@ const GolferDetail = () => {
 	golfer = golferData ?? getGolferById(golferId, mockGolfers);
 	let golferDisplayName = `${golfer.firstName} ${golfer.lastName}`;
 
-	matchScores = matchScoreData ?? [];
+	matchScores = matchScoreData ?? mockMatchScores;
 
 	// let currentGolferMatchScores: MatchScore[] = matchScores.filter(
 	// 	(m) => m.golferId === golferId
