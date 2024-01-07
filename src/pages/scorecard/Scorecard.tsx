@@ -184,6 +184,7 @@ const Scorecard = () => {
 		};
 		console.log("player1Data", player1Data);
 		console.log("player2Data", player2Data);
+		// add path as second parameter?
 		addMatchScoreMutation.mutate(player1Data);
 		addMatchScoreMutation.mutate(player2Data);
 		let winningMessage =

@@ -23,7 +23,7 @@ export const useFetchMatchScore = (id: string) => {
 
 export const useAddMatchScore = () => {
 	const queryClient = useQueryClient();
-	const nav = useNavigate();
+	// const nav = useNavigate();
 	return useMutation<AxiosResponse, AxiosError<Problem>, MatchScore>(
 		(matchScore) => axios.post(`${apiURL}/api/MatchScores`, matchScore),
 		{
