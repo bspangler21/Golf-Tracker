@@ -15,6 +15,7 @@ import { LeagueDate } from "../../types/LeagueDate";
 import { mockMatches } from "../../mockData/mockMatches";
 import { mockDates } from "../../mockData/mockDates";
 import { Match } from "../../types/Match";
+import { useAddMatchScore } from "../../hooks/MatchScoreHooks";
 
 //only show holes and course for Lake Breeze
 const golfHoles = mockHoles.filter(
@@ -29,6 +30,9 @@ const course = mockCourses.find(
 let golfers: Golfer[] = [];
 let matches: Match[] = [];
 let dates: LeagueDate[] = [];
+let currentMatchId = "1";
+// let golfer1Scores: number[] = [];
+// let golfer2Scores: number[] = [];
 
 /**
  * Calculates the total yardage of the golf holes.
@@ -47,10 +51,12 @@ let frontNinePar = golfHoles.reduce(
 );
 
 const Scorecard = () => {
+	const addMatchScoreMutation = useAddMatchScore();
 	const { data: golferData } = useFetchGolfers();
 	// const { data: golferData } = useFetchData("golfers");
 	// const { data: matchesData } = useFetchData("matches");
-	const { golfer1Id, golfer2Id, dateId } = useParams();
+	const { golfer1Id, golfer2Id, matchId, dateId } = useParams();
+	currentMatchId = matchId ?? "1";
 	dates = mockDates;
 	matches = mockMatches;
 	console.log("matches", matches);
@@ -62,29 +68,30 @@ const Scorecard = () => {
 	const player2 = getGolferById(golfer2Id ?? "", golfers);
 	const matchDay = getMatchDateById(dateId ?? "", dates);
 
-	// const [frontNineScore, setFrontNineScore] = useState(0);
-	// const [backNineScore, setBackNineScore] = useState(0);
-	// let holeScore: number = 0;
 	const [golferTotalScore, setGolferTotalScore] = useState(0);
 	const [scores, setScores] = useState(
 		golfers?.map(() => Array(golfHoles.length).fill(0))
 	);
-	const [roundScores, setRoundScores] = useState<MatchScore[]>([]);
+	// const [roundScores, setRoundScores] = useState<MatchScore[]>([]);
 	// const [roundScores, setRoundScores] = useState([]);
 	// let roundScoreArray: MatchScore[] = [];
 
 	// let golfer2Array: MatchScore[] = [];
 	const [golfer1Score, setGolfer1Score] = useState(0);
 	const [golfer2Score, setGolfer2Score] = useState(0);
+	const [golfer1Scores, setGolfer1Scores] = useState<number[]>([]);
+	const [golfer2Scores, setGolfer2Scores] = useState<number[]>([]);
 
 	if (import.meta.env.DEV) {
 		console.log("golfer1", golfer1Id);
 		console.log("golfer2", golfer2Id);
 		console.log("matchDay", matchDay);
 		console.log("dateId", dateId);
-		console.log("roundScores outside function", roundScores);
+		// console.log("roundScores outside function", roundScores);
 		console.log("golfer1Score", golfer1Score);
 		console.log("golfer2Score", golfer2Score);
+		console.log("golfer1Scores", golfer1Scores.join(","));
+		console.log("golfer2Scores", golfer2Scores.join(","));
 	}
 
 	let csvContent = "courseId,holeNumber,holeHandicap,holeLength,holePar\n";
@@ -121,21 +128,23 @@ const Scorecard = () => {
 			console.log("Updated Golfers:", updatedGolfers);
 		}
 
-		const newRoundScore: MatchScore = {
-			leagueId: 1,
-			matchId: 1,
-			golferId: golferId.toString(),
-			holeNumber: holeId,
-			holeScore: newScore,
-		};
+		// const newRoundScore: MatchScore = {
+		// 	// leagueId: 1,
+		// 	matchId: currentMatchId,
+		// 	golferId: golferId.toString(),
+		// 	holeNumber: holeId,
+		// 	holeScore: newScore,
+		// };
 
-		setRoundScores((prevRoundScores) => [
-			...prevRoundScores,
-			newRoundScore,
-		]);
+		// setRoundScores((prevRoundScores) => [
+		// 	...prevRoundScores,
+		// 	newRoundScore,
+		// ]);
 
 		golferId === 1 ? setGolfer1Score(golfer1Score + newScore) : "";
+		golferId === 1 ? setGolfer1Scores([...golfer1Scores, newScore]) : "";
 		golferId === 2 ? setGolfer2Score(golfer2Score + newScore) : "";
+		golferId === 2 ? setGolfer2Scores([...golfer2Scores, newScore]) : "";
 	};
 
 	const exportCourseInfoToCSV = () => {
@@ -161,6 +170,22 @@ const Scorecard = () => {
 		golfer2Index: string,
 		golfer2TotalScore: number
 	) => {
+		let player1Data: MatchScore = {
+			golferId: player1.id || "",
+			matchId: currentMatchId,
+			totalScore: golfer1TotalScore,
+			holeScores: golfer1Scores.join(","),
+		};
+		let player2Data: MatchScore = {
+			golferId: player2.id || "",
+			matchId: currentMatchId,
+			totalScore: golfer2TotalScore,
+			holeScores: golfer2Scores.join(","),
+		};
+		console.log("player1Data", player1Data);
+		console.log("player2Data", player2Data);
+		addMatchScoreMutation.mutate(player1Data);
+		addMatchScoreMutation.mutate(player2Data);
 		let winningMessage =
 			golfer1TotalScore > golfer2TotalScore
 				? `${

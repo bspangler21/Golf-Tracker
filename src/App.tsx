@@ -37,7 +37,7 @@ function App() {
 				<Route path="/add-date" Component={AddDate}></Route>
 				<Route path="/matches/:id" Component={MatchListing}></Route>
 				<Route
-					path="/scorecard/:golfer1Id/:golfer2Id/:dateId"
+					path="/scorecard/:golfer1Id/:golfer2Id/:matchId/:dateId"
 					Component={Scorecard}
 				></Route>
 				{/* <Route path="/scorecard2" Component={Scorecard2}></Route> */}

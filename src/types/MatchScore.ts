@@ -1,13 +1,15 @@
 export type MatchScore = {
-	leagueId: number;
-	matchId: number;
-	holeNumber: number;
-	golferId: string;
-	holeScore: number;
-}
-
-export type MatchTotalScore = {
-	matchId: number;
+	// leagueId: number;
+	id?: string;
+	matchId: string;
+	// holeNumber: number;
 	golferId: string;
 	totalScore: number;
-}
+	holeScores: string;
+};
+
+export type MatchTotalScore = {
+	matchId: string;
+	golferId: string;
+	totalScore: number;
+};
