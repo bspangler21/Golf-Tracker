@@ -8,24 +8,21 @@ import utilStyles from "../../styles/utilStyles.module.css";
 import MatchListing from "../matches/MatchListing";
 import { useFetchGolfer } from "../../hooks/GolferHooks";
 import { DefaultButton } from "@fluentui/react";
-import { getGolferById } from "../../util/golfers";
+import { getGolferById, getGolferMatchScores } from "../../util/golfers";
 import { mockGolfers } from "../../mockData/mockGolfers";
+import { useFetchMatchScores } from "../../hooks/MatchScoreHooks";
+import { Golfer } from "../../types/Golfer";
+import { MatchScore } from "../../types/MatchScore";
+import { ms } from "date-fns/locale";
 
-// const allGolfers = mockGolfers;
+let golfer: Golfer = {
+	id: "0",
+	firstName: "",
+	lastName: "",
+	handicap: 0,
+};
 
-// function getGolferById(id: number): IGolfer {
-// 	let golferDetail: IGolfer = {} as IGolfer;
-
-// 	allGolfers.forEach((g) => {
-// 		if (g.id === id) {
-// 			(golferDetail.id = g.id),
-// 				(golferDetail.firstName = g.firstName),
-// 				(golferDetail.lastName = g.lastName),
-// 				(golferDetail.handicap = g.handicap);
-// 		}
-// 	});
-// 	return golferDetail;
-// }
+let matchScores: MatchScore[] = [];
 
 const GolferDetail = () => {
 	const nav = useNavigate();
@@ -34,17 +31,34 @@ const GolferDetail = () => {
 
 	// const golferId = parseInt(id);
 	const golferId = id;
-	// const data = getGolferById(golferId);
-	const { data } = useFetchGolfer(golferId);
+
+	const { data: golferData } = useFetchGolfer(golferId);
+	const { data: matchScoreData } = useFetchMatchScores();
 
 	if (import.meta.env.DEV) {
 		console.log("golferId", golferId);
 		console.log(golferId);
-		console.log("data", data);
+		console.log("golferData", golferData);
 	}
 
-	let golferData = data ?? getGolferById(golferId, mockGolfers);
-	let golferDisplayName = `${golferData.firstName} ${golferData.lastName}`;
+	golfer = golferData ?? getGolferById(golferId, mockGolfers);
+	let golferDisplayName = `${golfer.firstName} ${golfer.lastName}`;
+
+	matchScores = matchScoreData ?? [];
+
+	// let currentGolferMatchScores: MatchScore[] = matchScores.filter(
+	// 	(m) => m.golferId === golferId
+	// );
+
+	let currentGolferMatchScores: MatchScore[] = getGolferMatchScores(
+		matchScores,
+		golferId
+	);
+
+	let latestGolferScore = currentGolferMatchScores.reverse()[0].totalScore;
+
+	console.log("matchScores", matchScores);
+	console.log("currentGolferMatchScores", currentGolferMatchScores);
 
 	return (
 		<>
@@ -58,10 +72,13 @@ const GolferDetail = () => {
 			</div>
 			<div>
 				<h3 className={utilStyles.h3Text}>
-					Handicap: {golferData.handicap}
+					Handicap: {golfer.handicap}
 				</h3>
 				<h3 className={utilStyles.h3Text}>
-					Rounds Played: {Math.round(Math.random() * 25)}
+					Rounds Played: {currentGolferMatchScores.length}
+				</h3>
+				<h3 className={utilStyles.h3Text}>
+					Last Score: {latestGolferScore}
 				</h3>
 			</div>
 			<div>

@@ -1,4 +1,5 @@
 import { Golfer } from "../types/Golfer";
+import { MatchScore } from "../types/MatchScore";
 // import { mockGolfers } from "../mockData/mockGolfers";
 // import { useFetchGolfers } from "../hooks/GolferHooks";
 
@@ -38,4 +39,11 @@ export function getGolferById(id: string, golfers: Golfer[]): Golfer {
 	}
 
 	return golferDetail;
+}
+
+export function getGolferMatchScores(
+	matchScores: MatchScore[],
+	golferId: string
+): MatchScore[] {
+	return matchScores.filter((m) => m.golferId === golferId);
 }
