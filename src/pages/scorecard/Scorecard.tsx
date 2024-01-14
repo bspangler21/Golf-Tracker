@@ -59,7 +59,7 @@ let frontNinePar = golfHoles.reduce(
 	0
 );
 
-const Scorecard = (editMatch: boolean = false) => {
+const Scorecard = () => {
 	const { data: matchesData } = useFetchMatches();
 	const { data: dateData } = useFetchDates();
 	const { data: golferData } = useFetchGolfers();
@@ -92,15 +92,16 @@ const Scorecard = (editMatch: boolean = false) => {
 	const [golfer1Score, setGolfer1Score] = useState(0);
 	const [golfer2Score, setGolfer2Score] = useState(0);
 	let golfer1Scores: number[] = [];
+	let golfer2Scores: number[] = [];
 	// const [golfer1Scores, setGolfer1Scores] = useState<number[]>([]);
-	const [golfer2Scores, setGolfer2Scores] = useState<number[]>([]);
+	// const [golfer2Scores, setGolfer2Scores] = useState<number[]>([]);
 
 	let currentMatchScores: MatchScore[] = getMatchScoresById(
 		currentMatchId,
 		matchScores
 	);
 
-	currentMatchScores.length === 0 ? editMatch === false : editMatch === true;
+	// currentMatchScores.length > 0 ? editMatch === true : editMatch === false;
 
 	console.log(
 		"golfer1Filtered",
@@ -109,46 +110,36 @@ const Scorecard = (editMatch: boolean = false) => {
 		)
 	);
 
-	// let golfer1Data: MatchScore = {
-	// 	id: "",
-	// 	golferId: golfer1Id ?? "",
-	// 	matchId: currentMatchId,
-	// 	totalScore: 0,
-	// 	holeScores: "",
-	// };
+	console.log("currentMatchScores length", currentMatchScores.length);
+	// console.log("editMatch", editMatch.valueOf());
 
-	let golfer1Data: any = currentMatchScores.filter(
-		(score) => score.golferId && score.golferId === golfer1Id
-	)[0];
+	useEffect(() => {
+		if (currentMatchScores.length > 0) {
+			let golfer1Data: any =
+				currentMatchScores.filter(
+					(score) => score.golferId && score.golferId === golfer1Id
+				)[0] ?? {};
 
-	let golfer2Data: any = currentMatchScores.filter(
-		(score) => score.golferId && score.golferId === golfer2Id
-	)[0];
+			let golfer2Data: any =
+				currentMatchScores.filter(
+					(score) => score.golferId && score.golferId === golfer2Id
+				)[0] ?? {};
 
-	console.log("golfer1Data", golfer1Data);
+			console.log("golfer1Data", golfer1Data);
 
-	golfer1Scores = golfer1Data.holeScores.split(",").forEach((scores: string) => {
-			setGolfer1Scores([...golfer1Scores, parseInt(scores)]);
-		});
+			golfer1Scores = golfer1Data.holeScores
+				.split(",")
+				.map((score: string) => {
+					return parseInt(score);
+				});
 
-	// useEffect(() => {
-	// 	golfer1Data.holeScores.split(",").forEach((scores: string) => {
-	// 		setGolfer1Scores([...golfer1Scores, parseInt(scores)]);
-	// 	});
-	// 	golfer2Data.holeScores.split(",").forEach((scores: string) => {
-	// 		setGolfer2Scores([...golfer2Scores, parseInt(scores)]);
-	// 	});
-	// }, []);
-
-	// editMatch
-	// 	? currentMatchScores
-	// 			.filter(
-	// 				(score) => score.golferId && score.golferId === golfer1Id
-	// 			)
-	// 			(currentMatchScores as MatchScore[])
-	// 				.forEach((score) => score.holeScores.join(",").forEach((scores) => {
-	// 				setGolfer1Scores([...golfer1Scores, parseInt(scores)]);
-	// 	: currentMatchScores;
+			golfer2Scores = golfer2Data.holeScores
+				.split(",")
+				.map((score: string) => {
+					return parseInt(score);
+				});
+		}
+	}, []);
 
 	if (import.meta.env.DEV) {
 		console.log();
@@ -159,8 +150,9 @@ const Scorecard = (editMatch: boolean = false) => {
 		// console.log("roundScores outside function", roundScores);
 		console.log("golfer1Score", golfer1Score);
 		console.log("golfer2Score", golfer2Score);
-		console.log("golfer1Scores", golfer1Scores.join(","));
-		console.log("golfer2Scores", golfer2Scores.join(","));
+		// console.log("golfer1Scores", golfer1Scores.join(","));
+		console.log("golfer1Scores", golfer1Scores);
+		// console.log("golfer2Scores", golfer2Scores.join(","));
 		console.log("currentMatchScores", currentMatchScores);
 	}
 
@@ -199,9 +191,9 @@ const Scorecard = (editMatch: boolean = false) => {
 		}
 
 		golferId === 1 ? setGolfer1Score(golfer1Score + newScore) : "";
-		golferId === 1 ? setGolfer1Scores([...golfer1Scores, newScore]) : "";
+		golferId === 1 ? golfer1Scores.push(newScore) : "";
 		golferId === 2 ? setGolfer2Score(golfer2Score + newScore) : "";
-		golferId === 2 ? setGolfer2Scores([...golfer2Scores, newScore]) : "";
+		golferId === 2 && newScore > 0 ? golfer2Scores.push(newScore) : "";
 	};
 
 	const exportCourseInfoToCSV = () => {
@@ -407,7 +399,7 @@ const Scorecard = (editMatch: boolean = false) => {
 						<td>
 							<input
 								onChange={(e) => handleOnChange(e, 1, 9)}
-								value={golfer1Scores[8]}
+								value={golfer1Scores[0]}
 							></input>
 						</td>
 						<td>{golfer1Score}</td>
@@ -420,47 +412,56 @@ const Scorecard = (editMatch: boolean = false) => {
 						<td>
 							<input
 								onChange={(e) => handleOnChange(e, 2, 1)}
+								value={golfer1Scores[1]}
 							></input>
 						</td>
 						<td>
 							<input
 								onChange={(e) => handleOnChange(e, 2, 2)}
+								value={golfer1Scores[2]}
 							></input>
 						</td>
 						<td>
 							<input
 								onChange={(e) => handleOnChange(e, 2, 3)}
+								value={golfer1Scores[3]}
 							></input>
 						</td>
 						<td>
 							<input
 								onChange={(e) => handleOnChange(e, 2, 4)}
+								value={golfer1Scores[4]}
 							></input>
 						</td>
 						<td>
 							<input
 								onChange={(e) => handleOnChange(e, 2, 5)}
+								value={golfer1Scores[5]}
 							></input>
 						</td>
 						<td>
 							<input
 								onChange={(e) => handleOnChange(e, 2, 6)}
+								value={golfer1Scores[6]}
 							></input>
 						</td>
 						<td>
 							<input
 								onChange={(e) => handleOnChange(e, 2, 7)}
+								value={golfer1Scores[7]}
 							></input>
 						</td>
 						<td>
 							<input
 								title="Enter value"
 								onChange={(e) => handleOnChange(e, 2, 8)}
+								value={golfer1Scores[8]}
 							></input>
 						</td>
 						<td>
 							<input
 								onChange={(e) => handleOnChange(e, 2, 9)}
+								value={golfer1Scores[8]}
 							></input>
 						</td>
 						<td>{golfer2Score}</td>
