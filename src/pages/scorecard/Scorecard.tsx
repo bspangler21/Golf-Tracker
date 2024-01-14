@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { getGolferById } from "../../util/golfers";
 import { useParams } from "react-router-dom";
 import { mockGolfers } from "../../mockData/mockGolfers";
@@ -18,9 +18,12 @@ import { Match } from "../../types/Match";
 import {
 	useAddMatchScore,
 	useAddMatchScoreNoMutation,
+	useFetchMatchScores,
 } from "../../hooks/MatchScoreHooks";
 import { useFetchDates } from "../../hooks/LeagueDateHooks";
 import { useFetchMatches } from "../../hooks/MatchHooks";
+import { getMatchScoresById } from "../../util/matchScores";
+import { mockMatchScores } from "../../mockData/mockMatchScores";
 
 //only show holes and course for Lake Breeze
 const golfHoles = mockHoles.filter(
@@ -36,6 +39,7 @@ let golfers: Golfer[] = [];
 let matches: Match[] = [];
 let dates: LeagueDate[] = [];
 let currentMatchId = "1";
+
 // let golfer1Scores: number[] = [];
 // let golfer2Scores: number[] = [];
 
@@ -55,17 +59,18 @@ let frontNinePar = golfHoles.reduce(
 	0
 );
 
-const Scorecard = () => {
+const Scorecard = (editMatch: boolean = false) => {
 	const { data: matchesData } = useFetchMatches();
 	const { data: dateData } = useFetchDates();
 	const { data: golferData } = useFetchGolfers();
+	const { data: matchScoreData } = useFetchMatchScores();
 	// const { data: golferData } = useFetchData("golfers");
 	// const { data: matchesData } = useFetchData("matches");
 	const { golfer1Id, golfer2Id, matchId, dateId } = useParams();
 	currentMatchId = matchId ?? "1";
 	dates = dateData ?? mockDates;
 	matches = matchesData ?? mockMatches;
-	console.log("matches", matches);
+	let matchScores: MatchScore[] = matchScoreData ?? mockMatchScores;
 
 	golfers = golferData ?? mockGolfers;
 	// matches = matchesData ?? mockMatches;
@@ -86,10 +91,67 @@ const Scorecard = () => {
 	// let golfer2Array: MatchScore[] = [];
 	const [golfer1Score, setGolfer1Score] = useState(0);
 	const [golfer2Score, setGolfer2Score] = useState(0);
-	const [golfer1Scores, setGolfer1Scores] = useState<number[]>([]);
+	let golfer1Scores: number[] = [];
+	// const [golfer1Scores, setGolfer1Scores] = useState<number[]>([]);
 	const [golfer2Scores, setGolfer2Scores] = useState<number[]>([]);
 
+	let currentMatchScores: MatchScore[] = getMatchScoresById(
+		currentMatchId,
+		matchScores
+	);
+
+	currentMatchScores.length === 0 ? editMatch === false : editMatch === true;
+
+	console.log(
+		"golfer1Filtered",
+		currentMatchScores.filter(
+			(score) => score.golferId && score.golferId === golfer1Id
+		)
+	);
+
+	// let golfer1Data: MatchScore = {
+	// 	id: "",
+	// 	golferId: golfer1Id ?? "",
+	// 	matchId: currentMatchId,
+	// 	totalScore: 0,
+	// 	holeScores: "",
+	// };
+
+	let golfer1Data: any = currentMatchScores.filter(
+		(score) => score.golferId && score.golferId === golfer1Id
+	)[0];
+
+	let golfer2Data: any = currentMatchScores.filter(
+		(score) => score.golferId && score.golferId === golfer2Id
+	)[0];
+
+	console.log("golfer1Data", golfer1Data);
+
+	golfer1Scores = golfer1Data.holeScores.split(",").forEach((scores: string) => {
+			setGolfer1Scores([...golfer1Scores, parseInt(scores)]);
+		});
+
+	// useEffect(() => {
+	// 	golfer1Data.holeScores.split(",").forEach((scores: string) => {
+	// 		setGolfer1Scores([...golfer1Scores, parseInt(scores)]);
+	// 	});
+	// 	golfer2Data.holeScores.split(",").forEach((scores: string) => {
+	// 		setGolfer2Scores([...golfer2Scores, parseInt(scores)]);
+	// 	});
+	// }, []);
+
+	// editMatch
+	// 	? currentMatchScores
+	// 			.filter(
+	// 				(score) => score.golferId && score.golferId === golfer1Id
+	// 			)
+	// 			(currentMatchScores as MatchScore[])
+	// 				.forEach((score) => score.holeScores.join(",").forEach((scores) => {
+	// 				setGolfer1Scores([...golfer1Scores, parseInt(scores)]);
+	// 	: currentMatchScores;
+
 	if (import.meta.env.DEV) {
+		console.log();
 		console.log("golfer1", golfer1Id);
 		console.log("golfer2", golfer2Id);
 		console.log("matchDay", matchDay);
@@ -99,6 +161,7 @@ const Scorecard = () => {
 		console.log("golfer2Score", golfer2Score);
 		console.log("golfer1Scores", golfer1Scores.join(","));
 		console.log("golfer2Scores", golfer2Scores.join(","));
+		console.log("currentMatchScores", currentMatchScores);
 	}
 
 	let csvContent = "courseId,holeNumber,holeHandicap,holeLength,holePar\n";
@@ -296,46 +359,55 @@ const Scorecard = () => {
 						<td>
 							<input
 								onChange={(e) => handleOnChange(e, 1, 1)}
+								value={golfer1Scores[0]}
 							></input>
 						</td>
 						<td>
 							<input
 								onChange={(e) => handleOnChange(e, 1, 2)}
+								value={golfer1Scores[1]}
 							></input>
 						</td>
 						<td>
 							<input
 								onChange={(e) => handleOnChange(e, 1, 3)}
+								value={golfer1Scores[2]}
 							></input>
 						</td>
 						<td>
 							<input
 								onChange={(e) => handleOnChange(e, 1, 4)}
+								value={golfer1Scores[3]}
 							></input>
 						</td>
 						<td>
 							<input
 								onChange={(e) => handleOnChange(e, 1, 5)}
+								value={golfer1Scores[4]}
 							></input>
 						</td>
 						<td>
 							<input
 								onChange={(e) => handleOnChange(e, 1, 6)}
+								value={golfer1Scores[5]}
 							></input>
 						</td>
 						<td>
 							<input
 								onChange={(e) => handleOnChange(e, 1, 7)}
+								value={golfer1Scores[6]}
 							></input>
 						</td>
 						<td>
 							<input
 								onChange={(e) => handleOnChange(e, 1, 8)}
+								value={golfer1Scores[7]}
 							></input>
 						</td>
 						<td>
 							<input
 								onChange={(e) => handleOnChange(e, 1, 9)}
+								value={golfer1Scores[8]}
 							></input>
 						</td>
 						<td>{golfer1Score}</td>
