@@ -58,6 +58,8 @@ let frontNinePar = golfHoles.reduce(
 	(sum, hole) => sum + (hole.holePar ?? 0),
 	0
 );
+let golfer1Scores: number[] = [];
+let golfer2Scores: number[] = [];
 type Args = {
 	golfer1: any;
 	golfer2: any;
@@ -84,6 +86,15 @@ const Scorecard = ({ golfer1, golfer2, currentMatchScores, isEdit }: Args) => {
 	const player1 = getGolferById(golfer1Id ?? "", golfers);
 	const player2 = getGolferById(golfer2Id ?? "", golfers);
 	const matchDay = getMatchDateById(dateId ?? "", dates);
+	const [golfer1State, setGolfer1State] = useState({ ...golfer1 });
+	const [golfer2State, setGolfer2tate] = useState({ ...golfer2 });
+	golfer1Scores = golfer1.holeScores.split(",").map((score: string) => {
+		return parseInt(score);
+	});
+
+	golfer2Scores = golfer2.holeScores.split(",").map((score: string) => {
+		return parseInt(score);
+	});
 
 	// const [golferTotalScore, setGolferTotalScore] = useState(0);
 	// const [scores, setScores] = useState(
@@ -96,9 +107,7 @@ const Scorecard = ({ golfer1, golfer2, currentMatchScores, isEdit }: Args) => {
 	// let golfer2Array: MatchScore[] = [];
 	// const [golfer1Score, setGolfer1Score] = useState(0);
 	// const [golfer2Score, setGolfer2Score] = useState(0);
-	let golfer1Scores: number[] = [];
-	let golfer2Scores: number[] = [];
-	let golfer1Data: any = {};
+
 	// const [golfer1Scores, setGolfer1Scores] = useState<number[]>([]);
 	// const [golfer2Scores, setGolfer2Scores] = useState<number[]>([]);
 
@@ -148,18 +157,14 @@ const Scorecard = ({ golfer1, golfer2, currentMatchScores, isEdit }: Args) => {
 	// }, []);
 
 	if (import.meta.env.DEV) {
-		console.log();
-		console.log("golfer1", golfer1Id);
-		console.log("golfer2", golfer2Id);
-		console.log("matchDay", matchDay);
-		console.log("dateId", dateId);
+		console.log("golfer1State", golfer1State);
 		// console.log("roundScores outside function", roundScores);
 		// console.log("golfer1Score", golfer1Score);
 		// console.log("golfer2Score", golfer2Score);
 		// console.log("golfer1Scores", golfer1Scores.join(","));
 		console.log("golfer1Scores", golfer1Scores);
 		// console.log("golfer2Scores", golfer2Scores.join(","));
-		console.log("currentMatchScores", currentMatchScores);
+		// console.log("currentMatchScores", currentMatchScores);
 	}
 
 	let csvContent = "courseId,holeNumber,holeHandicap,holeLength,holePar\n";
@@ -370,59 +375,76 @@ const Scorecard = ({ golfer1, golfer2, currentMatchScores, isEdit }: Args) => {
 
 						<td>
 							<input
-								onChange={(e) => handleOnChange(e, 1, 1)}
-								value={golfer1Scores[0]}
+								// onChange={(e) => handleOnChange(e, 1, 1)}
+								onChange={(e) =>
+									setGolfer1State((prevState) => ({
+										...prevState,
+										holeScores: {
+											...prevState.holeScores,
+											[0]: e.target.value,
+										},
+									}))
+								}
+								value={golfer1State.holeScores[0]}
 							></input>
 						</td>
 						<td>
 							<input
-								onChange={(e) => handleOnChange(e, 1, 2)}
-								value={golfer1Scores[1]}
+								onChange={(e) =>
+									setGolfer1State((prevState) => ({
+										...prevState,
+										holeScores: {
+											...prevState.holeScores,
+											[1]: e.target.value,
+										},
+									}))
+								}
+								value={golfer1State.holeScores[1]}
 							></input>
 						</td>
 						<td>
 							<input
 								onChange={(e) => handleOnChange(e, 1, 3)}
-								value={golfer1Scores[2]}
+								value={golfer1State.holeScores[2]}
 							></input>
 						</td>
 						<td>
 							<input
 								onChange={(e) => handleOnChange(e, 1, 4)}
-								value={golfer1Scores[3]}
+								value={golfer1State.holeScores[3]}
 							></input>
 						</td>
 						<td>
 							<input
 								onChange={(e) => handleOnChange(e, 1, 5)}
-								value={golfer1Scores[4]}
+								value={golfer1State.holeScores[4]}
 							></input>
 						</td>
 						<td>
 							<input
 								onChange={(e) => handleOnChange(e, 1, 6)}
-								value={golfer1Scores[5]}
+								value={golfer1State.holeScores[5]}
 							></input>
 						</td>
 						<td>
 							<input
 								onChange={(e) => handleOnChange(e, 1, 7)}
-								value={golfer1Scores[6]}
+								value={golfer1State.holeScores[6]}
 							></input>
 						</td>
 						<td>
 							<input
 								onChange={(e) => handleOnChange(e, 1, 8)}
-								value={golfer1Scores[7]}
+								value={golfer1State.holeScores[7]}
 							></input>
 						</td>
 						<td>
 							<input
 								onChange={(e) => handleOnChange(e, 1, 9)}
-								value={golfer1Scores[0]}
+								value={golfer1State.holeScores[8]}
 							></input>
 						</td>
-						<td>{scores}</td>
+						<td>{0}</td>
 					</tr>
 					<tr>
 						<th>
@@ -432,56 +454,56 @@ const Scorecard = ({ golfer1, golfer2, currentMatchScores, isEdit }: Args) => {
 						<td>
 							<input
 								onChange={(e) => handleOnChange(e, 2, 1)}
-								value={golfer1Scores[1]}
+								value={golfer2State.holeScores[0]}
 							></input>
 						</td>
 						<td>
 							<input
 								onChange={(e) => handleOnChange(e, 2, 2)}
-								value={golfer1Scores[2]}
+								value={golfer2State.holeScores[1]}
 							></input>
 						</td>
 						<td>
 							<input
 								onChange={(e) => handleOnChange(e, 2, 3)}
-								value={golfer1Scores[3]}
+								value={golfer2State.holeScores[2]}
 							></input>
 						</td>
 						<td>
 							<input
 								onChange={(e) => handleOnChange(e, 2, 4)}
-								value={golfer1Scores[4]}
+								value={golfer2State.holeScores[3]}
 							></input>
 						</td>
 						<td>
 							<input
 								onChange={(e) => handleOnChange(e, 2, 5)}
-								value={golfer1Scores[5]}
+								value={golfer2State.holeScores[4]}
 							></input>
 						</td>
 						<td>
 							<input
 								onChange={(e) => handleOnChange(e, 2, 6)}
-								value={golfer1Scores[6]}
+								value={golfer2State.holeScores[5]}
 							></input>
 						</td>
 						<td>
 							<input
 								onChange={(e) => handleOnChange(e, 2, 7)}
-								value={golfer1Scores[7]}
+								value={golfer2State.holeScores[6]}
 							></input>
 						</td>
 						<td>
 							<input
 								title="Enter value"
 								onChange={(e) => handleOnChange(e, 2, 8)}
-								value={golfer1Scores[8]}
+								value={golfer2State.holeScores[7]}
 							></input>
 						</td>
 						<td>
 							<input
 								onChange={(e) => handleOnChange(e, 2, 9)}
-								value={golfer1Scores[8]}
+								value={golfer2State.holeScores[8]}
 							></input>
 						</td>
 						<td>{0}</td>

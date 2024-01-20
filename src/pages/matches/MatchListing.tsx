@@ -16,8 +16,6 @@ import { mockMatchScores } from "../../mockData/mockMatchScores";
 
 let golfers: Golfer[] = [];
 
-
-
 interface MatchListingProps {
 	isPlayerView?: boolean;
 	playerId?: string;
@@ -46,7 +44,7 @@ const MatchListing = ({
 	let matchScores: MatchScore[] = matchScoreData ?? mockMatchScores;
 
 	console.log("dates", dates);
-	
+
 	const matchesList =
 		isPlayerView && playerId
 			? getMatchesByPlayerId(playerId, matches)
@@ -58,8 +56,6 @@ const MatchListing = ({
 		console.log("playerId in MatchListing", playerId);
 		console.log("matchesList", matchesList);
 	}
-
-	
 
 	return (
 		<div style={{ display: "flex", justifyContent: "center" }}>
@@ -76,10 +72,14 @@ const MatchListing = ({
 						matchesList.map((match) => (
 							<tr
 								key={match.id}
-								onClick={() => match.id && getMatchScoresById(match.id, matchScores).length > 0 ? 
-									nav(
-										`/scorecard/edit/${match.golfer1Id}/${match.golfer2Id}/${match.id}/${dateId}`
-									)
+								onClick={() =>
+									match.id &&
+									getMatchScoresById(match.id, matchScores)
+										.length > 0
+										? nav(
+												`/scorecard/edit/${match.golfer1Id}/${match.golfer2Id}/${match.id}/${dateId}`
+										  )
+										: ""
 								}
 							>
 								<td>{matchesList.indexOf(match) + 1}</td>

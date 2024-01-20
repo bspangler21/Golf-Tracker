@@ -27,8 +27,18 @@ const EditScorecard = () => {
 	const { data: golferData } = useFetchGolfers();
 	const { data: matchScoreData } = useFetchMatchScores();
 	const { golfer1Id, golfer2Id, matchId, dateId } = useParams();
-	let golfer1Data: any = {};
-	let golfer2Data: any = {};
+	let golfer1Data: MatchScore = {
+    matchId: "",
+    golferId: "",
+    totalScore: 0,
+    holeScores: ""
+  };
+	let golfer2Data: MatchScore = {
+    matchId: "",
+    golferId: "",
+    totalScore: 0,
+    holeScores: ""
+  };
 
 	currentMatchId = matchId ?? "1";
 	dates = dateData ?? mockDates;
