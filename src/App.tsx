@@ -7,7 +7,8 @@ import Header from "./pageComponents/Header";
 import GolferDetail from "./pages/golferDetail/GolferDetail";
 import ScheduleList from "./pages/schedule/ScheduleList";
 import MatchListing from "./pages/matches/MatchListing";
-import Scorecard from "./pages/scorecard/Scorecard";
+import EditScorecard from "./pages/scorecard/EditScorecard";
+// import Scorecard from "./pages/scorecard/Scorecard";
 import { SpeedInsights } from "@vercel/speed-insights/react";
 import Footer from "./pageComponents/Footer";
 import AddGolfer from "./pages/golfers/AddGolfer";
@@ -36,9 +37,13 @@ function App() {
 				></Route>
 				<Route path="/add-date" Component={AddDate}></Route>
 				<Route path="/matches/:id" Component={MatchListing}></Route>
-				<Route
+				{/* <Route
 					path="/scorecard/:golfer1Id/:golfer2Id/:matchId/:dateId"
 					Component={Scorecard}
+				></Route> */}
+				<Route
+					path="/scorecard/edit/:golfer1Id/:golfer2Id/:matchId/:dateId"
+					Component={EditScorecard}
 				></Route>
 				{/* <Route path="/scorecard2" Component={Scorecard2}></Route> */}
 				<Route path="/add-golfer" Component={AddGolfer}></Route>

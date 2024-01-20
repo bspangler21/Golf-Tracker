@@ -9,6 +9,10 @@ import { mockDates } from "../../mockData/mockDates";
 import { Match } from "../../types/Match";
 import { LeagueDate } from "../../types/LeagueDate";
 import { useFetchDates } from "../../hooks/LeagueDateHooks";
+import { getMatchScoresById } from "../../util/matchScores";
+import { useFetchMatchScores } from "../../hooks/MatchScoreHooks";
+import { MatchScore } from "../../types/MatchScore";
+import { mockMatchScores } from "../../mockData/mockMatchScores";
 
 let golfers: Golfer[] = [];
 
@@ -33,11 +37,13 @@ const MatchListing = ({
 	// const { data: golfersData } = useFetchData("golfers");
 	const { data: golfersData } = useFetchGolfers();
 	const { data: datesData } = useFetchDates();
+	const { data: matchScoreData } = useFetchMatchScores();
 
 	golfers = golfersData ?? mockGolfers;
 	// matches = (matchesData as Match[]) ?? mockMatches;
 	dates = datesData ?? mockDates;
 	matches = mockMatches;
+	let matchScores: MatchScore[] = matchScoreData ?? mockMatchScores;
 
 	console.log("dates", dates);
 	
@@ -70,9 +76,9 @@ const MatchListing = ({
 						matchesList.map((match) => (
 							<tr
 								key={match.id}
-								onClick={() =>
+								onClick={() => match.id && getMatchScoresById(match.id, matchScores).length > 0 ? 
 									nav(
-										`/scorecard/${match.golfer1Id}/${match.golfer2Id}/${match.id}/${dateId}`
+										`/scorecard/edit/${match.golfer1Id}/${match.golfer2Id}/${match.id}/${dateId}`
 									)
 								}
 							>

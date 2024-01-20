@@ -58,19 +58,24 @@ let frontNinePar = golfHoles.reduce(
 	(sum, hole) => sum + (hole.holePar ?? 0),
 	0
 );
-
-const Scorecard = () => {
+type Args = {
+	golfer1: any;
+	golfer2: any;
+	currentMatchScores: MatchScore[];
+	isEdit: boolean;
+};
+const Scorecard = ({ golfer1, golfer2, currentMatchScores, isEdit }: Args) => {
 	const { data: matchesData } = useFetchMatches();
 	const { data: dateData } = useFetchDates();
 	const { data: golferData } = useFetchGolfers();
-	const { data: matchScoreData } = useFetchMatchScores();
+	// const { data: matchScoreData } = useFetchMatchScores();
 	// const { data: golferData } = useFetchData("golfers");
 	// const { data: matchesData } = useFetchData("matches");
 	const { golfer1Id, golfer2Id, matchId, dateId } = useParams();
 	currentMatchId = matchId ?? "1";
 	dates = dateData ?? mockDates;
 	matches = matchesData ?? mockMatches;
-	let matchScores: MatchScore[] = matchScoreData ?? mockMatchScores;
+	// let matchScores: MatchScore[] = currentMatchScores ?? mockMatchScores;
 
 	golfers = golferData ?? mockGolfers;
 	// matches = matchesData ?? mockMatches;
@@ -80,26 +85,27 @@ const Scorecard = () => {
 	const player2 = getGolferById(golfer2Id ?? "", golfers);
 	const matchDay = getMatchDateById(dateId ?? "", dates);
 
-	const [golferTotalScore, setGolferTotalScore] = useState(0);
-	const [scores, setScores] = useState(
-		golfers?.map(() => Array(golfHoles.length).fill(0))
-	);
+	// const [golferTotalScore, setGolferTotalScore] = useState(0);
+	// const [scores, setScores] = useState(
+	// 	golfers?.map(() => Array(golfHoles.length).fill(0))
+	// );
 	// const [roundScores, setRoundScores] = useState<MatchScore[]>([]);
 	// const [roundScores, setRoundScores] = useState([]);
 	// let roundScoreArray: MatchScore[] = [];
 
 	// let golfer2Array: MatchScore[] = [];
-	const [golfer1Score, setGolfer1Score] = useState(0);
-	const [golfer2Score, setGolfer2Score] = useState(0);
+	// const [golfer1Score, setGolfer1Score] = useState(0);
+	// const [golfer2Score, setGolfer2Score] = useState(0);
 	let golfer1Scores: number[] = [];
 	let golfer2Scores: number[] = [];
+	let golfer1Data: any = {};
 	// const [golfer1Scores, setGolfer1Scores] = useState<number[]>([]);
 	// const [golfer2Scores, setGolfer2Scores] = useState<number[]>([]);
 
-	let currentMatchScores: MatchScore[] = getMatchScoresById(
-		currentMatchId,
-		matchScores
-	);
+	// let currentMatchScores: MatchScore[] = getMatchScoresById(
+	// 	currentMatchId,
+	// 	matchScores
+	// );
 
 	// currentMatchScores.length > 0 ? editMatch === true : editMatch === false;
 
@@ -113,33 +119,33 @@ const Scorecard = () => {
 	console.log("currentMatchScores length", currentMatchScores.length);
 	// console.log("editMatch", editMatch.valueOf());
 
-	useEffect(() => {
-		if (currentMatchScores.length > 0) {
-			let golfer1Data: any =
-				currentMatchScores.filter(
-					(score) => score.golferId && score.golferId === golfer1Id
-				)[0] ?? {};
+	// useEffect(() => {
+	/*if (currentMatchScores.length > 0) {
+		golfer1Data =
+			currentMatchScores.filter(
+				(score) => score.golferId && score.golferId === golfer1Id
+			)[0] ?? {};
 
-			let golfer2Data: any =
-				currentMatchScores.filter(
-					(score) => score.golferId && score.golferId === golfer2Id
-				)[0] ?? {};
+		let golfer2Data: any =
+			currentMatchScores.filter(
+				(score) => score.golferId && score.golferId === golfer2Id
+			)[0] ?? {};
 
-			console.log("golfer1Data", golfer1Data);
+		console.log("golfer1Data", golfer1Data);
 
-			golfer1Scores = golfer1Data.holeScores
-				.split(",")
-				.map((score: string) => {
-					return parseInt(score);
-				});
+		golfer1Scores = golfer1Data.holeScores
+			.split(",")
+			.map((score: string) => {
+				return parseInt(score);
+			});
 
-			golfer2Scores = golfer2Data.holeScores
-				.split(",")
-				.map((score: string) => {
-					return parseInt(score);
-				});
-		}
-	}, []);
+		golfer2Scores = golfer2Data.holeScores
+			.split(",")
+			.map((score: string) => {
+				return parseInt(score);
+			});
+	}*/
+	// }, []);
 
 	if (import.meta.env.DEV) {
 		console.log();
@@ -148,8 +154,8 @@ const Scorecard = () => {
 		console.log("matchDay", matchDay);
 		console.log("dateId", dateId);
 		// console.log("roundScores outside function", roundScores);
-		console.log("golfer1Score", golfer1Score);
-		console.log("golfer2Score", golfer2Score);
+		// console.log("golfer1Score", golfer1Score);
+		// console.log("golfer2Score", golfer2Score);
 		// console.log("golfer1Scores", golfer1Scores.join(","));
 		console.log("golfer1Scores", golfer1Scores);
 		// console.log("golfer2Scores", golfer2Scores.join(","));
@@ -163,36 +169,50 @@ const Scorecard = () => {
 		golferId: number,
 		holeId: number
 	) => {
+		console.log("onChange ran");
 		const newScore = parseInt(event.target.value);
 
-		setGolferTotalScore(golferTotalScore + newScore);
+		// setGolferTotalScore(golferTotalScore + newScore);
 
-		const updatedScores = [...(scores ?? [])];
-		updatedScores[golferId][holeId] = newScore; // Update the score for the specific golfer and hole
+		// const updatedScores = [...(scores ?? [])];
+		// updatedScores[golferId][holeId] = newScore; // Update the score for the specific golfer and hole
 
-		const totalScore = updatedScores[golferId].reduce(
-			(total, score) => total + score
-		); // Calculate total score
+		// const totalScore = updatedScores[golferId].reduce(
+		// 	(total, score) => total + score
+		// ); // Calculate total score
 
 		const updatedGolfers = [...golfers];
-		updatedGolfers[golferId].scores = updatedScores[golferId]; // Update the scores for the golfer
-		updatedGolfers[golferId].totalScore = totalScore; // Update the total score for the golfer
+		// updatedGolfers[golferId].scores = updatedScores[golferId]; // Update the scores for the golfer
+		// updatedGolfers[golferId].totalScore = totalScore; // Update the total score for the golfer
 
-		setScores(updatedScores); // Update the state with the new scores
+		//setScores(updatedScores); // Update the state with the new scores
 		// Optionally, update the state with the new golfer data to maintain the total score
 
 		if (import.meta.env.DEV) {
 			console.log("newScore", newScore);
-			console.log("golferTotalScore", golferTotalScore);
+			// console.log("golferTotalScore", golferTotalScore);
 			console.log("golferIndex", golferId);
 			console.log("holeId", holeId);
-			console.log("Updated Scores:", updatedScores);
+			// console.log("Updated Scores:", updatedScores);
 			console.log("Updated Golfers:", updatedGolfers);
 		}
 
-		golferId === 1 ? setGolfer1Score(golfer1Score + newScore) : "";
-		golferId === 1 ? golfer1Scores.push(newScore) : "";
-		golferId === 2 ? setGolfer2Score(golfer2Score + newScore) : "";
+		if (
+			golferId === 1 &&
+			newScore > 0 &&
+			golfer1Scores[holeId - 1] === null
+		) {
+			golfer1Scores.push(newScore);
+		} else if (
+			golferId === 1 &&
+			newScore > 0 &&
+			golfer1Scores[holeId - 1] !== null
+		) {
+			golfer1Scores[holeId - 1] = newScore;
+		}
+
+		console.log("golfer1Scores onChange", golfer1Scores);
+
 		golferId === 2 && newScore > 0 ? golfer2Scores.push(newScore) : "";
 	};
 
@@ -402,7 +422,7 @@ const Scorecard = () => {
 								value={golfer1Scores[0]}
 							></input>
 						</td>
-						<td>{golfer1Score}</td>
+						<td>{scores}</td>
 					</tr>
 					<tr>
 						<th>
@@ -464,7 +484,7 @@ const Scorecard = () => {
 								value={golfer1Scores[8]}
 							></input>
 						</td>
-						<td>{golfer2Score}</td>
+						<td>{0}</td>
 					</tr>
 				</tbody>
 
