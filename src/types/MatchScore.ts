@@ -5,7 +5,7 @@ export type MatchScore = {
 	// holeNumber: number;
 	golferId: string;
 	totalScore: number;
-	holeScores: string;
+	holeScores: number[];
 };
 
 export type MatchTotalScore = {
