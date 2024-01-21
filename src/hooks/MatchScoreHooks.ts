@@ -52,7 +52,7 @@ export const useAddMatchScoreNoMutation = (matchId: string) => {
 		{
 			onSuccess: () => {
 				queryClient.invalidateQueries("matchScores");
-				nav(`/matches/${matchId}`)
+				nav(`/matches/${matchId}`);
 			},
 			onError: (error) => {
 				if (error.response?.status === 405) {
@@ -67,7 +67,7 @@ export const useAddMatchScoreNoMutation = (matchId: string) => {
 	);
 };
 
-export const useUpdateMatchScore = () => {
+export const useUpdateMatchScore = (dateId: string) => {
 	const queryClient = useQueryClient();
 	const nav = useNavigate();
 	// Will not work if matchScoreId not included at the end of the URL
@@ -77,7 +77,7 @@ export const useUpdateMatchScore = () => {
 			onSuccess: (_, _matchScore) => {
 				queryClient.invalidateQueries("matchScores");
 				// nav(`/matchScore-detail/${matchScore.id}`);
-				nav("/matchScores");
+				nav(`/matches/${dateId}`);
 			},
 		}
 	);

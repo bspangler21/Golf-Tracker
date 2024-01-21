@@ -2,7 +2,10 @@ import { useParams } from "react-router-dom";
 import { useFetchGolfers } from "../../hooks/GolferHooks";
 import { useFetchDates } from "../../hooks/LeagueDateHooks";
 import { useFetchMatches } from "../../hooks/MatchHooks";
-import { useFetchMatchScores } from "../../hooks/MatchScoreHooks";
+import {
+	useFetchMatchScores,
+	useUpdateMatchScore,
+} from "../../hooks/MatchScoreHooks";
 import Scorecard from "./Scorecard";
 import { mockDates } from "../../mockData/mockDates";
 import { mockGolfers } from "../../mockData/mockGolfers";
@@ -13,6 +16,7 @@ import { Golfer } from "../../types/Golfer";
 import { LeagueDate } from "../../types/LeagueDate";
 import { Match } from "../../types/Match";
 import { getMatchScoresById } from "../../util/matchScores";
+import ValidationSummary from "../../pageComponents/ValidationSummary";
 
 let golfers: Golfer[] = [];
 let matches: Match[] = [];
@@ -27,18 +31,21 @@ const EditScorecard = () => {
 	const { data: golferData } = useFetchGolfers();
 	const { data: matchScoreData } = useFetchMatchScores();
 	const { golfer1Id, golfer2Id, matchId, dateId } = useParams();
+	const updateMatchScore = useUpdateMatchScore(dateId ?? "");
 	let golfer1Data: MatchScore = {
-    matchId: "",
-    golferId: "",
-    totalScore: 0,
-    holeScores: ""
-  };
+		id: "",
+		matchId: "",
+		golferId: "",
+		totalScore: 0,
+		holeScores: [],
+	};
 	let golfer2Data: MatchScore = {
-    matchId: "",
-    golferId: "",
-    totalScore: 0,
-    holeScores: ""
-  };
+		id: "",
+		matchId: "",
+		golferId: "",
+		totalScore: 0,
+		holeScores: [],
+	};
 
 	currentMatchId = matchId ?? "1";
 	dates = dateData ?? mockDates;
@@ -61,12 +68,20 @@ const EditScorecard = () => {
 	}
 
 	return (
-		<Scorecard
-			golfer1={golfer1Data}
-			golfer2={golfer2Data}
-			currentMatchScores={currentMatchScores}
-      isEdit={true}
-		></Scorecard>
+		<>
+			{updateMatchScore.isError && (
+				<ValidationSummary error={updateMatchScore.error} />
+			)}
+			<Scorecard
+				golfer1={golfer1Data}
+				golfer2={golfer2Data}
+				currentMatchScores={currentMatchScores}
+				isEdit={true}
+				submitted={(matchScore) => {
+					updateMatchScore.mutate(matchScore);
+				}}
+			></Scorecard>
+		</>
 	);
 };
 

@@ -7,7 +7,7 @@ import { MatchScore } from "../../types/MatchScore";
 import { DefaultButton } from "@fluentui/react";
 import { mockCourses } from "../../mockData/mockCourses";
 import { getMatchDateById } from "../../util/matches";
-import { format } from "date-fns";
+import { format, sub } from "date-fns";
 import { useFetchGolfers } from "../../hooks/GolferHooks";
 import { saveAs } from "file-saver";
 import { Golfer } from "../../types/Golfer";
@@ -19,6 +19,7 @@ import {
 	useAddMatchScore,
 	useAddMatchScoreNoMutation,
 	useFetchMatchScores,
+	useUpdateMatchScore,
 } from "../../hooks/MatchScoreHooks";
 import { useFetchDates } from "../../hooks/LeagueDateHooks";
 import { useFetchMatches } from "../../hooks/MatchHooks";
@@ -58,7 +59,7 @@ let frontNinePar = golfHoles.reduce(
 	(sum, hole) => sum + (hole.holePar ?? 0),
 	0
 );
-let golfer1TotalScore: number = 0;
+
 let golfer1Scores: number[] = [];
 let golfer2Scores: number[] = [];
 type Args = {
@@ -66,14 +67,19 @@ type Args = {
 	golfer2: any;
 	currentMatchScores: MatchScore[];
 	isEdit: boolean;
+	submitted: (matchScore: MatchScore) => void;
 };
-const Scorecard = ({ golfer1, golfer2, currentMatchScores, isEdit }: Args) => {
+const Scorecard = ({
+	golfer1,
+	golfer2,
+	currentMatchScores,
+	isEdit,
+	submitted,
+}: Args) => {
 	const { data: matchesData } = useFetchMatches();
 	const { data: dateData } = useFetchDates();
 	const { data: golferData } = useFetchGolfers();
-	// const { data: matchScoreData } = useFetchMatchScores();
-	// const { data: golferData } = useFetchData("golfers");
-	// const { data: matchesData } = useFetchData("matches");
+
 	const { golfer1Id, golfer2Id, matchId, dateId } = useParams();
 	currentMatchId = matchId ?? "1";
 	dates = dateData ?? mockDates;
@@ -84,29 +90,15 @@ const Scorecard = ({ golfer1, golfer2, currentMatchScores, isEdit }: Args) => {
 	// matches = matchesData ?? mockMatches;
 	const addMatchScoreMutation = useAddMatchScore();
 	const addMatchScore = useAddMatchScoreNoMutation(currentMatchId);
+
 	const player1 = getGolferById(golfer1Id ?? "", golfers);
 	const player2 = getGolferById(golfer2Id ?? "", golfers);
 	const matchDay = getMatchDateById(dateId ?? "", dates);
 	const [golfer1State, setGolfer1State] = useState({ ...golfer1 });
-	const [golfer2State, setGolfer2tate] = useState({ ...golfer2 });
-	golfer1Scores = golfer1.holeScores;
+	const [golfer2State, setGolfer2State] = useState({ ...golfer2 });
+	// golfer1Scores = golfer1State.holeScores;
 
-	golfer2Scores = golfer2.holeScores;
-
-	// const [golferTotalScore, setGolferTotalScore] = useState(0);
-	// const [scores, setScores] = useState(
-	// 	golfers?.map(() => Array(golfHoles.length).fill(0))
-	// );
-	// const [roundScores, setRoundScores] = useState<MatchScore[]>([]);
-	// const [roundScores, setRoundScores] = useState([]);
-	// let roundScoreArray: MatchScore[] = [];
-
-	// let golfer2Array: MatchScore[] = [];
-	// const [golfer1Score, setGolfer1Score] = useState(0);
-	// const [golfer2Score, setGolfer2Score] = useState(0);
-
-	// const [golfer1Scores, setGolfer1Scores] = useState<number[]>([]);
-	// const [golfer2Scores, setGolfer2Scores] = useState<number[]>([]);
+	// golfer2Scores = golfer2State.holeScores;
 
 	// let currentMatchScores: MatchScore[] = getMatchScoresById(
 	// 	currentMatchId,
@@ -208,8 +200,12 @@ const Scorecard = ({ golfer1, golfer2, currentMatchScores, isEdit }: Args) => {
 		console.log("player1Data", player1Data);
 		console.log("player2Data", player2Data);
 		// add path as second parameter?
-		addMatchScore.mutate(player1Data);
-		addMatchScoreMutation.mutate(player2Data);
+		// isEdit ? updateMatchScore(player1Data) : addMatchScore.mutate(player1Data);
+		!isEdit ? addMatchScore.mutate(player1Data) : "";
+		!isEdit ? addMatchScoreMutation.mutate(player2Data) : "";
+		// submitted(player1Data);
+		// submitted(player2Data);
+
 		let winningMessage =
 			golfer1TotalScore > golfer2TotalScore
 				? `${
@@ -230,12 +226,49 @@ const Scorecard = ({ golfer1, golfer2, currentMatchScores, isEdit }: Args) => {
 	};
 
 	const getTotalScore = (holeScores: number[]) => {
-		console.log("holeScores typeof", typeof holeScores);
+		// console.log("holeScores typeof", typeof holeScores);
 		return Object.values(holeScores).reduce((sum, score) => sum + score, 0);
-		// let totalScore = holeScores.reduce((sum, score) => sum + score, 0);
-		// return totalScore;
 	};
 
+	const convertToScoreArray = (holeScores: number[]): number[] => {
+		Object.values(holeScores).forEach((score) => {
+			golfer1Scores.push(score as number);
+		});
+
+		return golfer1Scores;
+	};
+
+	const onSubmit: React.MouseEventHandler<HTMLButtonElement> = async (e) => {
+		e.preventDefault();
+		let golfer1FinalScores: number[] = convertToScoreArray(
+			golfer1State.holeScores
+		);
+		let golfer2FinalScores: number[] = convertToScoreArray(
+			golfer2State.holeScores
+		);
+		let player1Data: MatchScore = {
+			id: golfer1State.id,
+			golferId: player1.id || "",
+			matchId: currentMatchId,
+			totalScore:
+				golfer1State.totalScore ??
+				getTotalScore(golfer1State.holeScores),
+			holeScores: golfer1FinalScores,
+		};
+		let player2Data: MatchScore = {
+			id: golfer2State.id,
+			golferId: player2.id || "",
+			matchId: currentMatchId,
+			totalScore:
+				golfer2State.totalScore ??
+				getTotalScore(golfer2State.holeScores),
+			holeScores: golfer2FinalScores,
+		};
+		console.log("submitted player1Data", player1Data);
+		console.log("submitted player2Data", player2Data);
+		submitted(player1Data);
+		submitted(player2Data);
+	};
 	// const handleSubmitPerHole = (
 	// 	event: React.ChangeEvent<HTMLButtonElement>,
 	// 	golferIndex: number,
@@ -360,15 +393,16 @@ const Scorecard = ({ golfer1, golfer2, currentMatchScores, isEdit }: Args) => {
 						</td>
 						<td>
 							<input
-								onChange={(e) =>
+								onChange={(e) => {
 									setGolfer1State((prevState) => ({
 										...prevState,
 										holeScores: {
 											...prevState.holeScores,
 											[2]: parseInt(e.target.value),
 										},
-									}))
-								}
+									}));
+									golfer1Scores = golfer1State.holeScores;
+								}}
 								value={golfer1State.holeScores[2]}
 							></input>
 						</td>
@@ -456,7 +490,10 @@ const Scorecard = ({ golfer1, golfer2, currentMatchScores, isEdit }: Args) => {
 								value={golfer1State.holeScores[8]}
 							></input>
 						</td>
-						<td>{getTotalScore(golfer1State.holeScores) ?? 0}</td>
+						<td>
+							{golfer1State.totalScore ??
+								getTotalScore(golfer1State.holeScores)}
+						</td>
 					</tr>
 					<tr>
 						<th>
@@ -465,60 +502,135 @@ const Scorecard = ({ golfer1, golfer2, currentMatchScores, isEdit }: Args) => {
 
 						<td>
 							<input
-								onChange={(e) => handleOnChange(e, 2, 1)}
+								onChange={(e) =>
+									setGolfer2State((prevState) => ({
+										...prevState,
+										holeScores: {
+											...prevState.holeScores,
+											[0]: parseInt(e.target.value),
+										},
+									}))
+								}
 								value={golfer2State.holeScores[0]}
 							></input>
 						</td>
 						<td>
 							<input
-								onChange={(e) => handleOnChange(e, 2, 2)}
+								onChange={(e) =>
+									setGolfer2State((prevState) => ({
+										...prevState,
+										holeScores: {
+											...prevState.holeScores,
+											[1]: parseInt(e.target.value),
+										},
+									}))
+								}
 								value={golfer2State.holeScores[1]}
 							></input>
 						</td>
 						<td>
 							<input
-								onChange={(e) => handleOnChange(e, 2, 3)}
+								onChange={(e) =>
+									setGolfer2State((prevState) => ({
+										...prevState,
+										holeScores: {
+											...prevState.holeScores,
+											[2]: parseInt(e.target.value),
+										},
+									}))
+								}
 								value={golfer2State.holeScores[2]}
 							></input>
 						</td>
 						<td>
 							<input
-								onChange={(e) => handleOnChange(e, 2, 4)}
+								onChange={(e) =>
+									setGolfer2State((prevState) => ({
+										...prevState,
+										holeScores: {
+											...prevState.holeScores,
+											[3]: parseInt(e.target.value),
+										},
+									}))
+								}
 								value={golfer2State.holeScores[3]}
 							></input>
 						</td>
 						<td>
 							<input
-								onChange={(e) => handleOnChange(e, 2, 5)}
+								onChange={(e) =>
+									setGolfer2State((prevState) => ({
+										...prevState,
+										holeScores: {
+											...prevState.holeScores,
+											[4]: parseInt(e.target.value),
+										},
+									}))
+								}
 								value={golfer2State.holeScores[4]}
 							></input>
 						</td>
 						<td>
 							<input
-								onChange={(e) => handleOnChange(e, 2, 6)}
+								onChange={(e) =>
+									setGolfer2State((prevState) => ({
+										...prevState,
+										holeScores: {
+											...prevState.holeScores,
+											[5]: parseInt(e.target.value),
+										},
+									}))
+								}
 								value={golfer2State.holeScores[5]}
 							></input>
 						</td>
 						<td>
 							<input
-								onChange={(e) => handleOnChange(e, 2, 7)}
+								onChange={(e) =>
+									setGolfer2State((prevState) => ({
+										...prevState,
+										holeScores: {
+											...prevState.holeScores,
+											[6]: parseInt(e.target.value),
+										},
+									}))
+								}
 								value={golfer2State.holeScores[6]}
 							></input>
 						</td>
 						<td>
 							<input
+								onChange={(e) =>
+									setGolfer2State((prevState) => ({
+										...prevState,
+										holeScores: {
+											...prevState.holeScores,
+											[7]: parseInt(e.target.value),
+										},
+									}))
+								}
 								title="Enter value"
-								onChange={(e) => handleOnChange(e, 2, 8)}
 								value={golfer2State.holeScores[7]}
 							></input>
 						</td>
 						<td>
 							<input
-								onChange={(e) => handleOnChange(e, 2, 9)}
+								onChange={(e) =>
+									setGolfer2State((prevState) => ({
+										...prevState,
+										holeScores: {
+											...prevState.holeScores,
+											[8]: parseInt(e.target.value),
+										},
+									}))
+								}
 								value={golfer2State.holeScores[8]}
 							></input>
 						</td>
-						<td>{0}</td>
+						<td>
+							{golfer2State.totalScore ??
+								getTotalScore(golfer2State.holeScores)}
+						</td>
 					</tr>
 				</tbody>
 
@@ -538,19 +650,7 @@ const Scorecard = ({ golfer1, golfer2, currentMatchScores, isEdit }: Args) => {
 			</table>
 			<br></br>
 			<div>
-				<DefaultButton
-					onClick={() =>
-						handleSubmitTotal(
-							player1.id || "",
-							1,
-							golfer1Score,
-							player2.id || "",
-							golfer2Score
-						)
-					}
-				>
-					Submit
-				</DefaultButton>
+				<DefaultButton onClick={onSubmit}>Submit</DefaultButton>
 			</div>
 			<br></br>
 			<div>
