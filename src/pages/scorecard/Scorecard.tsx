@@ -238,6 +238,11 @@ const Scorecard = ({
 		return golfer1Scores;
 	};
 
+	console.log(
+		"golfer1FinalScores",
+		convertToScoreArray(golfer1State.holeScores)
+	);
+
 	const onSubmit: React.MouseEventHandler<HTMLButtonElement> = async (e) => {
 		e.preventDefault();
 		let golfer1FinalScores: number[] = convertToScoreArray(
@@ -264,8 +269,19 @@ const Scorecard = ({
 				getTotalScore(golfer2State.holeScores),
 			holeScores: golfer2FinalScores,
 		};
+		let player1ClearData: MatchScore = {
+			...player1Data,
+			holeScores: [],
+		};
+		let player2ClearData: MatchScore = {
+			...player2Data,
+			holeScores: [],
+		};
 		console.log("submitted player1Data", player1Data);
 		console.log("submitted player2Data", player2Data);
+		console.log("golfer1FinalScores", golfer1FinalScores);
+		submitted(player1ClearData);
+		submitted(player2ClearData);
 		submitted(player1Data);
 		submitted(player2Data);
 	};
