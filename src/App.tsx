@@ -16,6 +16,7 @@ import EditGolfer from "./pages/golfers/EditGolfer";
 // import Scorecard2 from "./pages/scorecard/Scorecard2";
 import AddDate from "./pages/schedule/AddDate";
 import EditDate from "./pages/schedule/EditDate";
+import AddScorecard from "./pages/scorecard/AddScorecard";
 
 function App() {
 	return (
@@ -41,6 +42,10 @@ function App() {
 					path="/scorecard/:golfer1Id/:golfer2Id/:matchId/:dateId"
 					Component={Scorecard}
 				></Route> */}
+				<Route
+					path="/scorecard/add/:golfer1Id/:golfer2Id/:matchId/:dateId"
+					Component={AddScorecard}
+				></Route>
 				<Route
 					path="/scorecard/edit/:golfer1Id/:golfer2Id/:matchId/:dateId"
 					Component={EditScorecard}

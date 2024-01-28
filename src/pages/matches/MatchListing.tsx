@@ -79,7 +79,9 @@ const MatchListing = ({
 										? nav(
 												`/scorecard/edit/${match.golfer1Id}/${match.golfer2Id}/${match.id}/${dateId}`
 										  )
-										: ""
+										: nav(
+												`/scorecard/add/${match.golfer1Id}/${match.golfer2Id}/${match.id}/${dateId}`
+										  )
 								}
 							>
 								<td>{matchesList.indexOf(match) + 1}</td>

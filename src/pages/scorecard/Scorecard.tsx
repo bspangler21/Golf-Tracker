@@ -65,15 +65,15 @@ let golfer2Scores: number[] = [];
 type Args = {
 	golfer1: any;
 	golfer2: any;
-	currentMatchScores: MatchScore[];
-	isEdit: boolean;
+
+	// isEdit: boolean;
 	submitted: (matchScore: MatchScore) => void;
 };
 const Scorecard = ({
 	golfer1,
 	golfer2,
-	currentMatchScores,
-	isEdit,
+
+	// isEdit,
 	submitted,
 }: Args) => {
 	const { data: matchesData } = useFetchMatches();
@@ -88,8 +88,6 @@ const Scorecard = ({
 
 	golfers = golferData ?? mockGolfers;
 	// matches = matchesData ?? mockMatches;
-	const addMatchScoreMutation = useAddMatchScore();
-	const addMatchScore = useAddMatchScoreNoMutation(currentMatchId);
 
 	const player1 = getGolferById(golfer1Id ?? "", golfers);
 	const player2 = getGolferById(golfer2Id ?? "", golfers);
