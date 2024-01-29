@@ -57,8 +57,6 @@ let frontNinePar = golfHoles.reduce(
 	0
 );
 
-let golfer1Scores: number[] = [];
-let golfer2Scores: number[] = [];
 type Args = {
 	golfer1: any;
 	golfer2: any;
@@ -105,7 +103,6 @@ const Scorecard = ({
 	if (import.meta.env.DEV) {
 		console.log("golfer1State", golfer1State);
 		console.log("golfer2State", golfer2State);
-		console.log("golfer1Scores", golfer1Scores);
 	}
 
 	let csvContent = "courseId,holeNumber,holeHandicap,holeLength,holePar\n";
