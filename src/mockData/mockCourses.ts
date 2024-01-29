@@ -11,5 +11,7 @@ export const mockCourses: Course[] = [
 		holes: 18,
 		par: 72,
 		address: "6333 Ball Prairie Rd",
+		slopeRating: 112,
+		courseRating: 69.5,
 	},
 ];

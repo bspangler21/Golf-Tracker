@@ -4,7 +4,7 @@ import ValidationSummary from "../../pageComponents/ValidationSummary";
 // import GolferForm from "./GolferForm";
 import { Golfer } from "../../types/Golfer";
 import { mockGolfers } from "../../mockData/mockGolfers";
-import { getGolferById } from "../../util/golfers";
+import { getGolferById } from "../../util/golferUtils";
 import GolferForm from "./GolferForm";
 
 type Args = {

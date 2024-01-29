@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getGolferById } from "../../util/golfers";
+import { getGolferById } from "../../util/golferUtils";
 import { useParams } from "react-router-dom";
 import { mockGolfers } from "../../mockData/mockGolfers";
 import { mockHoles } from "../../mockData/mockHoles";
@@ -15,26 +15,23 @@ import { LeagueDate } from "../../types/LeagueDate";
 import { mockMatches } from "../../mockData/mockMatches";
 import { mockDates } from "../../mockData/mockDates";
 import { Match } from "../../types/Match";
-import {
-	useAddMatchScore,
-	useAddMatchScoreNoMutation,
-	useFetchMatchScores,
-	useUpdateMatchScore,
-} from "../../hooks/MatchScoreHooks";
+
 import { useFetchDates } from "../../hooks/LeagueDateHooks";
 import { useFetchMatches } from "../../hooks/MatchHooks";
-import { getMatchScoresById } from "../../util/matchScores";
-import { mockMatchScores } from "../../mockData/mockMatchScores";
+import { getLakeBreeze } from "../../util/courseUtils";
+
+let LakeBreezeCourseId = "658cfca75669234ca16a65d8";
 
 //only show holes and course for Lake Breeze
 const golfHoles = mockHoles.filter(
-	(hole) => hole.courseId === "658cfca75669234ca16a65d8"
+	(hole) => hole.courseId === LakeBreezeCourseId
 );
 
 // const golfers = mockGolfers;
-const course = mockCourses.find(
-	(course) => course.id === "658cfca75669234ca16a65d8"
-);
+// const course = mockCourses.find(
+// 	(course) => course.id === "658cfca75669234ca16a65d8"
+// );
+const course = getLakeBreeze(LakeBreezeCourseId, mockCourses);
 
 let golfers: Golfer[] = [];
 let matches: Match[] = [];
@@ -98,7 +95,7 @@ const Scorecard = ({
 
 	// golfer2Scores = golfer2State.holeScores;
 
-	// let currentMatchScores: MatchScore[] = getMatchScoresById(
+	// let currentMatchScores: MatchScore[] = getMatchScoresByMatchId(
 	// 	currentMatchId,
 	// 	matchScores
 	// );

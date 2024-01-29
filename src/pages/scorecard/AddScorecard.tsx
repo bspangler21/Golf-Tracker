@@ -3,8 +3,8 @@ import { useFetchGolfers } from "../../hooks/GolferHooks";
 import { useFetchDates } from "../../hooks/LeagueDateHooks";
 import { useFetchMatches } from "../../hooks/MatchHooks";
 import {
-  useAddMatchScore,
-  useAddMatchScoreNoMutation,
+	useAddMatchScore,
+	useAddMatchScoreNoMutation,
 	useFetchMatchScores,
 	useUpdateMatchScore,
 } from "../../hooks/MatchScoreHooks";
@@ -16,7 +16,7 @@ import ValidationSummary from "../../pageComponents/ValidationSummary";
 import { Golfer } from "../../types/Golfer";
 import { LeagueDate } from "../../types/LeagueDate";
 import { MatchScore } from "../../types/MatchScore";
-import { getMatchScoresById } from "../../util/matchScores";
+import { getMatchScoresByMatchId } from "../../util/matchScores";
 import Scorecard from "./Scorecard";
 import { Match } from "../../types/Match";
 import { getMatchDateById } from "../../util/matches";
@@ -38,15 +38,15 @@ const AddScorecard = () => {
 	const addMatchScore = useAddMatchScoreNoMutation(currentMatchId);
 	let golfer1Data: MatchScore = {
 		id: "",
-		matchId: "",
-		golferId: "",
+		matchId: currentMatchId,
+		golferId: golfer1Id ?? "",
 		totalScore: 0,
 		holeScores: [],
 	};
 	let golfer2Data: MatchScore = {
 		id: "",
-		matchId: "",
-		golferId: "",
+		matchId: currentMatchId,
+		golferId: golfer2Id ?? "",
 		totalScore: 0,
 		holeScores: [],
 	};
@@ -56,7 +56,7 @@ const AddScorecard = () => {
 	matches = matchesData ?? mockMatches;
 	matchScores = matchScoreData ?? mockMatchScores;
 	golfers = golferData ?? mockGolfers;
-	currentMatchScores = getMatchScoresById(currentMatchId, matchScores);
+	currentMatchScores = getMatchScoresByMatchId(currentMatchId, matchScores);
 	if (currentMatchScores.length > 0) {
 		golfer1Data =
 			currentMatchScores.filter(
@@ -71,7 +71,7 @@ const AddScorecard = () => {
 		console.log("golfer1Data", golfer1Data);
 	}
 
-  const matchDay = getMatchDateById(dateId ?? "", dates);
+	const matchDay = getMatchDateById(dateId ?? "", dates);
 
 	return (
 		<>
@@ -81,7 +81,6 @@ const AddScorecard = () => {
 			<Scorecard
 				golfer1={golfer1Data}
 				golfer2={golfer2Data}
-				
 				// isEdit={false}
 				submitted={(matchScore) => {
 					addMatchScore.mutate(matchScore);

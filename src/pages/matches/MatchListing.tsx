@@ -1,6 +1,6 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { mockMatches } from "../../mockData/mockMatches";
-import { getGolferById } from "../../util/golfers";
+import { getGolferById } from "../../util/golferUtils";
 import { getMatchesByDateId, getMatchesByPlayerId } from "../../util/matches";
 import { useFetchGolfers } from "../../hooks/GolferHooks";
 import { mockGolfers } from "../../mockData/mockGolfers";
@@ -9,7 +9,7 @@ import { mockDates } from "../../mockData/mockDates";
 import { Match } from "../../types/Match";
 import { LeagueDate } from "../../types/LeagueDate";
 import { useFetchDates } from "../../hooks/LeagueDateHooks";
-import { getMatchScoresById } from "../../util/matchScores";
+import { getMatchScoresByMatchId } from "../../util/matchScores";
 import { useFetchMatchScores } from "../../hooks/MatchScoreHooks";
 import { MatchScore } from "../../types/MatchScore";
 import { mockMatchScores } from "../../mockData/mockMatchScores";
@@ -74,8 +74,10 @@ const MatchListing = ({
 								key={match.id}
 								onClick={() =>
 									match.id &&
-									getMatchScoresById(match.id, matchScores)
-										.length > 0
+									getMatchScoresByMatchId(
+										match.id,
+										matchScores
+									).length > 0
 										? nav(
 												`/scorecard/edit/${match.golfer1Id}/${match.golfer2Id}/${match.id}/${dateId}`
 										  )

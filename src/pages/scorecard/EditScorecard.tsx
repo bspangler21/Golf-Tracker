@@ -15,7 +15,7 @@ import { MatchScore } from "../../types/MatchScore";
 import { Golfer } from "../../types/Golfer";
 import { LeagueDate } from "../../types/LeagueDate";
 import { Match } from "../../types/Match";
-import { getMatchScoresById } from "../../util/matchScores";
+import { getMatchScoresByMatchId } from "../../util/matchScores";
 import ValidationSummary from "../../pageComponents/ValidationSummary";
 
 let golfers: Golfer[] = [];
@@ -52,7 +52,7 @@ const EditScorecard = () => {
 	matches = matchesData ?? mockMatches;
 	matchScores = matchScoreData ?? mockMatchScores;
 	golfers = golferData ?? mockGolfers;
-	currentMatchScores = getMatchScoresById(currentMatchId, matchScores);
+	currentMatchScores = getMatchScoresByMatchId(currentMatchId, matchScores);
 	if (currentMatchScores.length > 0) {
 		golfer1Data =
 			currentMatchScores.filter(
@@ -75,7 +75,6 @@ const EditScorecard = () => {
 			<Scorecard
 				golfer1={golfer1Data}
 				golfer2={golfer2Data}
-				
 				// isEdit={true}
 				submitted={(matchScore) => {
 					updateMatchScore.mutate(matchScore);
