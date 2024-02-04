@@ -19,6 +19,7 @@ import { mockMatchScores } from "../../mockData/mockMatchScores";
 import { getLakeBreeze } from "../../util/courseUtils";
 import { mockCourses } from "../../mockData/mockCourses";
 import { Course } from "../../types/Course";
+import { getHardestHoles } from "../../util/holeUtils";
 
 let LakeBreezeCourseId: string = "658cfca75669234ca16a65d8";
 
@@ -41,7 +42,10 @@ const GolferDetail = () => {
 
 	const { data: golferData } = useFetchGolfer(golferId);
 	const { data: matchScoreData } = useFetchMatchScores();
-	const course: Course | undefined = getLakeBreeze(LakeBreezeCourseId, mockCourses);
+	const course: Course | undefined = getLakeBreeze(
+		LakeBreezeCourseId,
+		mockCourses
+	);
 	if (!course) throw new Error("Course not found");
 
 	if (import.meta.env.DEV) {
@@ -79,6 +83,10 @@ const GolferDetail = () => {
 	console.log("matchScores", matchScores);
 	console.log("currentGolferMatchScores", currentGolferMatchScores);
 	console.log("golferHandicap", golferHandicap);
+	console.log(
+		"getHardestHoles",
+		getHardestHoles(course?.id !== undefined ? course?.id : "", 9)
+	);
 
 	return (
 		<>

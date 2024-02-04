@@ -1,9 +1,13 @@
+import { useFetchHoles } from "../hooks/HoleHooks";
 import { useFetchMatchScores } from "../hooks/MatchScoreHooks";
 import { mockCourses } from "../mockData/mockCourses";
+import { mockHoles } from "../mockData/mockHoles";
 import { Course } from "../types/Course";
+import { Hole } from "../types/Hole";
 import { MatchScore } from "../types/MatchScore";
 import { getLakeBreeze } from "./courseUtils";
 import { calculateHandicap, getGolferMatchScores } from "./golferUtils";
+import { getHardestHoles } from "./holeUtils";
 
 let LakeBreezeCourseId: string = "658cfca75669234ca16a65d8";
 const course: Course | undefined = getLakeBreeze(
@@ -22,7 +26,9 @@ export function calculateMatchPoints(
 	golfer2Scores: MatchScore
 ) {
 	let matchPoints: number = 0;
-	const { data: matchScoreData } = useFetchMatchScores();
+	// const { data: matchScoreData } = useFetchMatchScores();
+	const { data: holeData } = useFetchHoles();
+	let holes: Hole[] = holeData ?? mockHoles;
 	let golfer1Handicap: number =
 		(course &&
 			calculateHandicap(
@@ -41,6 +47,10 @@ export function calculateMatchPoints(
 		0;
 
 	// use slice to get the number of holes with the highest handicaps based on difference between golfer1 and golfer2 handicap
+	getHardestHoles(
+		course?.id !== undefined ? course?.id : "",
+		Math.abs(golfer1Handicap - golfer2Handicap)
+	);
 
 	return matchPoints;
 }
