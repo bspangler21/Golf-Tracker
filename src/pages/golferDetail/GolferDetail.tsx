@@ -50,13 +50,13 @@ const GolferDetail = () => {
 		console.log("golferData", golferData);
 	}
 
-	golfer = golferData ?? getGolferById(golferId, mockGolfers);
+	golfer = golferData ?? getGolferById(golferId);
 	matchScores = matchScoreData ?? mockMatchScores;
 
 	let golferDisplayName: string = `${golfer.firstName} ${golfer.lastName}`;
 
 	let currentGolferMatchScores: MatchScore[] =
-		getGolferMatchScores(matchScores, golferId) ?? [];
+		getGolferMatchScores(golferId) ?? [];
 
 	let latestGolferScore: number =
 		currentGolferMatchScores.length > 0

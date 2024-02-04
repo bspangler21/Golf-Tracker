@@ -84,8 +84,8 @@ const Scorecard = ({
 	golfers = golferData ?? mockGolfers;
 	// matches = matchesData ?? mockMatches;
 
-	const player1 = getGolferById(golfer1Id ?? "", golfers);
-	const player2 = getGolferById(golfer2Id ?? "", golfers);
+	const player1 = getGolferById(golfer1Id ?? "");
+	const player2 = getGolferById(golfer2Id ?? "");
 	const matchDay = getMatchDateByDateId(dateId ?? "", dates);
 	const [golfer1State, setGolfer1State] = useState({ ...golfer1 });
 	const [golfer2State, setGolfer2State] = useState({ ...golfer2 });

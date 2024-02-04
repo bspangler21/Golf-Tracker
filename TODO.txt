@@ -4,5 +4,13 @@
 3. Add remaining tables to API
 4. Add hooks for remaining tables in React
 5. Add tee time to Match
-6. Add tee time type so "times" can be templated (i.e., first match plays at 3:37pm, etc.)
 7. Add logic so Adding/Editing still works when API not running
+8. Add function for calculating points
+  - on submit, go over each hole and compare
+  - handicap difference
+    - save golfer with higher handicap
+  - sort holes based on hole handicap
+    - if difference > 9, loop through holes again
+    - save these to new array so that if current hole in loop is one of the holes in this new array, take handicap difference
+
+9. Add standings page

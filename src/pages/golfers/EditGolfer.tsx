@@ -4,8 +4,21 @@ import ValidationSummary from "../../pageComponents/ValidationSummary";
 // import GolferForm from "./GolferForm";
 import { Golfer } from "../../types/Golfer";
 import { mockGolfers } from "../../mockData/mockGolfers";
-import { getGolferById } from "../../util/golferUtils";
+import {
+	calculateHandicap,
+	getGolferById,
+	getGolferMatchScores,
+} from "../../util/golferUtils";
 import GolferForm from "./GolferForm";
+import { mockCourses } from "../../mockData/mockCourses";
+import { Course } from "../../types/Course";
+import { getLakeBreeze } from "../../util/courseUtils";
+
+let LakeBreezeCourseId: string = "658cfca75669234ca16a65d8";
+const course: Course | undefined = getLakeBreeze(
+	LakeBreezeCourseId,
+	mockCourses
+);
 
 type Args = {
 	status: "idle" | "success" | "error" | "loading";
@@ -38,19 +51,33 @@ const EditGolfer = () => {
 
 	if (!isSuccess) return <ApiStatus status={status} />;
 
-	golferData = data ?? getGolferById(golferId, mockGolfers);
+	golferData = data ?? getGolferById(golferId);
 
 	// useEffect(() => {
 	// 	golferData = data ?? getGolferById(golferId, mockGolfers);
 	// }, [data]);
 
 	console.log("golferData", golferData);
+	console.log("golferMatchScores", getGolferMatchScores(golferData.id ?? ""));
 
 	const golfer: Golfer = {
 		id: golferData.id,
 		firstName: golferData.firstName,
 		lastName: golferData.lastName,
-		handicap: golferData.handicap,
+		handicap:
+			course &&
+			golferData.id &&
+			calculateHandicap(
+				getGolferMatchScores(golferData.id),
+				course?.slopeRating,
+				course?.courseRating
+			) !== undefined
+				? calculateHandicap(
+						getGolferMatchScores(golferData.id),
+						course?.slopeRating,
+						course?.courseRating / 2
+				  )
+				: 0,
 	};
 
 	console.log("golfer", golfer);

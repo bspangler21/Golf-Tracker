@@ -1,30 +1,13 @@
+import { useFetchGolfers } from "../hooks/GolferHooks";
+import { useFetchMatchScores } from "../hooks/MatchScoreHooks";
+import { mockGolfers } from "../mockData/mockGolfers";
+import { mockMatchScores } from "../mockData/mockMatchScores";
 import { Golfer } from "../types/Golfer";
 import { MatchScore } from "../types/MatchScore";
-// import { mockGolfers } from "../mockData/mockGolfers";
-// import { useFetchGolfers } from "../hooks/GolferHooks";
 
-// const golfers: Golfer[] = mockGolfers;
-// const testGolfers: Golfer[] = mockGolfers;
-// const { data: golfers } = useFetchGolfers() ?? [];
-
-// export function getAllGolferIds() {
-// 	return (golfers as Golfer[]).map((i) => {
-// 		return {
-// 			params: {
-// 				id: i.id,
-// 			},
-// 		};
-// 	});
-// }
-
-// export function fetchGolfers() {
-// 	const returnedGolfers = fetch("http://localhost:4000/api/Golfers").then(
-// 		(response) => response.json()
-// 	);
-// 	return returnedGolfers;
-// }
-
-export function getGolferById(id: string, golfers: Golfer[]): Golfer {
+export function getGolferById(id: string): Golfer {
+	const { data: golferData } = useFetchGolfers();
+	let golfers: Golfer[] = golferData ?? mockGolfers;
 	let golferDetail: Golfer = {} as Golfer;
 
 	if (golfers) {
@@ -41,11 +24,13 @@ export function getGolferById(id: string, golfers: Golfer[]): Golfer {
 	return golferDetail;
 }
 
-export function getGolferMatchScores(
-	matchScores: MatchScore[],
-	golferId: string
-): MatchScore[] {
-	return matchScores.filter((m) => m.golferId === golferId);
+export function getGolferMatchScores(golferId: string): MatchScore[] {
+	const { data: matchScoreData } = useFetchMatchScores();
+	let matchScores: MatchScore[] = matchScoreData ?? mockMatchScores;
+	let golferMatchScores: MatchScore[] = matchScores.filter(
+		(m) => m.golferId === golferId
+	);
+	return golferMatchScores;
 }
 
 export function getTotalScoresNumber(matchScores: MatchScore[]): number {
