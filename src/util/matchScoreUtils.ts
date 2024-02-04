@@ -40,5 +40,7 @@ export function calculateMatchPoints(
 			)) ??
 		0;
 
+	// use slice to get the number of holes with the highest handicaps based on difference between golfer1 and golfer2 handicap
+
 	return matchPoints;
 }
