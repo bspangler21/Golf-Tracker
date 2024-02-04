@@ -15,7 +15,7 @@ import { MatchScore } from "../../types/MatchScore";
 import { Golfer } from "../../types/Golfer";
 import { LeagueDate } from "../../types/LeagueDate";
 import { Match } from "../../types/Match";
-import { getMatchScoresByMatchId } from "../../util/matchScores";
+import { getMatchScoresByMatchId } from "../../util/matchScoreUtils";
 import ValidationSummary from "../../pageComponents/ValidationSummary";
 
 let golfers: Golfer[] = [];

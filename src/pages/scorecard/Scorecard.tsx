@@ -6,7 +6,7 @@ import { mockHoles } from "../../mockData/mockHoles";
 import { MatchScore } from "../../types/MatchScore";
 import { DefaultButton } from "@fluentui/react";
 import { mockCourses } from "../../mockData/mockCourses";
-import { getMatchDateById } from "../../util/matches";
+import { getMatchDateByDateId } from "../../util/matchUtils";
 import { format, sub } from "date-fns";
 import { useFetchGolfers } from "../../hooks/GolferHooks";
 import { saveAs } from "file-saver";
@@ -86,7 +86,7 @@ const Scorecard = ({
 
 	const player1 = getGolferById(golfer1Id ?? "", golfers);
 	const player2 = getGolferById(golfer2Id ?? "", golfers);
-	const matchDay = getMatchDateById(dateId ?? "", dates);
+	const matchDay = getMatchDateByDateId(dateId ?? "", dates);
 	const [golfer1State, setGolfer1State] = useState({ ...golfer1 });
 	const [golfer2State, setGolfer2State] = useState({ ...golfer2 });
 	// golfer1Scores = golfer1State.holeScores;

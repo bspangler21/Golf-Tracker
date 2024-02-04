@@ -1,7 +1,10 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { mockMatches } from "../../mockData/mockMatches";
 import { getGolferById } from "../../util/golferUtils";
-import { getMatchesByDateId, getMatchesByPlayerId } from "../../util/matches";
+import {
+	getMatchesByDateId,
+	getMatchesByPlayerId,
+} from "../../util/matchUtils";
 import { useFetchGolfers } from "../../hooks/GolferHooks";
 import { mockGolfers } from "../../mockData/mockGolfers";
 import { Golfer } from "../../types/Golfer";
@@ -9,7 +12,7 @@ import { mockDates } from "../../mockData/mockDates";
 import { Match } from "../../types/Match";
 import { LeagueDate } from "../../types/LeagueDate";
 import { useFetchDates } from "../../hooks/LeagueDateHooks";
-import { getMatchScoresByMatchId } from "../../util/matchScores";
+import { getMatchScoresByMatchId } from "../../util/matchScoreUtils";
 import { useFetchMatchScores } from "../../hooks/MatchScoreHooks";
 import { MatchScore } from "../../types/MatchScore";
 import { mockMatchScores } from "../../mockData/mockMatchScores";

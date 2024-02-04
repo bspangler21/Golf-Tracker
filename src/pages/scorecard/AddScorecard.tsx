@@ -16,10 +16,10 @@ import ValidationSummary from "../../pageComponents/ValidationSummary";
 import { Golfer } from "../../types/Golfer";
 import { LeagueDate } from "../../types/LeagueDate";
 import { MatchScore } from "../../types/MatchScore";
-import { getMatchScoresByMatchId } from "../../util/matchScores";
+import { getMatchScoresByMatchId } from "../../util/matchScoreUtils";
 import Scorecard from "./Scorecard";
 import { Match } from "../../types/Match";
-import { getMatchDateById } from "../../util/matches";
+import { getMatchDateByDateId } from "../../util/matchUtils";
 
 let golfers: Golfer[] = [];
 let matches: Match[] = [];
@@ -71,7 +71,7 @@ const AddScorecard = () => {
 		console.log("golfer1Data", golfer1Data);
 	}
 
-	const matchDay = getMatchDateById(dateId ?? "", dates);
+	const matchDay = getMatchDateByDateId(dateId ?? "", dates);
 
 	return (
 		<>
