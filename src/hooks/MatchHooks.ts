@@ -23,7 +23,7 @@ export const useAddMatch = () => {
 	const queryClient = useQueryClient();
 	// const nav = useNavigate();
 	return useMutation<AxiosResponse, AxiosError<Problem>, Match>(
-		(matchScore) => axios.post(`${apiURL}/api/Matches`, matchScore),
+		(match) => axios.post(`${apiURL}/api/Matches`, match),
 		{
 			onSuccess: () => {
 				queryClient.invalidateQueries("matches");

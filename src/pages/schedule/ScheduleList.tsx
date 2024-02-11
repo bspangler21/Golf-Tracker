@@ -14,6 +14,8 @@ import { Golfer } from "../../types/Golfer";
 import { mockGolfers } from "../../mockData/mockGolfers";
 import { saveAs } from "file-saver";
 import axios from "axios";
+import { Match } from "../../types/Match";
+import { getLeagueDateIdByWeekNumber } from "../../util/leagueDateUtils";
 
 const iconClass = mergeStyles({
 	fontSize: 25,
@@ -55,6 +57,7 @@ const ScheduleList = () => {
 	const { data: datesData } = useFetchDates();
 	const { data: golfersData } = useFetchGolfers();
 	const deleteDateMutation = useDeleteDate();
+	const addDateMutation = useAddDate();
 	golfers = golfersData ?? mockGolfers;
 	dates = datesData ?? mockDates;
 	// let golfer1Index: number = 0;
@@ -150,8 +153,16 @@ const ScheduleList = () => {
 		let dateObject: LeagueDate = {
 			leagueId: wpsLeagueId,
 			matchDate: startDate,
-			matchWeekNumber: 0
+			matchWeekNumber: 0,
 		};
+		let createdDateId: any = "";
+		let matchObject: Match = {
+			leagueId: wpsLeagueId,
+			dateId: createdDateId,
+			golfer1Id: "",
+			golfer2Id: "",
+		};
+
 		/**
 		 * Generates a schedule list based on the shuffledGolfers array.
 		 * Each round consists of matches between pairs of golfers.
@@ -179,10 +190,10 @@ const ScheduleList = () => {
 			shuffledGolfers.splice(1, 0, shuffledGolfers.pop());
 		}
 		// Get unique values from dateValues array
-		dateValues = dateValues.filter(
+		let uniqueDateValues: number[] = dateValues.filter(
 			(value, index, self) => self.indexOf(value) === index
 		);
-		dateValues.forEach((dateValue) => {
+		uniqueDateValues.forEach((dateValue) => {
 			dateObject = {
 				leagueId: wpsLeagueId,
 				matchWeekNumber: dateValue,
@@ -195,6 +206,55 @@ const ScheduleList = () => {
 			// add 7 days to startDate
 			startDate = new Date(startDate.setDate(startDate.getDate() + 7));
 		});
+		// dateValues.forEach((dateValue) => {
+		// 	matchSchedule.map((matchup) => {
+		// 		matchup.map((match) => {
+		// 			matchObject = {
+		// 				leagueId: wpsLeagueId,
+		// 				dateId: getLeagueDateIdByWeekNumber(dateValue),
+		// 				golfer1Id: match.homeTeam.id,
+		// 				golfer2Id: match.awayTeam.id,
+		// 			};
+		// 			axios.post(`${apiURL}/api/Matches`, matchObject);
+		// 		});
+		// 	});
+
+		const processMatches = async () => {
+			for (const dateValue of dateValues) {
+				for (const matchup of matchSchedule) {
+					for (const match of matchup) {
+						const matchObject = {
+							leagueId: wpsLeagueId,
+							dateId: getLeagueDateIdByWeekNumber(dateValue),
+							golfer1Id: match.homeTeam.id,
+							golfer2Id: match.awayTeam.id,
+						};
+						try {
+							await axios.post(
+								`${apiURL}/api/Matches`,
+								matchObject
+							);
+						} catch (error) {
+							console.error("There was an error!", error);
+						}
+					}
+				}
+			}
+		};
+
+		processMatches();
+		// matchSchedule.forEach((matchup) => {
+		// 	matchup.forEach((match) => {
+		// 		matchObject = {
+		// 			leagueId: wpsLeagueId,
+		// 			dateId: getLeagueDateIdByWeekNumber(dateValue),
+		// 			golfer1Id: match.homeTeam.id,
+		// 			golfer2Id: match.awayTeam.id,
+		// 		};
+		// 		axios.post(`${apiURL}/api/Matches`, matchObject);
+		// 	});
+		// });
+
 		console.log("dateValues", dateValues);
 		console.log("matchSchedule", matchSchedule);
 		return matchSchedule;

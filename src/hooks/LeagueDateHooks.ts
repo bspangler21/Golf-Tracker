@@ -27,7 +27,7 @@ export const useAddDate = () => {
 		{
 			onSuccess: () => {
 				queryClient.invalidateQueries("leagueDates");
-				nav("/schedule-list");
+				// nav("/schedule-list");
 			},
 			onError: (error) => {
 				if (error.response?.status === 405) {
