@@ -155,7 +155,7 @@ const ScheduleList = () => {
 		const matchSchedule: any = [];
 
 		let dateValues: any = [];
-		let startDate: Date = new Date("5/14/2024");
+		let startDate: Date = new Date("5/07/2024");
 		let dateObject: LeagueDate = {
 			leagueId: wpsLeagueId,
 			matchDate: startDate,
@@ -164,7 +164,8 @@ const ScheduleList = () => {
 		let createdDateId: any = "";
 		let matchObject: Match = {
 			leagueId: wpsLeagueId,
-			dateId: createdDateId,
+			weekNumber: 0,
+			matchDate: new Date("5/07/2024"),
 			golfer1Id: "",
 			golfer2Id: "",
 		};
@@ -200,74 +201,11 @@ const ScheduleList = () => {
 			(value, index, self) => self.indexOf(value) === index
 		);
 
-		const processMatches = async () => {
-			/*for (const dateValue of dateValues) {
-				for (const matchup of matchSchedule) {
-					for (const match of matchup) {
-						const matchObject = {
-							leagueId: wpsLeagueId,
-							dateId: getLeagueDateIdByWeekNumber(dateValue),
-							golfer1Id: match.homeTeam.id,
-							golfer2Id: match.awayTeam.id,
-						};
-						try {
-							await axios.post(
-								`${apiURL}/api/Matches`,
-								matchObject
-							);
-						} catch (error) {
-							console.error("There was an error!", error);
-						}
-					}
-				}
-			}*/
-			for (const dateValue of dateValues) {
-				console.log("dateValue:", dateValue);
-				const dateId = await getLeagueDateIdByWeekNumber(dateValue);
-				console.log("dateId:", dateId);
-			}
-		};
 
-		const postDates = async () => {
-			for (const dateValue of uniqueDateValues) {
-				const dateObject = {
-					leagueId: wpsLeagueId,
-					matchWeekNumber: dateValue,
-					matchDate: startDate,
-				};
 
-				try {
-					await axios.post(`${apiURL}/api/Dates`, dateObject);
-					// console.log("dateObject:", dateObject);
-				} catch (error) {
-					console.error("There was an error!", error);
-				}
+		
 
-				// add 7 days to startDate
-				startDate = new Date(
-					startDate.setDate(startDate.getDate() + 7)
-				);
-			}
-			await postDates();
-		};
-
-		postDates().then(() => {
-			// other code that depends on the axios.post calls
-			processMatches();
-		});
-
-		// dateValues.forEach((dateValue) => {
-		// 	matchSchedule.map((matchup) => {
-		// 		matchup.map((match) => {
-		// 			matchObject = {
-		// 				leagueId: wpsLeagueId,
-		// 				dateId: getLeagueDateIdByWeekNumber(dateValue),
-		// 				golfer1Id: match.homeTeam.id,
-		// 				golfer2Id: match.awayTeam.id,
-		// 			};
-		// 			axios.post(`${apiURL}/api/Matches`, matchObject);
-		// 		});
-		// 	});
+		
 
 		// dateValues.forEach(async (dateValue) => {
 		// 	matchSchedule.forEach(async (matchup) => {
