@@ -3,13 +3,17 @@
 import { DefaultButton, FontIcon, mergeStyles } from "@fluentui/react";
 import { mockDates } from "../../mockData/mockDates";
 import { useNavigate } from "react-router-dom";
-import { useDeleteDate, useFetchDates } from "../../hooks/LeagueDateHooks";
+import {
+	useAddDate,
+	useDeleteDate,
+	useFetchDates,
+} from "../../hooks/LeagueDateHooks";
 import { LeagueDate } from "../../types/LeagueDate";
 import { useFetchGolfers } from "../../hooks/GolferHooks";
 import { Golfer } from "../../types/Golfer";
 import { mockGolfers } from "../../mockData/mockGolfers";
 import { saveAs } from "file-saver";
-
+import axios from "axios";
 
 const iconClass = mergeStyles({
 	fontSize: 25,
@@ -43,6 +47,8 @@ const iconClass = mergeStyles({
 let dates: LeagueDate[] = [];
 let golfers: Golfer[] = [];
 // let weeks: any[] = [];
+const wpsLeagueId = "658cf9da5669234ca16a65c8";
+const apiURL = import.meta.env.DEV ? "http://localhost:4000" : "";
 
 const ScheduleList = () => {
 	const nav = useNavigate();
@@ -113,7 +119,7 @@ const ScheduleList = () => {
 			const j = Math.floor(Math.random() * (i + 1));
 			/**
 			 * Swaps the elements at the given indices in the array.
-			 * 
+			 *
 			 * @param array - The array in which the elements should be swapped.
 			 * @param i - The index of the first element to be swapped.
 			 * @param j - The index of the second element to be swapped.
@@ -139,6 +145,13 @@ const ScheduleList = () => {
 		const shuffledGolfers = shuffleArray(golfers);
 		const matchSchedule: any = [];
 
+		let dateValues: any = [];
+		let startDate: Date = new Date("5/14/2024");
+		let dateObject: LeagueDate = {
+			leagueId: wpsLeagueId,
+			matchDate: startDate,
+			matchWeekNumber: 0
+		};
 		/**
 		 * Generates a schedule list based on the shuffledGolfers array.
 		 * Each round consists of matches between pairs of golfers.
@@ -149,13 +162,15 @@ const ScheduleList = () => {
 		for (let i = 0; i < shuffledGolfers.length - 1; i++) {
 			const roundMatches: any = [];
 			let match: any = { golfer1: {}, golfer2: {}, weekNumber: 0 };
+
 			for (let j = 0; j < shuffledGolfers.length / 2; j++) {
 				match = {
 					homeTeam: shuffledGolfers[j],
 					awayTeam: shuffledGolfers[shuffledGolfers.length - 1 - j],
 
-					weekNumber: `Date ${i + 1}`,
+					weekNumber: `${i + 1}`,
 				};
+				dateValues.push(match.weekNumber);
 				roundMatches.push(match);
 			}
 			matchSchedule.push(roundMatches);
@@ -163,6 +178,24 @@ const ScheduleList = () => {
 			// Rotate the teams array for the next round
 			shuffledGolfers.splice(1, 0, shuffledGolfers.pop());
 		}
+		// Get unique values from dateValues array
+		dateValues = dateValues.filter(
+			(value, index, self) => self.indexOf(value) === index
+		);
+		dateValues.forEach((dateValue) => {
+			dateObject = {
+				leagueId: wpsLeagueId,
+				matchWeekNumber: dateValue,
+				matchDate: startDate,
+			};
+			// startDate.setDate(startDate.getDate() + 7);
+			// dateValues.push(dateObject);
+			axios.post(`${apiURL}/api/Dates`, dateObject);
+
+			// add 7 days to startDate
+			startDate = new Date(startDate.setDate(startDate.getDate() + 7));
+		});
+		console.log("dateValues", dateValues);
 		console.log("matchSchedule", matchSchedule);
 		return matchSchedule;
 	}
@@ -192,7 +225,7 @@ const ScheduleList = () => {
 
 		const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8" });
 
-		saveAs(blob, `matches.csv`);
+		// saveAs(blob, `matches.csv`);
 	};
 
 	return (

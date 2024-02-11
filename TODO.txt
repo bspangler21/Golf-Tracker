@@ -14,3 +14,6 @@
     - save these to new array so that if current hole in loop is one of the holes in this new array, take handicap difference
 
 9. Add standings page
+
+
+Create league-date for every Date in generateMatchSchedule
