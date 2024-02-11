@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 const apiURL = import.meta.env.DEV ? "http://localhost:4000" : "";
 
 export const useFetchDates = () => {
-	console.log("api url", apiURL);
+	// console.log("api url", apiURL);
 	return useQuery<LeagueDate[]>("leagueDates", () => {
 		return fetch(`${apiURL}/api/Dates`).then((res) => res.json());
 	});

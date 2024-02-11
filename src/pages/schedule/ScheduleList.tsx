@@ -1,6 +1,11 @@
 // import { mergeStyleSets } from "@fluentui/react";
 // import { useFetchData } from "../../hooks/GolferHooks";
-import { DefaultButton, FontIcon, mergeStyles } from "@fluentui/react";
+import {
+	Checkbox,
+	DefaultButton,
+	FontIcon,
+	mergeStyles,
+} from "@fluentui/react";
 import { mockDates } from "../../mockData/mockDates";
 import { useNavigate } from "react-router-dom";
 import {
@@ -82,6 +87,7 @@ const ScheduleList = () => {
 
 	// const matchups: Matchup[] = [];
 	let csvContent = "Week Number,Player 1,Player 2\n";
+	let datesToDelete: LeagueDate[] = [];
 	// let weeklyMatchups: any[] = [];
 	// let lastPlayer1: Golfer = {
 	// 	firstName: "",
@@ -193,34 +199,9 @@ const ScheduleList = () => {
 		let uniqueDateValues: number[] = dateValues.filter(
 			(value, index, self) => self.indexOf(value) === index
 		);
-		uniqueDateValues.forEach((dateValue) => {
-			dateObject = {
-				leagueId: wpsLeagueId,
-				matchWeekNumber: dateValue,
-				matchDate: startDate,
-			};
-			// startDate.setDate(startDate.getDate() + 7);
-			// dateValues.push(dateObject);
-			axios.post(`${apiURL}/api/Dates`, dateObject);
-
-			// add 7 days to startDate
-			startDate = new Date(startDate.setDate(startDate.getDate() + 7));
-		});
-		// dateValues.forEach((dateValue) => {
-		// 	matchSchedule.map((matchup) => {
-		// 		matchup.map((match) => {
-		// 			matchObject = {
-		// 				leagueId: wpsLeagueId,
-		// 				dateId: getLeagueDateIdByWeekNumber(dateValue),
-		// 				golfer1Id: match.homeTeam.id,
-		// 				golfer2Id: match.awayTeam.id,
-		// 			};
-		// 			axios.post(`${apiURL}/api/Matches`, matchObject);
-		// 		});
-		// 	});
 
 		const processMatches = async () => {
-			for (const dateValue of dateValues) {
+			/*for (const dateValue of dateValues) {
 				for (const matchup of matchSchedule) {
 					for (const match of matchup) {
 						const matchObject = {
@@ -239,19 +220,66 @@ const ScheduleList = () => {
 						}
 					}
 				}
+			}*/
+			for (const dateValue of dateValues) {
+				console.log("dateValue:", dateValue);
+				const dateId = await getLeagueDateIdByWeekNumber(dateValue);
+				console.log("dateId:", dateId);
 			}
 		};
 
-		processMatches();
-		// matchSchedule.forEach((matchup) => {
-		// 	matchup.forEach((match) => {
-		// 		matchObject = {
-		// 			leagueId: wpsLeagueId,
-		// 			dateId: getLeagueDateIdByWeekNumber(dateValue),
-		// 			golfer1Id: match.homeTeam.id,
-		// 			golfer2Id: match.awayTeam.id,
-		// 		};
-		// 		axios.post(`${apiURL}/api/Matches`, matchObject);
+		const postDates = async () => {
+			for (const dateValue of uniqueDateValues) {
+				const dateObject = {
+					leagueId: wpsLeagueId,
+					matchWeekNumber: dateValue,
+					matchDate: startDate,
+				};
+
+				try {
+					await axios.post(`${apiURL}/api/Dates`, dateObject);
+					// console.log("dateObject:", dateObject);
+				} catch (error) {
+					console.error("There was an error!", error);
+				}
+
+				// add 7 days to startDate
+				startDate = new Date(
+					startDate.setDate(startDate.getDate() + 7)
+				);
+			}
+			await postDates();
+		};
+
+		postDates().then(() => {
+			// other code that depends on the axios.post calls
+			processMatches();
+		});
+
+		// dateValues.forEach((dateValue) => {
+		// 	matchSchedule.map((matchup) => {
+		// 		matchup.map((match) => {
+		// 			matchObject = {
+		// 				leagueId: wpsLeagueId,
+		// 				dateId: getLeagueDateIdByWeekNumber(dateValue),
+		// 				golfer1Id: match.homeTeam.id,
+		// 				golfer2Id: match.awayTeam.id,
+		// 			};
+		// 			axios.post(`${apiURL}/api/Matches`, matchObject);
+		// 		});
+		// 	});
+
+		// dateValues.forEach(async (dateValue) => {
+		// 	matchSchedule.forEach(async (matchup) => {
+		// 		for (const match of matchup) {
+		// 			matchObject = {
+		// 				leagueId: wpsLeagueId,
+		// 				dateId: await getLeagueDateIdByWeekNumber(dateValue),
+		// 				golfer1Id: match.homeTeam.id,
+		// 				golfer2Id: match.awayTeam.id,
+		// 			};
+		// 			await axios.post(`${apiURL}/api/Matches`, matchObject);
+		// 		}
 		// 	});
 		// });
 
@@ -288,6 +316,12 @@ const ScheduleList = () => {
 		// saveAs(blob, `matches.csv`);
 	};
 
+	const handleCheckboxChange = (event: any, leagueDate: LeagueDate) => {
+		if (event.target.checked) {
+			datesToDelete.push(leagueDate);
+		}
+	};
+
 	return (
 		<>
 			<div style={{ display: "flex", justifyContent: "center" }}>
@@ -296,6 +330,7 @@ const ScheduleList = () => {
 						<tr>
 							<th>Week Number</th>
 							<th>Date</th>
+							<th></th>
 							<th></th>
 							<th></th>
 						</tr>
@@ -357,6 +392,17 @@ const ScheduleList = () => {
 												className={iconClass}
 											/>
 										</td>
+										<td>
+											<Checkbox
+												defaultChecked={false}
+												onChange={(event) =>
+													handleCheckboxChange(
+														event,
+														date
+													)
+												}
+											/>
+										</td>
 									</tr>
 								))}
 					</tbody>
@@ -370,6 +416,29 @@ const ScheduleList = () => {
 			</div>
 			<div>
 				<button onClick={exportMatches}>Export</button>
+			</div>
+			<div>
+				<button
+					onClick={() => {
+						if (
+							window.confirm(
+								"Are you sure you want to delete all dates?"
+							)
+						) {
+							datesData?.forEach((date) => {
+								deleteDateMutation.mutate(date);
+							});
+							// 	if (datesToDelete.length > 0) {
+							// 		datesToDelete.forEach((date) => {
+							// 			deleteDateMutation.mutate(date);
+							// 		});
+							// 	}
+							// }
+						}
+					}}
+				>
+					Delete All Selected
+				</button>
 			</div>
 		</>
 	);
