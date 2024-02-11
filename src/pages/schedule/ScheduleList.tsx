@@ -64,45 +64,19 @@ const ScheduleList = () => {
 	const { data: datesData } = useFetchMatches();
 	const { data: golfersData } = useFetchGolfers();
 	const deleteDateMutation = useDeleteDate();
-	const addDateMutation = useAddDate();
+
 	golfers = golfersData ?? mockGolfers;
 	dates = datesData ?? mockMatches;
 	// filter dates for unique matchDates
-	 const uniqueMatchDates = dates.filter((date, index) => {
-	 	return dates.findIndex((d) => d.matchDate === date.matchDate) === index;
-	 });
+	const uniqueMatchDates = dates.filter((date, index) => {
+		return dates.findIndex((d) => d.matchDate === date.matchDate) === index;
+	});
 
-
-
-	// let golfer1Index: number = 0;
-	// let golfer2Index: number = golfer1Index + 1;
-	// let randomNumber = Math.random();
-	// let weekNumber: number = 0;
-	// console.log("randomNumber", randomNumber);
-	// const [golfer1OpponentIndex, setGolfer1OpponentIndex] = useState<number>(
-	// 	Math.floor(randomNumber * golfers.length)
-	// );
-	// let golfer1OpponentIndex: number = Math.floor(
-	// 	randomNumber * golfers.length
-	// );
-	// let golfer2OpponentIndex: number = golfer1OpponentIndex + 1;
 	let finalMatchups: any[] = [];
-	// let finalMatchupsExport: any[] = [];
-
-	// interface Matchup {
-	// 	player1: Golfer;
-	// 	player2: Golfer;
-	// }
 
 	// const matchups: Matchup[] = [];
 	let csvContent = "Week Number,Player 1,Player 2\n";
 	let datesToDelete: LeagueDate[] = [];
-	// let weeklyMatchups: any[] = [];
-	// let lastPlayer1: Golfer = {
-	// 	firstName: "",
-	// 	lastName: "",
-	// 	handicap: 0,
-	// };
 
 	/**
 	 * Shuffles the elements in an array using the Fisher-Yates algorithm.
@@ -210,12 +184,6 @@ const ScheduleList = () => {
 			(value, index, self) => self.indexOf(value) === index
 		);
 
-
-
-		
-
-		
-
 		// dateValues.forEach(async (dateValue) => {
 		// 	matchSchedule.forEach(async (matchup) => {
 		// 		for (const match of matchup) {
@@ -237,10 +205,7 @@ const ScheduleList = () => {
 
 	const exportMatches = () => {
 		finalMatchups = generateMatchSchedule(golfers);
-		// finalMatchups.forEach((matchup) => {
-		// 	console.log("matchup", matchup);
-		// 	csvContent += `${matchup.weekNumber},${matchup.homeTeam?.firstName ?? ""} ${matchup.homeTeam?.lastName ?? ""},${matchup.awayTeam?.firstName ?? ""} ${matchup.awayTeam?.lastName ?? ""}\n`;
-		// });
+
 		finalMatchups.map((matchup) => {
 			matchup.map((match) => {
 				csvContent += `${match.weekNumber},${
@@ -250,7 +215,6 @@ const ScheduleList = () => {
 				} ${match.awayTeam?.lastName ?? ""}\n`;
 			});
 		});
-		
 
 		const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8" });
 
