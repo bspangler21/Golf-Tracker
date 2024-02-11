@@ -19,8 +19,10 @@ import { Golfer } from "../../types/Golfer";
 import { mockGolfers } from "../../mockData/mockGolfers";
 import { saveAs } from "file-saver";
 import axios from "axios";
-import { Match } from "../../types/Match";
+import { Match, Matches } from "../../types/Match";
 import { getLeagueDateIdByWeekNumber } from "../../util/leagueDateUtils";
+import { useFetchMatches } from "../../hooks/MatchHooks";
+import { mockMatches } from "../../mockData/mockMatches";
 
 const iconClass = mergeStyles({
 	fontSize: 25,
@@ -51,7 +53,7 @@ const iconClass = mergeStyles({
 // 		verticalAlign: "middle",
 // 	},
 // });
-let dates: LeagueDate[] = [];
+let dates: Match[] = [];
 let golfers: Golfer[] = [];
 // let weeks: any[] = [];
 const wpsLeagueId = "658cf9da5669234ca16a65c8";
@@ -59,12 +61,19 @@ const apiURL = import.meta.env.DEV ? "http://localhost:4000" : "";
 
 const ScheduleList = () => {
 	const nav = useNavigate();
-	const { data: datesData } = useFetchDates();
+	const { data: datesData } = useFetchMatches();
 	const { data: golfersData } = useFetchGolfers();
 	const deleteDateMutation = useDeleteDate();
 	const addDateMutation = useAddDate();
 	golfers = golfersData ?? mockGolfers;
-	dates = datesData ?? mockDates;
+	dates = datesData ?? mockMatches;
+	// filter dates for unique matchDates
+	 const uniqueMatchDates = dates.filter((date, index) => {
+	 	return dates.findIndex((d) => d.matchDate === date.matchDate) === index;
+	 });
+
+
+
 	// let golfer1Index: number = 0;
 	// let golfer2Index: number = golfer1Index + 1;
 	// let randomNumber = Math.random();
@@ -241,17 +250,11 @@ const ScheduleList = () => {
 				} ${match.awayTeam?.lastName ?? ""}\n`;
 			});
 		});
-		// generateMatchups();
-		// splitMatchupsByWeek(
-		// 	// matchups.sort((a: any, b: any) =>
-		// 	// 	a.player1.id > b.player1.id ? 1 : -1
-		// 	// )
-		// 	matchups
-		// );
+		
 
 		const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8" });
 
-		// saveAs(blob, `matches.csv`);
+		saveAs(blob, `matches.csv`);
 	};
 
 	const handleCheckboxChange = (event: any, leagueDate: LeagueDate) => {
@@ -274,8 +277,8 @@ const ScheduleList = () => {
 						</tr>
 					</thead>
 					<tbody>
-						{dates &&
-							dates
+						{uniqueMatchDates &&
+							uniqueMatchDates
 								.sort((a, b) =>
 									a.matchDate > b.matchDate ? 1 : -1
 								)
@@ -287,7 +290,7 @@ const ScheduleList = () => {
 												nav(`/matches/${date.id}`)
 											}
 										>
-											{date.matchWeekNumber}
+											{date.weekNumber}
 										</td>
 										<td
 											onClick={() =>
