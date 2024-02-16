@@ -54,7 +54,8 @@ const MatchListing = ({
 	const matchesList =
 		isPlayerView && playerId
 			? getMatchesByPlayerId(playerId, matches)
-			: getMatchesByWeekNumber(
+			: weekNumberParam &&
+			  getMatchesByWeekNumber(
 					parseInt(weekNumberParam),
 					wpsLeagueId,
 					matches
