@@ -278,36 +278,6 @@ const ScheduleList = () => {
 												className={iconClass}
 											/>
 										</td>
-										<td
-											onClick={() => {
-												if (
-													window.confirm(
-														"Are you sure you want to delete this date?"
-													)
-												) {
-													deleteDateMutation.mutate(
-														date
-													);
-												}
-											}}
-										>
-											<FontIcon
-												aria-label="Delete"
-												iconName="Delete"
-												className={iconClass}
-											/>
-										</td>
-										<td>
-											<Checkbox
-												defaultChecked={false}
-												onChange={(event) =>
-													handleCheckboxChange(
-														event,
-														date
-													)
-												}
-											/>
-										</td>
 									</tr>
 								))}
 					</tbody>
@@ -321,29 +291,6 @@ const ScheduleList = () => {
 			</div>
 			<div>
 				<button onClick={exportMatches}>Export</button>
-			</div>
-			<div>
-				<button
-					onClick={() => {
-						if (
-							window.confirm(
-								"Are you sure you want to delete all dates?"
-							)
-						) {
-							datesData?.forEach((date) => {
-								deleteDateMutation.mutate(date);
-							});
-							// 	if (datesToDelete.length > 0) {
-							// 		datesToDelete.forEach((date) => {
-							// 			deleteDateMutation.mutate(date);
-							// 		});
-							// 	}
-							// }
-						}
-					}}
-				>
-					Delete All Selected
-				</button>
 			</div>
 		</>
 	);
