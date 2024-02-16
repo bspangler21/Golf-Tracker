@@ -2,7 +2,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import { mockMatches } from "../../mockData/mockMatches";
 import { getGolferById } from "../../util/golferUtils";
 import {
-	getMatchesByDateId,
 	getMatchesByPlayerId,
 	getMatchesByWeekNumber,
 } from "../../util/matchUtils";
@@ -18,7 +17,6 @@ import { useFetchMatchScores } from "../../hooks/MatchScoreHooks";
 import { MatchScore } from "../../types/MatchScore";
 import { mockMatchScores } from "../../mockData/mockMatchScores";
 import { useFetchMatches } from "../../hooks/MatchHooks";
-
 
 const wpsLeagueId = "658cf9da5669234ca16a65c8";
 let golfers: Golfer[] = [];
@@ -36,7 +34,7 @@ const MatchListing = ({
 	let matches: Match[] = [];
 	const nav = useNavigate();
 	const { weekNumber } = useParams();
-	if (!weekNumber) throw Error("Date id not found");
+	// if (!weekNumber) throw Error("Date id not found");
 	// const dateId = parseInt(id as string);
 	const weekNumberParam = weekNumber;
 	// const { data: golfersData } = useFetchData("golfers");
@@ -56,7 +54,11 @@ const MatchListing = ({
 	const matchesList =
 		isPlayerView && playerId
 			? getMatchesByPlayerId(playerId, matches)
-			: getMatchesByWeekNumber(parseInt(weekNumberParam), wpsLeagueId, matches);
+			: getMatchesByWeekNumber(
+					parseInt(weekNumberParam),
+					wpsLeagueId,
+					matches
+			  );
 
 	if (import.meta.env.DEV) {
 		console.log("isPlayerView", isPlayerView);
@@ -86,32 +88,28 @@ const MatchListing = ({
 										matchScores
 									).length > 0
 										? nav(
-												`/scorecard/edit/${match.golfer1Id}/${match.golfer2Id}/${match.id}/${dateId}`
+												`/scorecard/edit/${match.golfer1Id}/${match.golfer2Id}/${match.id}`
 										  )
 										: nav(
-												`/scorecard/add/${match.golfer1Id}/${match.golfer2Id}/${match.id}/${dateId}`
+												`/scorecard/add/${match.golfer1Id}/${match.golfer2Id}/${match.id}`
 										  )
 								}
 							>
 								<td>{matchesList.indexOf(match) + 1}</td>
 								<td>
-									{
-										getGolferById(match.golfer1Id, golfers)
-											.firstName
-									}{" "}
-									{
-										getGolferById(match.golfer1Id, golfers)
-											.lastName
-									}{" "}
+									{match.golfer1Id &&
+										getGolferById(match.golfer1Id)
+											.firstName}{" "}
+									{match.golfer1Id &&
+										getGolferById(match.golfer1Id)
+											.lastName}{" "}
 									vs.{" "}
-									{
-										getGolferById(match.golfer2Id, golfers)
-											.firstName
-									}{" "}
-									{
-										getGolferById(match.golfer2Id, golfers)
-											.lastName
-									}{" "}
+									{match.golfer2Id &&
+										getGolferById(match.golfer2Id)
+											.firstName}{" "}
+									{match.golfer2Id &&
+										getGolferById(match.golfer2Id)
+											.lastName}{" "}
 								</td>
 							</tr>
 						))}

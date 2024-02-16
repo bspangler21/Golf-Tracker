@@ -120,7 +120,7 @@ const GolferDetail = () => {
 			</div>
 			<div>
 				<h3>Upcoming Matches for {golferDisplayName}</h3>
-				{/* <MatchListing isPlayerView={true} playerId={golferId} /> */}
+				<MatchListing isPlayerView={true} playerId={golferId} />
 			</div>
 			<br></br>
 			<div>

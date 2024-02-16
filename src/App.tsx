@@ -43,11 +43,11 @@ function App() {
 					Component={Scorecard}
 				></Route> */}
 				<Route
-					path="/scorecard/add/:golfer1Id/:golfer2Id/:matchId/:dateId"
+					path="/scorecard/add/:golfer1Id/:golfer2Id/:matchId"
 					Component={AddScorecard}
 				></Route>
 				<Route
-					path="/scorecard/edit/:golfer1Id/:golfer2Id/:matchId/:dateId"
+					path="/scorecard/edit/:golfer1Id/:golfer2Id/:matchId"
 					Component={EditScorecard}
 				></Route>
 				{/* <Route path="/scorecard2" Component={Scorecard2}></Route> */}

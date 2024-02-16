@@ -1,13 +1,13 @@
 import { useParams } from "react-router-dom";
 import { useFetchGolfers } from "../../hooks/GolferHooks";
-import { useFetchDates } from "../../hooks/LeagueDateHooks";
+
 import { useFetchMatches } from "../../hooks/MatchHooks";
 import {
 	useFetchMatchScores,
 	useUpdateMatchScore,
 } from "../../hooks/MatchScoreHooks";
 import Scorecard from "./Scorecard";
-import { mockDates } from "../../mockData/mockDates";
+
 import { mockGolfers } from "../../mockData/mockGolfers";
 import { mockMatchScores } from "../../mockData/mockMatchScores";
 import { mockMatches } from "../../mockData/mockMatches";
@@ -27,7 +27,7 @@ let currentMatchId = "1";
 
 const EditScorecard = () => {
 	const { data: matchesData } = useFetchMatches();
-	const { data: dateData } = useFetchDates();
+
 	const { data: golferData } = useFetchGolfers();
 	const { data: matchScoreData } = useFetchMatchScores();
 	const { golfer1Id, golfer2Id, matchId, dateId } = useParams();
@@ -48,7 +48,7 @@ const EditScorecard = () => {
 	};
 
 	currentMatchId = matchId ?? "1";
-	dates = dateData ?? mockDates;
+
 	matches = matchesData ?? mockMatches;
 	matchScores = matchScoreData ?? mockMatchScores;
 	golfers = golferData ?? mockGolfers;
