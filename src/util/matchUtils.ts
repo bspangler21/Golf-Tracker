@@ -6,13 +6,15 @@ import { LeagueDate } from "../types/LeagueDate";
 // const matches = mockMatches;
 // const dates = mockDates;
 
-export function getMatchesByDateId(id: string, matches: Match[]) {
+export function getMatchesByWeekNumber(
+	weekNumber: number,
+	leagueId: string,
+	matches: Match[]
+) {
 	let matchListing: Match[] = [];
-	console.log("param", id);
 
 	matches.forEach((m) => {
-		console.log("m.dateId", m.dateId);
-		if (m.dateId === id) {
+		if (m.weekNumber === weekNumber && m.leagueId === leagueId) {
 			matchListing.push(m);
 		}
 	});
@@ -42,4 +44,3 @@ export function getMatchDateByDateId(id: string, dates: LeagueDate[]) {
 
 	return matchDate;
 }
-

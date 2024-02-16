@@ -20,7 +20,7 @@ import { mockGolfers } from "../../mockData/mockGolfers";
 import { saveAs } from "file-saver";
 import axios from "axios";
 import { Match, Matches } from "../../types/Match";
-import { getLeagueDateIdByWeekNumber } from "../../util/leagueDateUtils";
+
 import { useFetchMatches } from "../../hooks/MatchHooks";
 import { mockMatches } from "../../mockData/mockMatches";
 
@@ -31,29 +31,8 @@ const iconClass = mergeStyles({
 	margin: "0 5px",
 });
 
-// const classNames = mergeStyleSets({
-// 	tableTextColor: {
-// 		color: "#000000",
-// 		width: "100vh",
-// 		height: "100vh",
-// 	},
-// 	tableHeader: {
-// 		width: "50%",
-// 		border: "2px #000000",
-// 		verticalAlign: "middle",
-// 		// display: "flex",
-// 		// flexDirection: "row",
 
-// 		flexGrow: "1",
-// 	},
-// 	tableRow: {
-// 		// display: "flex",
-// 		flexDirection: "column",
-// 		borderBottom: "1px #000000",
-// 		verticalAlign: "middle",
-// 	},
-// });
-let dates: Match[] = [];
+let matches: Match[] = [];
 let golfers: Golfer[] = [];
 // let weeks: any[] = [];
 const wpsLeagueId = "658cf9da5669234ca16a65c8";
@@ -61,22 +40,21 @@ const apiURL = import.meta.env.DEV ? "http://localhost:4000" : "";
 
 const ScheduleList = () => {
 	const nav = useNavigate();
-	const { data: datesData } = useFetchMatches();
+	const { data: matchesData } = useFetchMatches();
 	const { data: golfersData } = useFetchGolfers();
-	const deleteDateMutation = useDeleteDate();
+
 
 	golfers = golfersData ?? mockGolfers;
-	dates = datesData ?? mockMatches;
-	// filter dates for unique matchDates
-	const uniqueMatchDates = dates.filter((date, index) => {
-		return dates.findIndex((d) => d.matchDate === date.matchDate) === index;
+	matches = matchesData ?? mockMatches;
+	// filter matches for unique matchDates
+	const uniqueMatchDates = matches.filter((date, index) => {
+		return matches.findIndex((d) => d.matchDate === date.matchDate) === index;
 	});
 
 	let finalMatchups: any[] = [];
 
 	// const matchups: Matchup[] = [];
 	let csvContent = "Week Number,Player 1,Player 2\n";
-	let datesToDelete: LeagueDate[] = [];
 
 	/**
 	 * Shuffles the elements in an array using the Fisher-Yates algorithm.
@@ -221,12 +199,6 @@ const ScheduleList = () => {
 		saveAs(blob, `matches.csv`);
 	};
 
-	const handleCheckboxChange = (event: any, leagueDate: LeagueDate) => {
-		if (event.target.checked) {
-			datesToDelete.push(leagueDate);
-		}
-	};
-
 	return (
 		<>
 			<div style={{ display: "flex", justifyContent: "center" }}>
@@ -247,28 +219,28 @@ const ScheduleList = () => {
 									a.matchDate > b.matchDate ? 1 : -1
 								)
 								// .reverse()
-								.map((date) => (
-									<tr key={date.id}>
+								.map((match) => (
+									<tr key={match.id}>
 										<td
 											onClick={() =>
-												nav(`/matches/${date.id}`)
+												nav(`/matches/${match.weekNumber}`)
 											}
 										>
-											{date.weekNumber}
+											{match.weekNumber}
 										</td>
 										<td
 											onClick={() =>
-												nav(`/matches/${date.id}`)
+												nav(`/matches/${match.weekNumber}`)
 											}
 										>
 											{new Date(
-												date.matchDate
+												match.matchDate
 											).toLocaleDateString()}
 										</td>
 										<td
 											onClick={() =>
 												nav(
-													`/schedule-list/edit/${date.id}`
+													`/schedule-list/edit/${match.id}`
 												)
 											}
 										>

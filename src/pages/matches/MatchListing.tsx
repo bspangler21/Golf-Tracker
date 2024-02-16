@@ -4,6 +4,7 @@ import { getGolferById } from "../../util/golferUtils";
 import {
 	getMatchesByDateId,
 	getMatchesByPlayerId,
+	getMatchesByWeekNumber,
 } from "../../util/matchUtils";
 import { useFetchGolfers } from "../../hooks/GolferHooks";
 import { mockGolfers } from "../../mockData/mockGolfers";
@@ -16,7 +17,10 @@ import { getMatchScoresByMatchId } from "../../util/matchScoreUtils";
 import { useFetchMatchScores } from "../../hooks/MatchScoreHooks";
 import { MatchScore } from "../../types/MatchScore";
 import { mockMatchScores } from "../../mockData/mockMatchScores";
+import { useFetchMatches } from "../../hooks/MatchHooks";
 
+
+const wpsLeagueId = "658cf9da5669234ca16a65c8";
 let golfers: Golfer[] = [];
 
 interface MatchListingProps {
@@ -31,19 +35,20 @@ const MatchListing = ({
 	let dates: LeagueDate[] = [];
 	let matches: Match[] = [];
 	const nav = useNavigate();
-	const { id } = useParams();
-	if (!id) throw Error("Date id not found");
+	const { weekNumber } = useParams();
+	if (!weekNumber) throw Error("Date id not found");
 	// const dateId = parseInt(id as string);
-	const dateId = id;
+	const weekNumberParam = weekNumber;
 	// const { data: golfersData } = useFetchData("golfers");
 	const { data: golfersData } = useFetchGolfers();
 	const { data: datesData } = useFetchDates();
 	const { data: matchScoreData } = useFetchMatchScores();
+	const { data: matchesData } = useFetchMatches();
 
 	golfers = golfersData ?? mockGolfers;
 	// matches = (matchesData as Match[]) ?? mockMatches;
 	dates = datesData ?? mockDates;
-	matches = mockMatches;
+	matches = matchesData ?? mockMatches;
 	let matchScores: MatchScore[] = matchScoreData ?? mockMatchScores;
 
 	console.log("dates", dates);
@@ -51,10 +56,9 @@ const MatchListing = ({
 	const matchesList =
 		isPlayerView && playerId
 			? getMatchesByPlayerId(playerId, matches)
-			: getMatchesByDateId(dateId, matches);
+			: getMatchesByWeekNumber(parseInt(weekNumberParam), wpsLeagueId, matches);
 
 	if (import.meta.env.DEV) {
-		console.log("dateId", dateId);
 		console.log("isPlayerView", isPlayerView);
 		console.log("playerId in MatchListing", playerId);
 		console.log("matchesList", matchesList);
