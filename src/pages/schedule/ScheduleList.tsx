@@ -21,7 +21,7 @@ import { saveAs } from "file-saver";
 import axios from "axios";
 import { Match, Matches } from "../../types/Match";
 
-import { useFetchMatches } from "../../hooks/MatchHooks";
+import { useAddMatch, useFetchMatches, useDeleteMatch } from "../../hooks/MatchHooks";
 import { mockMatches } from "../../mockData/mockMatches";
 
 const iconClass = mergeStyles({
@@ -30,7 +30,6 @@ const iconClass = mergeStyles({
 	width: 25,
 	margin: "0 5px",
 });
-
 
 let matches: Match[] = [];
 let golfers: Golfer[] = [];
@@ -42,13 +41,15 @@ const ScheduleList = () => {
 	const nav = useNavigate();
 	const { data: matchesData } = useFetchMatches();
 	const { data: golfersData } = useFetchGolfers();
-
-
+	const addMatch = useAddMatch();
+	const deleteMatch = useDeleteMatch();
 	golfers = golfersData ?? mockGolfers;
 	matches = matchesData ?? mockMatches;
 	// filter matches for unique matchDates
 	const uniqueMatchDates = matches.filter((date, index) => {
-		return matches.findIndex((d) => d.matchDate === date.matchDate) === index;
+		return (
+			matches.findIndex((d) => d.matchDate === date.matchDate) === index
+		);
 	});
 
 	let finalMatchups: any[] = [];
@@ -105,7 +106,7 @@ const ScheduleList = () => {
 		 * @param {Array<{ firstName: string, lastName: string, handicap: number }>} golfers - The list of golfers.
 		 */
 		if (golfers.length % 2 !== 0) {
-			golfers.push({ firstName: "Bye", lastName: "", handicap: 0 });
+			golfers.push({ firstName: "Bye", lastName: "", handicap: 0, id: ""});
 		}
 		/**
 		 * Shuffles an array using the Fisher-Yates algorithm.
@@ -113,7 +114,7 @@ const ScheduleList = () => {
 		 * @returns The shuffled array.
 		 */
 		const shuffledGolfers = shuffleArray(golfers);
-		const matchSchedule: any = [];
+		const matchSchedule: Match[][] = [];
 
 		let dateValues: any = [];
 		let startDate: Date = new Date("5/07/2024");
@@ -126,7 +127,7 @@ const ScheduleList = () => {
 		let matchObject: Match = {
 			leagueId: wpsLeagueId,
 			weekNumber: 0,
-			matchDate: new Date("5/07/2024"),
+			matchDate: new Date("5/07/2024").toISOString(),
 			golfer1Id: "",
 			golfer2Id: "",
 		};
@@ -139,50 +140,56 @@ const ScheduleList = () => {
 		 * @returns An array of round matches, each containing the home team, away team, and week number.
 		 */
 		for (let i = 0; i < shuffledGolfers.length - 1; i++) {
-			const roundMatches: any = [];
-			let match: any = { golfer1: {}, golfer2: {}, weekNumber: 0 };
+			const roundMatches: Match[] = [];
+			// let match: any = { golfer1: {}, golfer2: {}, weekNumber: 0 };
 
 			for (let j = 0; j < shuffledGolfers.length / 2; j++) {
-				match = {
-					homeTeam: shuffledGolfers[j],
-					awayTeam: shuffledGolfers[shuffledGolfers.length - 1 - j],
-
-					weekNumber: `${i + 1}`,
+				matchObject = {
+					golfer1Id: shuffledGolfers[j].id,
+					golfer2Id:
+						shuffledGolfers[shuffledGolfers.length - 1 - j].id,
+					weekNumber: parseInt(`${i + 1}`),
+					leagueId: wpsLeagueId,
+					matchDate: startDate.toISOString(),
 				};
-				dateValues.push(match.weekNumber);
-				roundMatches.push(match);
+
+				roundMatches.push(matchObject);
 			}
 			matchSchedule.push(roundMatches);
 
+			// roundMatches.forEach((match) => {
+			// 	matchObject = {
+			// 		leagueId: wpsLeagueId,
+			// 		weekNumber: match.weekNumber,
+			// 		matchDate: startDate,
+			// 		golfer1Id: match.homeTeam.id,
+			// 		golfer2Id: match.awayTeam.id,
+			// 	};
+			// 	axios.post(`${apiURL}/api/Matches`, matchObject);
+			// });
+
 			// Rotate the teams array for the next round
 			shuffledGolfers.splice(1, 0, shuffledGolfers.pop());
+			startDate = new Date(startDate.setDate(startDate.getDate() + 7));
 		}
 		// Get unique values from dateValues array
-		let uniqueDateValues: number[] = dateValues.filter(
-			(value, index, self) => self.indexOf(value) === index
-		);
+		// let uniqueDateValues: number[] = dateValues.filter(
+		// 	(value, index, self) => self.indexOf(value) === index
+		// );
 
-		// dateValues.forEach(async (dateValue) => {
-		// 	matchSchedule.forEach(async (matchup) => {
-		// 		for (const match of matchup) {
-		// 			matchObject = {
-		// 				leagueId: wpsLeagueId,
-		// 				dateId: await getLeagueDateIdByWeekNumber(dateValue),
-		// 				golfer1Id: match.homeTeam.id,
-		// 				golfer2Id: match.awayTeam.id,
-		// 			};
-		// 			await axios.post(`${apiURL}/api/Matches`, matchObject);
-		// 		}
-		// 	});
-		// });
-
-		console.log("dateValues", dateValues);
 		console.log("matchSchedule", matchSchedule);
 		return matchSchedule;
 	}
 
 	const exportMatches = () => {
 		finalMatchups = generateMatchSchedule(golfers);
+
+		finalMatchups.forEach((matchup) => {
+			matchup.map((match) => {
+				console.log("trying to add match", match);
+				addMatch.mutate(match);
+			});
+		});
 
 		finalMatchups.map((matchup) => {
 			matchup.map((match) => {
@@ -196,7 +203,9 @@ const ScheduleList = () => {
 
 		const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8" });
 
-		saveAs(blob, `matches.csv`);
+		// saveAs(blob, `matches.csv`);
+
+		window.location.reload();
 	};
 
 	return (
@@ -223,14 +232,18 @@ const ScheduleList = () => {
 									<tr key={match.id}>
 										<td
 											onClick={() =>
-												nav(`/matches/${match.weekNumber}`)
+												nav(
+													`/matches/${match.weekNumber}`
+												)
 											}
 										>
 											{match.weekNumber}
 										</td>
 										<td
 											onClick={() =>
-												nav(`/matches/${match.weekNumber}`)
+												nav(
+													`/matches/${match.weekNumber}`
+												)
 											}
 										>
 											{new Date(
@@ -257,12 +270,15 @@ const ScheduleList = () => {
 			</div>
 			<br></br>
 			<div style={{ display: "flex", justifyContent: "center" }}>
-				<DefaultButton onClick={() => nav(`/add-date`)}>
-					Add Date
-				</DefaultButton>
+				<DefaultButton onClick={exportMatches}>Export</DefaultButton>
 			</div>
 			<div>
-				<button onClick={exportMatches}>Export</button>
+				<DefaultButton onClick={()=> {
+					matches.forEach((match) => {
+						deleteMatch.mutate(match);
+					});
+					window.location.reload();
+				}}>Delete All Matches</DefaultButton>
 			</div>
 		</>
 	);

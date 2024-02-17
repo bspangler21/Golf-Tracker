@@ -27,12 +27,13 @@ export const useAddMatch = () => {
 		{
 			onSuccess: () => {
 				queryClient.invalidateQueries("matches");
-				window.history.back();
+				// window.history.back();
 			},
 			onError: (error) => {
 				if (error.response?.status === 405) {
 					// Handle 405 error here
 					console.error("405 Method Not Allowed");
+					console.log(error.response.data);
 				} else {
 					// Handle other errors here
 					console.error(error.message);
@@ -60,14 +61,24 @@ export const useUpdateMatch = () => {
 
 export const useDeleteMatch = () => {
 	const queryClient = useQueryClient();
-	const nav = useNavigate();
+	// const nav = useNavigate();
 	return useMutation<AxiosResponse, AxiosError<Problem>, Match>(
 		(g) => axios.delete(`${apiURL}/api/Matches/${g.id}`),
 		{
 			onSuccess: () => {
 				queryClient.invalidateQueries("matches");
-				nav(`/matches`);
+				// nav(`/matches`);
 			},
+			onError: (error) => {
+				if (error.response?.status === 405) {
+					// Handle 405 error here
+					console.error("405 Method Not Allowed");
+					console.log(error.response.data);
+				} else {
+					// Handle other errors here
+					console.error(error.message);
+				}
+			}
 		}
 	);
 };

@@ -2,7 +2,7 @@ export type Match = {
 	id?: string;
 	leagueId: string;
 	weekNumber: number;
-	matchDate: Date;
+	matchDate: string;
 	// Need to be null because either may be on a bye
 	golfer1Id?: string;
 	golfer2Id?: string;
