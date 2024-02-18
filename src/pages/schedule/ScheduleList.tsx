@@ -21,8 +21,13 @@ import { saveAs } from "file-saver";
 import axios from "axios";
 import { Match, Matches } from "../../types/Match";
 
-import { useAddMatch, useFetchMatches, useDeleteMatch } from "../../hooks/MatchHooks";
+import {
+	useAddMatch,
+	useFetchMatches,
+	useDeleteMatch,
+} from "../../hooks/MatchHooks";
 import { mockMatches } from "../../mockData/mockMatches";
+import Bottleneck from "bottleneck";
 
 const iconClass = mergeStyles({
 	fontSize: 25,
@@ -106,7 +111,11 @@ const ScheduleList = () => {
 		 * @param {Array<{ firstName: string, lastName: string, handicap: number }>} golfers - The list of golfers.
 		 */
 		if (golfers.length % 2 !== 0) {
-			golfers.push({ firstName: "Bye", lastName: "", handicap: 0, id: ""});
+			golfers.push({
+				firstName: "Bye",
+				lastName: "Week",
+				handicap: 0,
+			});
 		}
 		/**
 		 * Shuffles an array using the Fisher-Yates algorithm.
@@ -127,7 +136,7 @@ const ScheduleList = () => {
 		let matchObject: Match = {
 			leagueId: wpsLeagueId,
 			weekNumber: 0,
-			matchDate: new Date("5/07/2024").toISOString(),
+			matchDate: new Date("5/07/2024"),
 			golfer1Id: "",
 			golfer2Id: "",
 		};
@@ -150,9 +159,9 @@ const ScheduleList = () => {
 						shuffledGolfers[shuffledGolfers.length - 1 - j].id,
 					weekNumber: parseInt(`${i + 1}`),
 					leagueId: wpsLeagueId,
-					matchDate: startDate.toISOString(),
+					matchDate: startDate,
 				};
-
+				addMatch.mutate(matchObject);
 				roundMatches.push(matchObject);
 			}
 			matchSchedule.push(roundMatches);
@@ -183,11 +192,31 @@ const ScheduleList = () => {
 
 	const exportMatches = () => {
 		finalMatchups = generateMatchSchedule(golfers);
+		console.log("finalMatchups", finalMatchups.length);
 
 		finalMatchups.forEach((matchup) => {
-			matchup.map((match) => {
-				console.log("trying to add match", match);
-				addMatch.mutate(match);
+			matchup.forEach((match) => {
+				let addedMatchObject: Match = {
+					leagueId: wpsLeagueId,
+					weekNumber: match.weekNumber,
+					matchDate: match.matchDate,
+					golfer1Id: match.golfer1Id,
+					golfer2Id: match.golfer2Id,
+				};
+				console.log("addedMatchObject", addedMatchObject);
+				// const limiter = new Bottleneck({ minTime: 100 });
+				// limiter
+				// 	.schedule(async () =>
+				// 		// axios.post(`${apiURL}/api/Matches`, addedMatchObject)
+				// 		addMatch.mutate(addedMatchObject)
+				// 	)
+				// 	.then((res) => {
+				// 		console.log("res", res);
+				// 	})
+				// 	.catch((err) => {
+				// 		console.log("err", err);
+				// 	});
+				// addMatch.mutate(addedMatchObject);
 			});
 		});
 
@@ -273,12 +302,16 @@ const ScheduleList = () => {
 				<DefaultButton onClick={exportMatches}>Export</DefaultButton>
 			</div>
 			<div>
-				<DefaultButton onClick={()=> {
-					matches.forEach((match) => {
-						deleteMatch.mutate(match);
-					});
-					window.location.reload();
-				}}>Delete All Matches</DefaultButton>
+				<DefaultButton
+					onClick={() => {
+						matches.forEach((match) => {
+							deleteMatch.mutate(match);
+						});
+						window.location.reload();
+					}}
+				>
+					Delete All Matches
+				</DefaultButton>
 			</div>
 		</>
 	);

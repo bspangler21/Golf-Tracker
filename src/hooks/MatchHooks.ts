@@ -37,6 +37,9 @@ export const useAddMatch = () => {
 				} else {
 					// Handle other errors here
 					console.error(error.message);
+					console.error(error.message);
+					error.response && console.log(error.response.data);
+					error.response && console.log(error.response.status);
 				}
 			},
 		}
@@ -77,6 +80,8 @@ export const useDeleteMatch = () => {
 				} else {
 					// Handle other errors here
 					console.error(error.message);
+					error.response && console.log(error.response.data);
+					error.response && console.log(error.response.status);
 				}
 			}
 		}
