@@ -37,7 +37,10 @@ function App() {
 					Component={EditDate}
 				></Route>
 				<Route path="/add-date" Component={AddDate}></Route>
-				<Route path="/matches/:weekNumber" Component={MatchListing}></Route>
+				<Route
+					path="/matches/:weekNumber"
+					Component={MatchListing}
+				></Route>
 				{/* <Route
 					path="/scorecard/:golfer1Id/:golfer2Id/:matchId/:dateId"
 					Component={Scorecard}
