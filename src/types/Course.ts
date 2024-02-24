@@ -1,5 +1,5 @@
 export type Course = { 
-  id: string;
+  id?: string;
   name: string;
   description: string;
   city: string;
@@ -8,5 +8,7 @@ export type Course = {
   holes: number;
   par: number;
   address: string;
+  slopeRating: number;
+  courseRating: number;
 };
 

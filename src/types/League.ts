@@ -1,4 +1,4 @@
 export type League = {
-	id: string;
+	id?: string;
 	name: string;
 };

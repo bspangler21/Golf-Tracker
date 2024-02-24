@@ -1,17 +1,17 @@
 import { useAddGolfer } from "../../hooks/GolferHooks";
 import ValidationSummary from "../../pageComponents/ValidationSummary";
 import { Golfer } from "../../types/Golfer";
-import GolferForm from "./GolferForm";
 
+import GolferForm from "./GolferForm";
 
 const AddGolfer = () => {
 	const addGolferMutation = useAddGolfer();
 
 	const golfer: Golfer = {
 		// id: "0",
-    firstName: "",
-    lastName: "",
-    handicap: 0,
+		firstName: "",
+		lastName: "",
+		handicap: 0,
 	};
 
 	return (

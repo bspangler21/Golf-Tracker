@@ -1,17 +1,20 @@
 import { Match } from "../types/Match";
-import { mockMatches } from "../mockData/mockMatches";
-import { mockDates } from "../mockData/mockDates";
+// import { mockMatches } from "../mockData/mockMatches";
+// import { mockDates } from "../mockData/mockDates";
+import { LeagueDate } from "../types/LeagueDate";
 
-const matches = mockMatches;
-const dates = mockDates;
+// const matches = mockMatches;
+// const dates = mockDates;
 
-export function getMatchesByDateId(id: string) {
+export function getMatchesByWeekNumber(
+	weekNumber: number,
+	leagueId: string,
+	matches: Match[]
+) {
 	let matchListing: Match[] = [];
-	console.log("param", id);
 
 	matches.forEach((m) => {
-		console.log("m.dateId", m.dateId);
-		if (m.dateId === id) {
+		if (m.weekNumber === weekNumber && m.leagueId === leagueId) {
 			matchListing.push(m);
 		}
 	});
@@ -19,7 +22,7 @@ export function getMatchesByDateId(id: string) {
 	return matchListing;
 }
 
-export function getMatchesByPlayerId(id: string) {
+export function getMatchesByPlayerId(id: string, matches: Match[]) {
 	let matchListing: Match[] = [];
 	console.log("matches id param = ", id);
 	console.log("matches", matches);
@@ -31,7 +34,7 @@ export function getMatchesByPlayerId(id: string) {
 }
 
 // get match date by date id
-export function getMatchDateById(id: string) {
+export function getMatchDateByDateId(id: string, dates: LeagueDate[]) {
 	let matchDate = new Date();
 	dates.forEach((d) => {
 		if (d.id === id) {

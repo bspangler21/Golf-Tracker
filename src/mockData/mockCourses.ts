@@ -2,7 +2,7 @@ import { Course } from "../types/Course";
 
 export const mockCourses: Course[] = [
 	{
-		id: "1",
+		id: "658cfca75669234ca16a65d8",
 		name: "Lake Breeze Golf Club",
 		description: "A nice course with a lake",
 		city: "Winneconne",
@@ -11,5 +11,7 @@ export const mockCourses: Course[] = [
 		holes: 18,
 		par: 72,
 		address: "6333 Ball Prairie Rd",
+		slopeRating: 112,
+		courseRating: 69.5,
 	},
 ];
