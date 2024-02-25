@@ -1,5 +1,5 @@
 export type Golfer = {
-	id?: string;
+	_id?: string;
 	firstName: string;
 	lastName: string;
 	handicap: number;

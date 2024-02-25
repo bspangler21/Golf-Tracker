@@ -26,7 +26,7 @@ function getTableToQuery(table: string) {
 export const useFetchGolfers = () => {
 	// console.log("api url", apiURL);
 	return useQuery<Golfer[]>("golfers", () => {
-		return fetch(`${apiURL}/api/Golfers`).then((res) => res.json());
+		return fetch(`${apiURL}/golfers`).then((res) => res.json());
 	});
 };
 
@@ -34,7 +34,7 @@ export const useFetchData = <T extends Golfer | Match>(table: string) => {
 	// console.log("api url", apiURL);
 	getTableToQuery(table);
 	return useQuery<T[]>(table, () => {
-		return fetch(`${apiURL}/api/${apiPath}`).then((res) => res.json());
+		return fetch(`${apiURL}/${apiPath}`).then((res) => res.json());
 	});
 };
 
@@ -44,15 +44,14 @@ export const useFetchDataById = <T extends Golfer | Match>(
 ) => {
 	getTableToQuery(table);
 	return useQuery<T>(["data", id], () => {
-		return fetch(`${apiURL}/api/${apiPath}/${id}`).then((res) =>
-			res.json()
-		);
+		return fetch(`${apiURL}/${apiPath}/${id}`).then((res) => res.json());
 	});
 };
 
 export const useFetchGolfer = (id: string) => {
 	return useQuery<Golfer>(["golfers", id], () => {
-		return fetch(`${apiURL}/api/Golfers/${id}`).then((res) => res.json());
+		console.log("api query", `${apiURL}/golfers/${id}`);
+		return fetch(`${apiURL}/golfers/${id}`).then((res) => res.json());
 	});
 };
 
@@ -60,7 +59,7 @@ export const useAddGolfer = () => {
 	const queryClient = useQueryClient();
 	const nav = useNavigate();
 	return useMutation<AxiosResponse, AxiosError<Problem>, Golfer>(
-		(golfer) => axios.post(`${apiURL}/api/Golfers`, golfer),
+		(golfer) => axios.post(`${apiURL}/Golfers`, golfer),
 		{
 			onSuccess: () => {
 				queryClient.invalidateQueries("golfers");
@@ -84,7 +83,7 @@ export const useUpdateGolfer = () => {
 	const nav = useNavigate();
 	// Will not work if golferId not included at the end of the URL
 	return useMutation<AxiosResponse, AxiosError<Problem>, Golfer>(
-		(g) => axios.put(`${apiURL}/api/Golfers/${g.id}`, g),
+		(g) => axios.put(`${apiURL}/Golfers/${g._id}`, g),
 		{
 			onSuccess: (_, _golfer) => {
 				queryClient.invalidateQueries("golfers");
@@ -99,7 +98,7 @@ export const useDeleteGolfer = () => {
 	const queryClient = useQueryClient();
 	const nav = useNavigate();
 	return useMutation<AxiosResponse, AxiosError<Problem>, Golfer>(
-		(g) => axios.delete(`${apiURL}/api/Golfers/${g.id}`),
+		(g) => axios.delete(`${apiURL}/Golfers/${g._id}`),
 		{
 			onSuccess: () => {
 				queryClient.invalidateQueries("golfers");

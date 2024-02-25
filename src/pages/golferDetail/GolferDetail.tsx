@@ -3,7 +3,7 @@ import "./GolferDetail.css";
 import { useNavigate, useParams } from "react-router-dom";
 import utilStyles from "../../styles/utilStyles.module.css";
 import MatchListing from "../matches/MatchListing";
-import { useFetchGolfer } from "../../hooks/GolferHooks";
+import { useFetchGolfer, useFetchGolfers } from "../../hooks/GolferHooks";
 import { DefaultButton } from "@fluentui/react";
 import {
 	calculateHandicap,
@@ -20,42 +20,68 @@ import { getLakeBreeze } from "../../util/courseUtils";
 import { mockCourses } from "../../mockData/mockCourses";
 import { Course } from "../../types/Course";
 import { getHardestHoles } from "../../util/holeUtils";
+import { useEffect, useState } from "react";
 
 let LakeBreezeCourseId: string = "658cfca75669234ca16a65d8";
 
-let golfer: Golfer = {
-	id: "0",
-	firstName: "",
-	lastName: "",
-	handicap: 0,
-};
+// let golfer: Golfer = {
+// 	_id: "0",
+// 	firstName: "",
+// 	lastName: "",
+// 	handicap: 0,
+// };
 
 let matchScores: MatchScore[] = [];
 
 const GolferDetail = () => {
 	const nav = useNavigate();
 	const { id } = useParams();
+	const [golfer, setGolfer] = useState<Golfer>({
+		_id: "",
+		firstName: "",
+		lastName: "",
+		handicap: 0,
+	});
 	if (!id) throw Error("Golfer id not found");
 
 	// const golferId = parseInt(id);
 	const golferId: string = id;
+	let course: Course | undefined = {
+		name: "",
+		description: "",
+		city: "",
+		state: "",
+		par: 0,
+		slopeRating: 0,
+		courseRating: 0,
+		zip: "",
+		holes: 0,
+		address: "",
+	};
 
 	const { data: golferData } = useFetchGolfer(golferId);
+	const { data: allGolfersData } = useFetchGolfers();
 	const { data: matchScoreData } = useFetchMatchScores();
-	const course: Course | undefined = getLakeBreeze(
-		LakeBreezeCourseId,
-		mockCourses
-	);
+
+	// const { data: golferData } = useFetchGolfer(golferId);
+	// const { data: matchScoreData } = useFetchMatchScores();
+	// const course: Course | undefined = getLakeBreeze(
+	// 	LakeBreezeCourseId,
+	// 	mockCourses
+	// );
 	if (!course) throw new Error("Course not found");
 
-	if (import.meta.env.DEV) {
-		console.log("golferId", golferId);
-		console.log(golferId);
-		console.log("golferData", golferData);
-	}
+	// if (import.meta.env.DEV) {
+	// 	console.log("golferId", golferId);
+	// 	console.log(golferId);
+	// 	console.log("golferData", golferData);
+	// }
 
-	golfer = golferData ?? getGolferById(golferId);
-	matchScores = matchScoreData ?? mockMatchScores;
+	useEffect(() => {
+		course = getLakeBreeze(LakeBreezeCourseId, mockCourses);
+		golferData && allGolfersData && setGolfer(golferData ?? getGolferById(golferId, allGolfersData));
+		matchScores = matchScoreData ?? mockMatchScores;
+	}, []);
 
 	let golferDisplayName: string = `${golfer.firstName} ${golfer.lastName}`;
 
@@ -83,10 +109,10 @@ const GolferDetail = () => {
 	console.log("matchScores", matchScores);
 	console.log("currentGolferMatchScores", currentGolferMatchScores);
 	console.log("golferHandicap", golferHandicap);
-	console.log(
-		"getHardestHoles",
-		getHardestHoles(course?.id !== undefined ? course?.id : "", 9)
-	);
+	// console.log(
+	// 	"getHardestHoles",
+	// 	getHardestHoles(course?.id !== undefined ? course?.id : "", 9)
+	// );
 
 	return (
 		<>

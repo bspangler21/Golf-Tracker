@@ -11,13 +11,13 @@ let apiPath = "";
 export const useFetchHoles = () => {
 	// console.log("api url", apiURL);
 	return useQuery<Hole[]>("holes", () => {
-		return fetch(`${apiURL}/api/Holes`).then((res) => res.json());
+		return fetch(`${apiURL}/Holes`).then((res) => res.json());
 	});
 };
 
 export const useFetchHole = (id: string) => {
 	return useQuery<Hole>(["holes", id], () => {
-		return fetch(`${apiURL}/api/Holes/${id}`).then((res) => res.json());
+		return fetch(`${apiURL}/Holes/${id}`).then((res) => res.json());
 	});
 };
 
@@ -25,7 +25,7 @@ export const useAddHole = () => {
 	const queryClient = useQueryClient();
 	// const nav = useNavigate();
 	return useMutation<AxiosResponse, AxiosError<Problem>, Hole>(
-		(golfer) => axios.post(`${apiURL}/api/Holes`, golfer),
+		(golfer) => axios.post(`${apiURL}/Holes`, golfer),
 		{
 			onSuccess: () => {
 				queryClient.invalidateQueries("holes");
@@ -49,7 +49,7 @@ export const useUpdateHole = () => {
 	// const nav = useNavigate();
 
 	return useMutation<AxiosResponse, AxiosError<Problem>, Hole>(
-		(g) => axios.put(`${apiURL}/api/Holes/${g.id}`, g),
+		(g) => axios.put(`${apiURL}/Holes/${g.id}`, g),
 		{
 			onSuccess: (_, _hole) => {
 				queryClient.invalidateQueries("holes");
@@ -64,7 +64,7 @@ export const useDeleteHole = () => {
 	const queryClient = useQueryClient();
 	// const nav = useNavigate();
 	return useMutation<AxiosResponse, AxiosError<Problem>, Hole>(
-		(g) => axios.delete(`${apiURL}/api/Holes/${g.id}`),
+		(g) => axios.delete(`${apiURL}/Holes/${g.id}`),
 		{
 			onSuccess: () => {
 				queryClient.invalidateQueries("holes");

@@ -226,14 +226,14 @@ const Scorecard = ({
 
 		let player1Data: MatchScore = {
 			id: golfer1State.id,
-			golferId: player1.id || "",
+			golferId: player1._id || "",
 			matchId: currentMatchId,
 			totalScore: getTotalScore(golfer1State.holeScores),
 			holeScores: golfer1State.holeScores,
 		};
 		let player2Data: MatchScore = {
 			id: golfer2State.id,
-			golferId: player2.id || "",
+			golferId: player2._id || "",
 			matchId: currentMatchId,
 			totalScore: getTotalScore(golfer2State.holeScores),
 			holeScores: golfer2State.holeScores,

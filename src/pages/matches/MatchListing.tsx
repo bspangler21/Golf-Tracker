@@ -39,13 +39,13 @@ const MatchListing = ({
 	const weekNumberParam = weekNumber;
 	// const { data: golfersData } = useFetchData("golfers");
 	const { data: golfersData } = useFetchGolfers();
-	const { data: datesData } = useFetchDates();
+	// const { data: datesData } = useFetchDates();
 	const { data: matchScoreData } = useFetchMatchScores();
 	const { data: matchesData } = useFetchMatches();
 
 	golfers = golfersData ?? mockGolfers;
 	// matches = (matchesData as Match[]) ?? mockMatches;
-	dates = datesData ?? mockDates;
+	// dates = datesData ?? mockDates;
 	matches = matchesData ?? mockMatches;
 	let matchScores: MatchScore[] = matchScoreData ?? mockMatchScores;
 
@@ -99,17 +99,17 @@ const MatchListing = ({
 								<td>{matchesList.indexOf(match) + 1}</td>
 								<td>
 									{match.golfer1Id &&
-										getGolferById(match.golfer1Id)
+										getGolferById(match.golfer1Id, golfers)
 											.firstName}{" "}
 									{match.golfer1Id &&
-										getGolferById(match.golfer1Id)
+										getGolferById(match.golfer1Id, golfers)
 											.lastName}{" "}
 									vs.{" "}
 									{match.golfer2Id &&
-										getGolferById(match.golfer2Id)
+										getGolferById(match.golfer2Id, golfers)
 											.firstName}{" "}
 									{match.golfer2Id &&
-										getGolferById(match.golfer2Id)
+										getGolferById(match.golfer2Id, golfers)
 											.lastName}{" "}
 								</td>
 							</tr>

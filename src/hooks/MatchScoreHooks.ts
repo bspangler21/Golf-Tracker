@@ -9,13 +9,13 @@ const apiURL = import.meta.env.DEV ? "http://localhost:4000" : "";
 export const useFetchMatchScores = () => {
 	// console.log("api url", apiURL);
 	return useQuery<MatchScore[]>("matchScores", () => {
-		return fetch(`${apiURL}/api/MatchScores`).then((res) => res.json());
+		return fetch(`${apiURL}/matchScores`).then((res) => res.json());
 	});
 };
 
 export const useFetchMatchScore = (id: string) => {
 	return useQuery<MatchScore>(["matchScores", id], () => {
-		return fetch(`${apiURL}/api/MatchScores/${id}`).then((res) =>
+		return fetch(`${apiURL}/matchScores/${id}`).then((res) =>
 			res.json()
 		);
 	});
@@ -25,7 +25,7 @@ export const useAddMatchScore = () => {
 	const queryClient = useQueryClient();
 	// const nav = useNavigate();
 	return useMutation<AxiosResponse, AxiosError<Problem>, MatchScore>(
-		(matchScore) => axios.post(`${apiURL}/api/MatchScores`, matchScore),
+		(matchScore) => axios.post(`${apiURL}/matchScores`, matchScore),
 		{
 			onSuccess: () => {
 				queryClient.invalidateQueries("matchScores");
@@ -48,7 +48,7 @@ export const useAddMatchScoreNoMutation = (matchId: string) => {
 	const queryClient = useQueryClient();
 	const nav = useNavigate();
 	return useMutation<AxiosResponse, AxiosError<Problem>, MatchScore>(
-		(matchScore) => axios.post(`${apiURL}/api/MatchScores`, matchScore),
+		(matchScore) => axios.post(`${apiURL}/matchScores`, matchScore),
 		{
 			onSuccess: () => {
 				queryClient.invalidateQueries("matchScores");
@@ -72,7 +72,7 @@ export const useUpdateMatchScore = (dateId: string) => {
 	const nav = useNavigate();
 	// Will not work if matchScoreId not included at the end of the URL
 	return useMutation<AxiosResponse, AxiosError<Problem>, MatchScore>(
-		(g) => axios.put(`${apiURL}/api/MatchScores/${g.id}`, g),
+		(g) => axios.put(`${apiURL}/matchScores/${g.id}`, g),
 		{
 			onSuccess: (_, _matchScore) => {
 				queryClient.invalidateQueries("matchScores");
@@ -87,7 +87,7 @@ export const useDeleteMatchScore = () => {
 	const queryClient = useQueryClient();
 	const nav = useNavigate();
 	return useMutation<AxiosResponse, AxiosError<Problem>, MatchScore>(
-		(g) => axios.delete(`${apiURL}/api/MatchScores/${g.id}`),
+		(g) => axios.delete(`${apiURL}/matchScores/${g.id}`),
 		{
 			onSuccess: () => {
 				queryClient.invalidateQueries("matchScores");

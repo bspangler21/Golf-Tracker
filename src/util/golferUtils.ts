@@ -5,15 +5,15 @@ import { mockMatchScores } from "../mockData/mockMatchScores";
 import { Golfer } from "../types/Golfer";
 import { MatchScore } from "../types/MatchScore";
 
-export function getGolferById(id: string): Golfer {
-	const { data: golferData } = useFetchGolfers();
-	let golfers: Golfer[] = golferData ?? mockGolfers;
+export function getGolferById(id: string, golfers: Golfer[]): Golfer {
+	// const { data: golferData } = useFetchGolfers();
+	// let golfers: Golfer[] = golferData ?? mockGolfers;
 	let golferDetail: Golfer = {} as Golfer;
 
 	if (golfers) {
 		golfers.forEach((g) => {
-			if (g.id === id) {
-				(golferDetail.id = g.id),
+			if (g._id === id) {
+				(golferDetail._id = g._id),
 					(golferDetail.firstName = g.firstName),
 					(golferDetail.lastName = g.lastName),
 					(golferDetail.handicap = g.handicap);

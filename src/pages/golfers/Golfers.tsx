@@ -45,6 +45,8 @@ const Golfers = () => {
 		setGolfers((data as Golfer[]) ?? mockGolfers);
 	}, [data]);
 
+	console.log("golfers: ", golfers);
+
 	const exportGolfersToCSV = () => {
 		// Convert golfers data to CSV format
 
@@ -94,28 +96,30 @@ const Golfers = () => {
 							.map((g) => (
 								<>
 									<tr
-										key={g.id}
+										key={g._id}
 										// onClick={() =>
-										// 	nav(`/golfer-detail/${g.id}`)
+										// 	nav(`/golfer-detail/${g._id}`)
 										// }
 									>
 										<td
 											onClick={() =>
-												nav(`/golfer-detail/${g.id}`)
+												// nav(`/golfer-detail/${g._id?.toString()}`)
+												console.log("g._id: ", g._id)
+												
 											}
 										>
 											{g.firstName}
 										</td>
 										<td
 											onClick={() =>
-												nav(`/golfer-detail/${g.id}`)
+												nav(`/golfer-detail/${g._id?.toString()}`)
 											}
 										>
 											{g.lastName}
 										</td>
 										<td
 											onClick={() =>
-												nav(`/golfer-detail/${g.id}`)
+												nav(`/golfer-detail/${g._id?.toString()}`)
 											}
 										>
 											{g.handicap}
@@ -123,7 +127,7 @@ const Golfers = () => {
 										<td
 											onClick={() =>
 												nav(
-													`/golfer-detail/edit/${g.id}`
+													`/golfer-detail/edit/${g._id}`
 												)
 											}
 										>
