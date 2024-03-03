@@ -28,6 +28,7 @@ import {
 } from "../../hooks/MatchHooks";
 import { mockMatches } from "../../mockData/mockMatches";
 import Bottleneck from "bottleneck";
+import { getGolferById } from "../../util/golferUtils";
 
 const iconClass = mergeStyles({
 	fontSize: 25,
@@ -216,23 +217,23 @@ const ScheduleList = () => {
 				// 	.catch((err) => {
 				// 		console.log("err", err);
 				// 	});
-				// addMatch.mutate(addedMatchObject);
+				addMatch.mutate(addedMatchObject);
 			});
 		});
 
 		finalMatchups.map((matchup) => {
 			matchup.map((match) => {
 				csvContent += `${match.weekNumber},${
-					match.homeTeam?.firstName ?? ""
-				} ${match.homeTeam?.lastName ?? ""},${
-					match.awayTeam?.firstName ?? ""
-				} ${match.awayTeam?.lastName ?? ""}\n`;
+					getGolferById(match.golfer1Id, golfers).firstName ?? ""
+				}${getGolferById(match.golfer1Id, golfers).lastName ?? ""},${
+					getGolferById(match.golfer2Id, golfers).firstName ?? ""
+				}${getGolferById(match.golfer2Id, golfers).lastName ?? ""}\n`;
 			});
 		});
 
 		const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8" });
 
-		// saveAs(blob, `matches.csv`);
+		saveAs(blob, `matches.csv`);
 
 		window.location.reload();
 	};

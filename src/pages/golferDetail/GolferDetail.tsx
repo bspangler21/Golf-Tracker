@@ -3,7 +3,7 @@ import "./GolferDetail.css";
 import { useNavigate, useParams } from "react-router-dom";
 import utilStyles from "../../styles/utilStyles.module.css";
 import MatchListing from "../matches/MatchListing";
-import { useFetchGolfer } from "../../hooks/GolferHooks";
+import { useFetchGolfer, useFetchGolfers } from "../../hooks/GolferHooks";
 import { DefaultButton } from "@fluentui/react";
 import {
 	calculateHandicap,
@@ -41,6 +41,7 @@ const GolferDetail = () => {
 	const golferId: string = id;
 
 	const { data: golferData } = useFetchGolfer(golferId);
+	const {data: allGolfersData} = useFetchGolfers();
 	const { data: matchScoreData } = useFetchMatchScores();
 	const course: Course | undefined = getLakeBreeze(
 		LakeBreezeCourseId,
@@ -54,7 +55,7 @@ const GolferDetail = () => {
 		console.log("golferData", golferData);
 	}
 
-	golfer = golferData ?? getGolferById(golferId);
+	golfer = golferData ?? getGolferById(golferId, allGolfersData ?? mockGolfers);
 	matchScores = matchScoreData ?? mockMatchScores;
 
 	let golferDisplayName: string = `${golfer.firstName} ${golfer.lastName}`;
