@@ -1,5 +1,5 @@
 export type Match = {
-	id?: string;
+	_id?: string;
 	leagueId: string;
 	weekNumber: number;
 	matchDate: Date;

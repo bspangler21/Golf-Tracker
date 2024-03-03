@@ -6,13 +6,9 @@ import {
 	FontIcon,
 	mergeStyles,
 } from "@fluentui/react";
-import { mockDates } from "../../mockData/mockDates";
+
 import { useNavigate } from "react-router-dom";
-import {
-	useAddDate,
-	useDeleteDate,
-	useFetchDates,
-} from "../../hooks/LeagueDateHooks";
+
 import { LeagueDate } from "../../types/LeagueDate";
 import { useFetchGolfers } from "../../hooks/GolferHooks";
 import { Golfer } from "../../types/Golfer";
@@ -154,9 +150,9 @@ const ScheduleList = () => {
 
 			for (let j = 0; j < shuffledGolfers.length / 2; j++) {
 				matchObject = {
-					golfer1Id: shuffledGolfers[j].id,
+					golfer1Id: shuffledGolfers[j]._id,
 					golfer2Id:
-						shuffledGolfers[shuffledGolfers.length - 1 - j].id,
+						shuffledGolfers[shuffledGolfers.length - 1 - j]._id,
 					weekNumber: parseInt(`${i + 1}`),
 					leagueId: wpsLeagueId,
 					matchDate: startDate,
@@ -216,7 +212,7 @@ const ScheduleList = () => {
 				// 	.catch((err) => {
 				// 		console.log("err", err);
 				// 	});
-				// addMatch.mutate(addedMatchObject);
+				addMatch.mutate(addedMatchObject);
 			});
 		});
 
@@ -232,7 +228,7 @@ const ScheduleList = () => {
 
 		const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8" });
 
-		// saveAs(blob, `matches.csv`);
+		saveAs(blob, `matches.csv`);
 
 		window.location.reload();
 	};
@@ -258,7 +254,7 @@ const ScheduleList = () => {
 								)
 								// .reverse()
 								.map((match) => (
-									<tr key={match.id}>
+									<tr key={match._id}>
 										<td
 											onClick={() =>
 												nav(
@@ -282,7 +278,7 @@ const ScheduleList = () => {
 										<td
 											onClick={() =>
 												nav(
-													`/schedule-list/edit/${match.id}`
+													`/schedule-list/edit/${match._id}`
 												)
 											}
 										>

@@ -9,13 +9,13 @@ const apiURL = import.meta.env.DEV ? "http://localhost:4000" : "";
 export const useFetchMatches = () => {
 	// console.log("api url", apiURL);
 	return useQuery<Match[]>("matches", () => {
-		return fetch(`${apiURL}/Matches`).then((res) => res.json());
+		return fetch(`${apiURL}/matches`).then((res) => res.json());
 	});
 };
 
 export const useFetchMatch = (id: string) => {
 	return useQuery<Match>(["matches", id], () => {
-		return fetch(`${apiURL}/Matches/${id}`).then((res) => res.json());
+		return fetch(`${apiURL}/matches/${id}`).then((res) => res.json());
 	});
 };
 
@@ -23,7 +23,7 @@ export const useAddMatch = () => {
 	const queryClient = useQueryClient();
 	// const nav = useNavigate();
 	return useMutation<AxiosResponse, AxiosError<Problem>, Match>(
-		(match) => axios.post(`${apiURL}/Matches`, match),
+		(match) => axios.post(`${apiURL}/matches`, match),
 		{
 			onSuccess: () => {
 				queryClient.invalidateQueries("matches");
@@ -51,7 +51,7 @@ export const useUpdateMatch = () => {
 	const nav = useNavigate();
 	// Will not work if matchScoreId not included at the end of the URL
 	return useMutation<AxiosResponse, AxiosError<Problem>, Match>(
-		(g) => axios.put(`${apiURL}/Matches/${g.id}`, g),
+		(m) => axios.put(`${apiURL}/matches/${m._id}`, m),
 		{
 			onSuccess: (_, _matchScore) => {
 				queryClient.invalidateQueries("matches");
@@ -66,7 +66,7 @@ export const useDeleteMatch = () => {
 	const queryClient = useQueryClient();
 	// const nav = useNavigate();
 	return useMutation<AxiosResponse, AxiosError<Problem>, Match>(
-		(g) => axios.delete(`${apiURL}/Matches/${g.id}`),
+		(m) => axios.delete(`${apiURL}/matches/${m._id}`),
 		{
 			onSuccess: () => {
 				queryClient.invalidateQueries("matches");
@@ -83,7 +83,7 @@ export const useDeleteMatch = () => {
 					error.response && console.log(error.response.data);
 					error.response && console.log(error.response.status);
 				}
-			}
+			},
 		}
 	);
 };
