@@ -1,21 +1,32 @@
 import { useEffect } from "react";
 import { getGolferById } from "../util/golferUtils";
 import { Golfer } from "../types/Golfer";
+import { Match } from "../types/Match";
+import { useFetchGolfers } from "../hooks/GolferHooks";
+import { mockGolfers } from "../mockData/mockGolfers";
 
 let golfers: Golfer[] = [];
 const apiURL = import.meta.env.DEV ? "http://localhost:4000" : "";
 
-useEffect(() => {
-	fetch(`${apiURL}/api/Golfers`)
-		.then((response) => response.json())
-		.then((data) =>
-			data.array.forEach((g) => {
-				golfers.push(g);
-			})
-		);
-}, golfers);
+interface MatchesDetailProps {
+	matchups: any[];
+}
 
-const Matches = (matchups: any[]) => {
+const MatchesDetail = ({ matchups }: MatchesDetailProps) => {
+	// useEffect(() => {
+	// 	let golferResponse = fetch(`${apiURL}/api/Golfers`)
+	// 		.then((response) => response.json())
+	// 		.then((data) =>
+	// 			data.array.forEach((g) => {
+	// 				golfers.push(g);
+	// 			})
+	// 		);
+	// 	console.log("golferResponse", golferResponse);
+	// }, [golfers]);
+	console.log("matchups", matchups);
+  const { data: golfersData } = useFetchGolfers();
+  golfers = golfersData ?? mockGolfers;
+
 	return (
 		<>
 			{matchups.length > 0 && (
@@ -72,4 +83,4 @@ const Matches = (matchups: any[]) => {
 	);
 };
 
-export default Matches;
+export default MatchesDetail;

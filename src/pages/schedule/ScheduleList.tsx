@@ -19,7 +19,6 @@ import { Golfer } from "../../types/Golfer";
 import { mockGolfers } from "../../mockData/mockGolfers";
 import { saveAs } from "file-saver";
 import axios from "axios";
-import { Match, Matches } from "../../types/Match";
 
 import {
 	useAddMatch,
@@ -30,6 +29,9 @@ import { mockMatches } from "../../mockData/mockMatches";
 import Bottleneck from "bottleneck";
 import { getGolferById } from "../../util/golferUtils";
 import { useState } from "react";
+
+import { Match } from "../../types/Match";
+import MatchesDetail from "../../pageComponents/MatchesDetail";
 
 const iconClass = mergeStyles({
 	fontSize: 25,
@@ -239,16 +241,16 @@ const ScheduleList = () => {
 		const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8" });
 
 		saveAs(blob, `matches.csv`);
-		console.log("final matchups length", finalMatchups.length)
-		// setShowMatches(true);
-		// setShowOverview(false);
+		console.log("final matchups length", finalMatchups.length);
+		setShowMatches(true);
+		setShowOverview(false);
 		// window.location.reload();
 	};
 
 	return (
 		<>
 			<div style={{ display: "flex", justifyContent: "center" }}>
-				{(
+				{
 					<table>
 						<thead>
 							<tr>
@@ -305,57 +307,8 @@ const ScheduleList = () => {
 									))}
 						</tbody>
 					</table>
-				)}
-				{finalMatchups.length > 0 && (
-					<table>
-						<thead>
-							<tr>
-								<th>Week Number</th>
-								<th>Date</th>
-								<th></th>
-								<th></th>
-								<th></th>
-							</tr>
-						</thead>
-						<tbody>
-							{finalMatchups.map((matchup) => {
-								return matchup.map((match) => {
-									return (
-										<tr
-											key={
-												match.weekNumber +
-												match.golfer1Id +
-												match.golfer2Id
-											}
-										>
-											<td>{match.weekNumber}</td>
-											<td>
-												$
-												{getGolferById(
-													match.golfer1Id,
-													golfers
-												).firstName ?? ""}{" "}
-												{getGolferById(
-													match.golfer1Id,
-													golfers
-												).lastName ?? ""}
-												{" vs. "}
-												{getGolferById(
-													match.golfer2Id,
-													golfers
-												).firstName ?? ""}{" "}
-												{getGolferById(
-													match.golfer2Id,
-													golfers
-												).lastName ?? ""}
-											</td>
-										</tr>
-									);
-								});
-							})}
-						</tbody>
-					</table>
-				)}
+				}
+				{showMatches && <MatchesDetail matchups={finalMatchups} />}
 			</div>
 			<br></br>
 			<div style={{ display: "flex", justifyContent: "center" }}>
