@@ -29,6 +29,7 @@ import {
 import { mockMatches } from "../../mockData/mockMatches";
 import Bottleneck from "bottleneck";
 import { getGolferById } from "../../util/golferUtils";
+import { useState } from "react";
 
 const iconClass = mergeStyles({
 	fontSize: 25,
@@ -49,6 +50,8 @@ const ScheduleList = () => {
 	const { data: golfersData } = useFetchGolfers();
 	const addMatch = useAddMatch();
 	const deleteMatch = useDeleteMatch();
+	const [showOverview, setShowOverview] = useState(true);
+	const [showMatches, setShowMatches] = useState(false);
 	golfers = golfersData ?? mockGolfers;
 	matches = matchesData ?? mockMatches;
 	// filter matches for unique matchDates
@@ -162,7 +165,7 @@ const ScheduleList = () => {
 					leagueId: wpsLeagueId,
 					matchDate: startDate,
 				};
-				addMatch.mutate(matchObject);
+				// addMatch.mutate(matchObject);
 				roundMatches.push(matchObject);
 			}
 			matchSchedule.push(roundMatches);
@@ -195,7 +198,7 @@ const ScheduleList = () => {
 		finalMatchups = generateMatchSchedule(golfers);
 		console.log("finalMatchups", finalMatchups.length);
 
-		finalMatchups.forEach((matchup) => {
+		/*finalMatchups.forEach((matchup) => {
 			matchup.forEach((match) => {
 				let addedMatchObject: Match = {
 					leagueId: wpsLeagueId,
@@ -219,84 +222,140 @@ const ScheduleList = () => {
 				// 	});
 				addMatch.mutate(addedMatchObject);
 			});
-		});
+		});*/
 
 		finalMatchups.map((matchup) => {
 			matchup.map((match) => {
 				csvContent += `${match.weekNumber},${
 					getGolferById(match.golfer1Id, golfers).firstName ?? ""
-				}${getGolferById(match.golfer1Id, golfers).lastName ?? ""},${
-					getGolferById(match.golfer2Id, golfers).firstName ?? ""
-				}${getGolferById(match.golfer2Id, golfers).lastName ?? ""}\n`;
+				}${" "}${
+					getGolferById(match.golfer1Id, golfers).lastName ?? ""
+				},${getGolferById(match.golfer2Id, golfers).firstName ?? ""}${
+					getGolferById(match.golfer2Id, golfers).lastName ?? ""
+				}\n`;
 			});
 		});
 
 		const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8" });
 
 		saveAs(blob, `matches.csv`);
-
-		window.location.reload();
+		console.log("final matchups length", finalMatchups.length)
+		// setShowMatches(true);
+		// setShowOverview(false);
+		// window.location.reload();
 	};
 
 	return (
 		<>
 			<div style={{ display: "flex", justifyContent: "center" }}>
-				<table>
-					<thead>
-						<tr>
-							<th>Week Number</th>
-							<th>Date</th>
-							<th></th>
-							<th></th>
-							<th></th>
-						</tr>
-					</thead>
-					<tbody>
-						{uniqueMatchDates &&
-							uniqueMatchDates
-								.sort((a, b) =>
-									a.matchDate > b.matchDate ? 1 : -1
-								)
-								// .reverse()
-								.map((match) => (
-									<tr key={match.id}>
-										<td
-											onClick={() =>
-												nav(
-													`/matches/${match.weekNumber}`
-												)
+				{(
+					<table>
+						<thead>
+							<tr>
+								<th>Week Number</th>
+								<th>Date</th>
+								<th></th>
+								<th></th>
+								<th></th>
+							</tr>
+						</thead>
+						<tbody>
+							{uniqueMatchDates &&
+								uniqueMatchDates
+									.sort((a, b) =>
+										a.matchDate > b.matchDate ? 1 : -1
+									)
+									// .reverse()
+									.map((match) => (
+										<tr key={match.id}>
+											<td
+												onClick={() =>
+													nav(
+														`/matches/${match.weekNumber}`
+													)
+												}
+											>
+												{match.weekNumber}
+											</td>
+											<td
+												onClick={() =>
+													nav(
+														`/matches/${match.weekNumber}`
+													)
+												}
+											>
+												{new Date(
+													match.matchDate
+												).toLocaleDateString()}
+											</td>
+											<td
+												onClick={() =>
+													nav(
+														`/schedule-list/edit/${match.id}`
+													)
+												}
+											>
+												<FontIcon
+													aria-label="Edit"
+													iconName="Edit"
+													className={iconClass}
+												/>
+											</td>
+										</tr>
+									))}
+						</tbody>
+					</table>
+				)}
+				{finalMatchups.length > 0 && (
+					<table>
+						<thead>
+							<tr>
+								<th>Week Number</th>
+								<th>Date</th>
+								<th></th>
+								<th></th>
+								<th></th>
+							</tr>
+						</thead>
+						<tbody>
+							{finalMatchups.map((matchup) => {
+								return matchup.map((match) => {
+									return (
+										<tr
+											key={
+												match.weekNumber +
+												match.golfer1Id +
+												match.golfer2Id
 											}
 										>
-											{match.weekNumber}
-										</td>
-										<td
-											onClick={() =>
-												nav(
-													`/matches/${match.weekNumber}`
-												)
-											}
-										>
-											{new Date(
-												match.matchDate
-											).toLocaleDateString()}
-										</td>
-										<td
-											onClick={() =>
-												nav(
-													`/schedule-list/edit/${match.id}`
-												)
-											}
-										>
-											<FontIcon
-												aria-label="Edit"
-												iconName="Edit"
-												className={iconClass}
-											/>
-										</td>
-									</tr>
-								))}
-					</tbody>
-				</table>
+											<td>{match.weekNumber}</td>
+											<td>
+												$
+												{getGolferById(
+													match.golfer1Id,
+													golfers
+												).firstName ?? ""}{" "}
+												{getGolferById(
+													match.golfer1Id,
+													golfers
+												).lastName ?? ""}
+												{" vs. "}
+												{getGolferById(
+													match.golfer2Id,
+													golfers
+												).firstName ?? ""}{" "}
+												{getGolferById(
+													match.golfer2Id,
+													golfers
+												).lastName ?? ""}
+											</td>
+										</tr>
+									);
+								});
+							})}
+						</tbody>
+					</table>
+				)}
 			</div>
 			<br></br>
 			<div style={{ display: "flex", justifyContent: "center" }}>
