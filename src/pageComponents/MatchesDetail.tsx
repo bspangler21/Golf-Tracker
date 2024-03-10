@@ -4,6 +4,7 @@ import { Golfer } from "../types/Golfer";
 import { Match } from "../types/Match";
 import { useFetchGolfers } from "../hooks/GolferHooks";
 import { mockGolfers } from "../mockData/mockGolfers";
+import { DefaultButton } from "@fluentui/react";
 
 let golfers: Golfer[] = [];
 const apiURL = import.meta.env.DEV ? "http://localhost:4000" : "";
@@ -24,24 +25,29 @@ const MatchesDetail = ({ matchups }: MatchesDetailProps) => {
 	// 	console.log("golferResponse", golferResponse);
 	// }, [golfers]);
 	console.log("matchups", matchups);
-  const { data: golfersData } = useFetchGolfers();
-  golfers = golfersData ?? mockGolfers;
+	const storedMatchups = JSON.parse(
+		localStorage.getItem("finalMatchups") || "[]"
+	);
+	console.log("storedMatchups", storedMatchups);
+	const { data: golfersData } = useFetchGolfers();
+	golfers = golfersData ?? mockGolfers;
+	console.log("golfers", golfers);
 
 	return (
 		<>
-			{matchups.length > 0 && (
+			{
 				<table>
 					<thead>
 						<tr>
 							<th>Week Number</th>
 							<th>Date</th>
-							<th></th>
+							<th>Matchup</th>
 							<th></th>
 							<th></th>
 						</tr>
 					</thead>
 					<tbody>
-						{matchups.map((matchup) => {
+						{storedMatchups.map((matchup) => {
 							return matchup.map((match) => {
 								return (
 									<tr
@@ -52,8 +58,8 @@ const MatchesDetail = ({ matchups }: MatchesDetailProps) => {
 										}
 									>
 										<td>{match.weekNumber}</td>
+										<td>{match.matchDate}</td>
 										<td>
-											$
 											{getGolferById(
 												match.golfer1Id,
 												golfers
@@ -72,13 +78,14 @@ const MatchesDetail = ({ matchups }: MatchesDetailProps) => {
 												golfers
 											).lastName ?? ""}
 										</td>
+										<td><DefaultButton>Add</DefaultButton></td>
 									</tr>
 								);
 							});
 						})}
 					</tbody>
 				</table>
-			)}
+			}
 		</>
 	);
 };

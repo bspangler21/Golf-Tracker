@@ -238,9 +238,10 @@ const ScheduleList = () => {
 			});
 		});
 
+		localStorage.setItem("finalMatchups", JSON.stringify(finalMatchups));
 		const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8" });
 
-		saveAs(blob, `matches.csv`);
+		// saveAs(blob, `matches.csv`);
 		console.log("final matchups length", finalMatchups.length);
 		setShowMatches(true);
 		setShowOverview(false);
@@ -250,7 +251,7 @@ const ScheduleList = () => {
 	return (
 		<>
 			<div style={{ display: "flex", justifyContent: "center" }}>
-				{
+				{!showMatches && (
 					<table>
 						<thead>
 							<tr>
@@ -307,7 +308,7 @@ const ScheduleList = () => {
 									))}
 						</tbody>
 					</table>
-				}
+				)}
 				{showMatches && <MatchesDetail matchups={finalMatchups} />}
 			</div>
 			<br></br>
