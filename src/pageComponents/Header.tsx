@@ -4,7 +4,7 @@ import utilStyles from "../styles/utilStyles.module.css";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import { styled, useTheme } from "@mui/material/styles";
+import { ThemeProvider, styled, useTheme } from "@mui/material/styles";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 import ListItemButton from "@mui/material/ListItemButton";
@@ -13,7 +13,6 @@ import CssBaseline from "@mui/material/CssBaseline";
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import List from "@mui/material/List";
-
 import IconButton from "@mui/material/IconButton";
 
 const drawerWidth = 240;
@@ -36,6 +35,7 @@ const AppBar = styled(MuiAppBar, {
 			easing: theme.transitions.easing.easeOut,
 			duration: theme.transitions.duration.enteringScreen,
 		}),
+		backgroundColor: `#000000`,
 	}),
 }));
 
@@ -69,56 +69,58 @@ const Header = () => {
 
 	return (
 		<div>
-			<AppBar position="relative" open={open}>
-				<Toolbar>
-					<IconButton
-						color="inherit"
-						aria-label="open drawer"
-						onClick={handleDrawerOpen}
-						edge="start"
-						sx={{ mr: 2, ...(open && { display: "none" }) }}
-					>
-						<MenuIcon />
-					</IconButton>
-				</Toolbar>
-			</AppBar>
-			<Drawer
-				sx={{
-					width: drawerWidth,
-					flexShrink: 0,
-					"& .MuiDrawer-paper": {
+			<ThemeProvider theme={theme}>
+				<AppBar position="relative" open={open}>
+					<Toolbar>
+						<IconButton
+							color="inherit"
+							aria-label="open drawer"
+							onClick={handleDrawerOpen}
+							edge="start"
+							sx={{ mr: 2, ...(open && { display: "none" }) }}
+						>
+							<MenuIcon />
+						</IconButton>
+					</Toolbar>
+				</AppBar>
+				<Drawer
+					sx={{
 						width: drawerWidth,
-						boxSizing: "border-box",
-					},
-				}}
-				variant="persistent"
-				anchor="left"
-				open={open}
-			>
-				<DrawerHeader>
-					<IconButton onClick={handleDrawerClose}>
-						{theme.direction === "ltr" ? (
-							<ChevronLeftIcon />
-						) : (
-							<ChevronRightIcon />
-						)}
-					</IconButton>
-				</DrawerHeader>
-				<List>
-					{navLinks.map((navLink) => (
-						<ListItem key={navLink.name}>
-							<ListItemButton
-								onClick={() => {
-									nav(navLink.path);
-									setOpen(false);
-								}}
-							>
-								<ListItemText primary={navLink.name} />
-							</ListItemButton>
-						</ListItem>
-					))}
-				</List>
-			</Drawer>
+						flexShrink: 0,
+						"& .MuiDrawer-paper": {
+							width: drawerWidth,
+							boxSizing: "border-box",
+						},
+					}}
+					variant="persistent"
+					anchor="left"
+					open={open}
+				>
+					<DrawerHeader>
+						<IconButton onClick={handleDrawerClose}>
+							{theme.direction === "ltr" ? (
+								<ChevronLeftIcon />
+							) : (
+								<ChevronRightIcon />
+							)}
+						</IconButton>
+					</DrawerHeader>
+					<List>
+						{navLinks.map((navLink) => (
+							<ListItem key={navLink.name}>
+								<ListItemButton
+									onClick={() => {
+										nav(navLink.path);
+										setOpen(false);
+									}}
+								>
+									<ListItemText primary={navLink.name} />
+								</ListItemButton>
+							</ListItem>
+						))}
+					</List>
+				</Drawer>
+			</ThemeProvider>
 		</div>
 	);
 };
