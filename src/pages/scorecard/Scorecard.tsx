@@ -28,20 +28,12 @@ const golfHoles = mockHoles.filter(
 	(hole) => hole.courseId === LakeBreezeCourseId
 );
 
-// const golfers = mockGolfers;
-// const course = mockCourses.find(
-// 	(course) => course.id === "658cfca75669234ca16a65d8"
-// );
 const course = getLakeBreeze(LakeBreezeCourseId, mockCourses);
 
 let golfers: Golfer[] = [];
 let matches: Match[] = [];
 let dates: LeagueDate[] = [];
 let currentMatchId = "1";
-
-
-// let golfer1Scores: number[] = [];
-// let golfer2Scores: number[] = [];
 
 /**
  * Calculates the total yardage of the golf holes.
@@ -81,7 +73,8 @@ const Scorecard = ({
 	currentMatchId = matchId ?? "1";
 	dates = dateData ?? mockDates;
 	matches = matchesData ?? mockMatches;
-	let currentMatch: Match = getMatchByMatchId(currentMatchId, matches);
+	let currentMatchDate: Date =
+		getMatchByMatchId(currentMatchId, matches)?.matchDate ?? new Date();
 	// let matchScores: MatchScore[] = currentMatchScores ?? mockMatchScores;
 
 	golfers = golferData ?? mockGolfers;
@@ -107,48 +100,10 @@ const Scorecard = ({
 		console.log("golfer1State", golfer1State);
 		console.log("golfer2State", golfer2State);
 		console.log("currentMatchId", currentMatchId);
-		console.log("currentMatch", currentMatch);
+		console.log("currentMatch", currentMatchDate);
 	}
 
 	let csvContent = "courseId,holeNumber,holeHandicap,holeLength,holePar\n";
-
-	/*const handleOnChange = (
-		event: React.ChangeEvent<HTMLInputElement>,
-		golferId: number,
-		holeId: number
-	) => {
-		console.log("onChange ran");
-		const newScore = parseInt(event.target.value);
-
-		const updatedGolfers = [...golfers];
-
-		if (import.meta.env.DEV) {
-			console.log("newScore", newScore);
-			// console.log("golferTotalScore", golferTotalScore);
-			console.log("golferIndex", golferId);
-			console.log("holeId", holeId);
-			// console.log("Updated Scores:", updatedScores);
-			console.log("Updated Golfers:", updatedGolfers);
-		}
-
-		if (
-			golferId === 1 &&
-			newScore > 0 &&
-			golfer1Scores[holeId - 1] === null
-		) {
-			golfer1Scores.push(newScore);
-		} else if (
-			golferId === 1 &&
-			newScore > 0 &&
-			golfer1Scores[holeId - 1] !== null
-		) {
-			golfer1Scores[holeId - 1] = newScore;
-		}
-
-		console.log("golfer1Scores onChange", golfer1Scores);
-
-		golferId === 2 && newScore > 0 ? golfer2Scores.push(newScore) : "";
-	};*/
 
 	const exportCourseInfoToCSV = () => {
 		// Convert golfers data to CSV format
@@ -165,66 +120,10 @@ const Scorecard = ({
 		saveAs(blob, `holes.csv`);
 	};
 
-	// Make golferIndex an array?
-	/*const handleSubmitTotal = (
-		golfer1Index: string,
-		_matchId: number,
-		golfer1TotalScore: number,
-		golfer2Index: string,
-		golfer2TotalScore: number
-	) => {
-		let player1Data: MatchScore = {
-			golferId: player1.id || "",
-			matchId: currentMatchId,
-			totalScore: golfer1TotalScore,
-			holeScores: golfer1Scores,
-		};
-		let player2Data: MatchScore = {
-			golferId: player2.id || "",
-			matchId: currentMatchId,
-			totalScore: golfer2TotalScore,
-			holeScores: golfer2Scores,
-		};
-		console.log("player1Data", player1Data);
-		console.log("player2Data", player2Data);
-		// add path as second parameter?
-		// isEdit ? updateMatchScore(player1Data) : addMatchScore.mutate(player1Data);
-		!isEdit ? addMatchScore.mutate(player1Data) : "";
-		!isEdit ? addMatchScoreMutation.mutate(player2Data) : "";
-		// submitted(player1Data);
-		// submitted(player2Data);
-
-		let winningMessage =
-			golfer1TotalScore > golfer2TotalScore
-				? `${
-						getGolferById(golfer2Index.toString(), golfers)
-							.firstName
-				  } wins!`
-				: `${
-						getGolferById(golfer1Index.toString(), golfers)
-							.firstName
-				  } wins!`;
-		alert(
-			`${
-				getGolferById(golfer1Index.toString(), golfers).firstName
-			}'s total score is ${golfer1TotalScore}. ${
-				getGolferById(golfer2Index.toString(), golfers).firstName
-			}'s total score is ${golfer2TotalScore}. ${winningMessage}`
-		);
-	};*/
-
 	const getTotalScore = (holeScores: number[]) => {
 		// console.log("holeScores typeof", typeof holeScores);
 		return Object.values(holeScores).reduce((sum, score) => sum + score, 0);
 	};
-
-	/*const convertToScoreArray = (holeScores: number[]): number[] => {
-		Object.values(holeScores).forEach((score) => {
-			golfer1Scores.push(score as number);
-		});
-
-		return golfer1Scores;
-	};*/
 
 	const onSubmit: React.MouseEventHandler<HTMLButtonElement> = async (e) => {
 		e.preventDefault();
@@ -247,12 +146,6 @@ const Scorecard = ({
 		submitted(player1Data);
 		submitted(player2Data);
 	};
-	// const handleSubmitPerHole = (
-	// 	event: React.ChangeEvent<HTMLButtonElement>,
-	// 	golferIndex: number,
-	// 	matchId: number,
-	// 	totalScore: number
-	// ) => {};
 
 	return (
 		<div style={{ width: "100%" }}>
@@ -665,8 +558,8 @@ const Scorecard = ({
 									{course.name}, {course.city}, {course.state}
 								</strong>
 							)}{" "}
-							— {formatDate(currentMatch.matchDate)} — 76 with a
-							slight wind
+							— {formatDate(currentMatchDate)} — 76 with a slight
+							wind
 						</td>
 					</tr>
 				</tfoot>
