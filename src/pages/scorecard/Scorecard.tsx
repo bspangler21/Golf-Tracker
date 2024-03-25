@@ -6,7 +6,7 @@ import { mockHoles } from "../../mockData/mockHoles";
 import { MatchScore } from "../../types/MatchScore";
 import { DefaultButton } from "@fluentui/react";
 import { mockCourses } from "../../mockData/mockCourses";
-import { getMatchDateByDateId } from "../../util/matchUtils";
+import { getMatchByMatchId, getMatchDateByDateId } from "../../util/matchUtils";
 import { format, sub } from "date-fns";
 import { useFetchGolfers } from "../../hooks/GolferHooks";
 import { saveAs } from "file-saver";
@@ -19,6 +19,7 @@ import { Match } from "../../types/Match";
 import { useFetchDates } from "../../hooks/LeagueDateHooks";
 import { useFetchMatches } from "../../hooks/MatchHooks";
 import { getLakeBreeze } from "../../util/courseUtils";
+import { formatDate } from "../../util/generalUtils";
 
 let LakeBreezeCourseId = "658cfca75669234ca16a65d8";
 
@@ -37,6 +38,7 @@ let golfers: Golfer[] = [];
 let matches: Match[] = [];
 let dates: LeagueDate[] = [];
 let currentMatchId = "1";
+
 
 // let golfer1Scores: number[] = [];
 // let golfer2Scores: number[] = [];
@@ -79,6 +81,7 @@ const Scorecard = ({
 	currentMatchId = matchId ?? "1";
 	dates = dateData ?? mockDates;
 	matches = matchesData ?? mockMatches;
+	let currentMatch: Match = getMatchByMatchId(currentMatchId, matches);
 	// let matchScores: MatchScore[] = currentMatchScores ?? mockMatchScores;
 
 	golfers = golferData ?? mockGolfers;
@@ -103,6 +106,8 @@ const Scorecard = ({
 	if (import.meta.env.DEV) {
 		console.log("golfer1State", golfer1State);
 		console.log("golfer2State", golfer2State);
+		console.log("currentMatchId", currentMatchId);
+		console.log("currentMatch", currentMatch);
 	}
 
 	let csvContent = "courseId,holeNumber,holeHandicap,holeLength,holePar\n";
@@ -660,7 +665,7 @@ const Scorecard = ({
 									{course.name}, {course.city}, {course.state}
 								</strong>
 							)}{" "}
-							— {format(matchDay, "MMMM do, yyyy")} — 76 with a
+							— {formatDate(currentMatch.matchDate)} — 76 with a
 							slight wind
 						</td>
 					</tr>
