@@ -81,10 +81,10 @@ const MatchesDetail = ({ matchups }: MatchesDetailProps) => {
 										</td>
 										<td>
 											<DefaultButton
-												onClick={(g) => {
+												onClick={() => {
 													axios.post(
 														`${apiURL}/api/Matches`,
-														g
+														match
 													);
 												}}
 											>
