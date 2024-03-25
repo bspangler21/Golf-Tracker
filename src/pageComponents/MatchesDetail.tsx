@@ -5,6 +5,7 @@ import { Match } from "../types/Match";
 import { useFetchGolfers } from "../hooks/GolferHooks";
 import { mockGolfers } from "../mockData/mockGolfers";
 import { DefaultButton } from "@fluentui/react";
+import axios from "axios";
 
 let golfers: Golfer[] = [];
 const apiURL = import.meta.env.DEV ? "http://localhost:4000" : "";
@@ -78,7 +79,18 @@ const MatchesDetail = ({ matchups }: MatchesDetailProps) => {
 												golfers
 											).lastName ?? ""}
 										</td>
-										<td><DefaultButton>Add</DefaultButton></td>
+										<td>
+											<DefaultButton
+												onClick={(g) => {
+													axios.post(
+														`${apiURL}/api/Matches`,
+														g
+													);
+												}}
+											>
+												Add
+											</DefaultButton>
+										</td>
 									</tr>
 								);
 							});
