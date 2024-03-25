@@ -6,6 +6,8 @@ import { useFetchGolfers } from "../hooks/GolferHooks";
 import { mockGolfers } from "../mockData/mockGolfers";
 import { DefaultButton } from "@fluentui/react";
 import axios from "axios";
+import { formatDate } from "../util/generalUtils";
+
 
 let golfers: Golfer[] = [];
 const apiURL = import.meta.env.DEV ? "http://localhost:4000" : "";
@@ -59,7 +61,7 @@ const MatchesDetail = ({ matchups }: MatchesDetailProps) => {
 										}
 									>
 										<td>{match.weekNumber}</td>
-										<td>{match.matchDate}</td>
+										<td>{formatDate(match.matchDate)}</td>
 										<td>
 											{getGolferById(
 												match.golfer1Id,
