@@ -99,17 +99,17 @@ const MatchListing = ({
 								<td>{matchesList.indexOf(match) + 1}</td>
 								<td>
 									{match.golfer1Id &&
-										getGolferById(match.golfer1Id)
+										getGolferById(match.golfer1Id, golfers)
 											.firstName}{" "}
 									{match.golfer1Id &&
-										getGolferById(match.golfer1Id)
+										getGolferById(match.golfer1Id, golfers)
 											.lastName}{" "}
 									vs.{" "}
 									{match.golfer2Id &&
-										getGolferById(match.golfer2Id)
+										getGolferById(match.golfer2Id, golfers)
 											.firstName}{" "}
 									{match.golfer2Id &&
-										getGolferById(match.golfer2Id)
+										getGolferById(match.golfer2Id, golfers)
 											.lastName}{" "}
 								</td>
 							</tr>

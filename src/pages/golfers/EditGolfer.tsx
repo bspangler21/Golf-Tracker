@@ -1,5 +1,9 @@
 import { useParams } from "react-router-dom";
-import { useFetchGolfer, useUpdateGolfer } from "../../hooks/GolferHooks";
+import {
+	useFetchGolfer,
+	useFetchGolfers,
+	useUpdateGolfer,
+} from "../../hooks/GolferHooks";
 import ValidationSummary from "../../pageComponents/ValidationSummary";
 // import GolferForm from "./GolferForm";
 import { Golfer } from "../../types/Golfer";
@@ -43,7 +47,7 @@ const EditGolfer = () => {
 	const { id } = useParams();
 	if (!id) throw Error("Need a golfer id");
 	const golferId = id;
-
+	const { data: golfersData } = useFetchGolfers();
 	const { data, status, isSuccess } = useFetchGolfer(golferId);
 	const updateGolferMutation = useUpdateGolfer();
 
@@ -51,7 +55,7 @@ const EditGolfer = () => {
 
 	if (!isSuccess) return <ApiStatus status={status} />;
 
-	golferData = data ?? getGolferById(golferId);
+	golferData = data ?? getGolferById(golferId, golfersData ?? []);
 
 	// useEffect(() => {
 	// 	golferData = data ?? getGolferById(golferId, mockGolfers);

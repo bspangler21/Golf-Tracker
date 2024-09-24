@@ -44,3 +44,8 @@ export function getMatchDateByDateId(id: string, dates: LeagueDate[]) {
 
 	return matchDate;
 }
+
+export const getMatchByMatchId = (id: string, matches: Match[]) => {
+	let match = matches.find((m) => m.id === id);
+	return match;
+};
